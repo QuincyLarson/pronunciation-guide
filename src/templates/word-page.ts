@@ -8,6 +8,7 @@ import { renderLayout } from "./layout";
 function renderVariant(variant: PronunciationVariant, entry: Entry, config: SiteConfig, index: number): string {
   const audioId = `audio-${entry.slug}-${variant.id}`;
   const audioSrc = audioUrl(config, variant.audio.src);
+  const shouldAutoplay = index === 0;
 
   return `<article class="variant-card">
     <header class="variant-header">
@@ -51,9 +52,11 @@ function renderVariant(variant: PronunciationVariant, entry: Entry, config: Site
     </div>
     <audio
       id="${escapeHtml(audioId)}"
-      preload="none"
+      preload="${shouldAutoplay ? "auto" : "none"}"
       src="${escapeHtml(audioSrc)}"
-      data-autoplay="${index === 0 ? "true" : "false"}"
+      data-autoplay="${shouldAutoplay ? "true" : "false"}"
+      ${shouldAutoplay ? "autoplay" : ""}
+      playsinline
     ></audio>
   </article>`;
 }

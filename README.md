@@ -104,6 +104,7 @@ Useful pages to inspect locally:
 - `npm run build:merge` merges normalized entries and applies markdown overrides
 - `npm run build:links` computes related/internal links
 - `npm run build:score` computes quality scores and index eligibility
+- `npm run build:audio` materializes spoken preview audio for placeholder fixture variants when local speech synthesis is available
 - `npm run build:shards` emits JSON shard files
 - `npm run build:prerender` prerenders home, hubs, and top word pages
 - `npm run build:sitemaps` generates sitemap index and child sitemaps
@@ -214,7 +215,11 @@ Word pages use a normal HTML `<audio>` element with tiny custom buttons for:
 - replay at `1x`
 - replay at `0.5x`
 
-The sample project ships tiny WAV placeholders under `public/audio/fixtures/` so the controls work in local builds. In production, the same URL structure can point at R2-backed assets via `PUBLIC_AUDIO_BASE_URL`.
+The sample project still includes tiny fallback WAV placeholders under `public/audio/fixtures/`, but the build now materializes per-word spoken preview audio into `dist/public/audio/generated/` when local speech synthesis is available. On macOS, it uses `say` plus `afconvert` during `npm run build`.
+
+If local speech synthesis is not available, the project falls back to the fixture placeholders.
+
+In production, the same URL structure can point at R2-backed assets via `PUBLIC_AUDIO_BASE_URL`.
 
 ## Cloudflare deployment
 

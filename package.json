@@ -15,6 +15,7 @@
     "build:merge": "tsx scripts/merge-corpus.ts",
     "build:links": "tsx scripts/compute-related.ts",
     "build:score": "tsx scripts/score-corpus.ts",
+    "build:audio": "tsx scripts/generate-audio.ts",
     "build:shards": "tsx scripts/shard-corpus.ts",
     "build:prerender": "tsx scripts/prerender.ts",
     "build:sitemaps": "tsx scripts/generate-sitemaps.ts",

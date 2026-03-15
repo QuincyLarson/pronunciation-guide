@@ -2,6 +2,7 @@ import path from "node:path";
 import ts from "typescript";
 
 import { PRE_RENDER_LIMIT } from "../constants";
+import { materializePreviewAudio } from "./audio";
 import { originHubDefinitions, topicHubDefinitions } from "../hubs";
 import { computeIndexStatus, scoreEntries } from "../index-status";
 import { applyOverride, mergeNormalizedEntries } from "../merge";
@@ -23,6 +24,7 @@ import { renderNotFoundPage } from "../../templates/not-found-page";
 import { renderWordPage } from "../../templates/word-page";
 import {
   ATTRIBUTION_MANIFEST_PATH,
+  AUDIO_READY_CORPUS_PATH,
   DIST_PUBLIC_DIR,
   DIST_SHARDS_DIR,
   GENERATED_SHARDS_DIR,
@@ -165,12 +167,23 @@ export async function runScoreStage(corpus?: Entry[]) {
   return scored;
 }
 
+export async function runAudioStage(corpus?: Entry[]) {
+  const entries = corpus ?? parseCorpus(await readJsonFile(SCORED_CORPUS_PATH));
+  const audioReady = await materializePreviewAudio(entries);
+  await writeJsonFile(AUDIO_READY_CORPUS_PATH, audioReady);
+  return audioReady;
+}
+
 function buildShardMap(entries: Entry[]): Map<string, Entry[]> {
   return groupBy(entries, (entry) => `${entry.language}:${getShardKey(entry.slug)}`);
 }
 
 export async function runShardStage(corpus?: Entry[]) {
-  const entries = corpus ?? parseCorpus(await readJsonFile(SCORED_CORPUS_PATH));
+  const entries =
+    corpus ??
+    parseCorpus(
+      await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
+    );
   const shardMap = buildShardMap(entries);
 
   for (const [compoundKey, shardEntries] of shardMap.entries()) {
@@ -226,7 +239,11 @@ async function buildClientScript(): Promise<void> {
 }
 
 export async function runPrerenderStage(corpus?: Entry[]) {
-  const entries = corpus ?? parseCorpus(await readJsonFile(SCORED_CORPUS_PATH));
+  const entries =
+    corpus ??
+    parseCorpus(
+      await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
+    );
   const config = buildSiteConfig(process.env);
 
   await ensureDir(DIST_PUBLIC_DIR);
@@ -386,7 +403,11 @@ export function buildSitemapArtifacts(
 }
 
 export async function runSitemapStage(corpus?: Entry[]) {
-  const entries = corpus ?? parseCorpus(await readJsonFile(SCORED_CORPUS_PATH));
+  const entries =
+    corpus ??
+    parseCorpus(
+      await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
+    );
   const config = buildSiteConfig(process.env);
   const files = buildSitemapArtifacts(entries, config.siteUrl);
 
@@ -424,7 +445,11 @@ function buildAttributionGroups(entries: Entry[]): AttributionGroup[] {
 }
 
 export async function runAttributionStage(corpus?: Entry[]) {
-  const entries = corpus ?? parseCorpus(await readJsonFile(SCORED_CORPUS_PATH));
+  const entries =
+    corpus ??
+    parseCorpus(
+      await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
+    );
   const config = buildSiteConfig(process.env);
   const groups = buildAttributionGroups(entries);
   const manifest = {
@@ -453,10 +478,11 @@ export async function runBuild(): Promise<void> {
   const merged = await runMergeStage(normalized);
   const related = await runRelatedStage(merged);
   const scored = await runScoreStage(related);
-  await runShardStage(scored);
-  await runPrerenderStage(scored);
-  await runSitemapStage(scored);
-  await runAttributionStage(scored);
+  const audioReady = await runAudioStage(scored);
+  await runShardStage(audioReady);
+  await runPrerenderStage(audioReady);
+  await runSitemapStage(audioReady);
+  await runAttributionStage(audioReady);
 }
 
 export async function readMergedCorpus(): Promise<Entry[]> {

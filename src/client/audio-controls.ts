@@ -31,3 +31,23 @@ document.addEventListener("click", (event) => {
 
   replayAudio(audio, playbackRate);
 });
+
+function attemptAutoplay(): void {
+  const audio = document.querySelector<HTMLAudioElement>('audio[data-autoplay="true"]');
+  if (!audio) {
+    return;
+  }
+
+  audio.playbackRate = 1;
+  void audio.play().catch(() => {
+    // Browsers may block unmuted autoplay. Visible controls remain available.
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", attemptAutoplay, { once: true });
+} else {
+  attemptAutoplay();
+}
+
+window.addEventListener("pageshow", attemptAutoplay);

@@ -16,5 +16,8 @@ describe("word page rendering", () => {
     expect(html).toContain('meta name="robots" content="index,follow"');
     expect(html).toContain("/w/doha");
     expect(html).toContain("Pronunciation variants");
+    expect(html).toContain('data-autoplay="true"');
+    expect(html).toContain('preload="auto"');
+    expect(html).toContain("autoplay");
   });
 });
