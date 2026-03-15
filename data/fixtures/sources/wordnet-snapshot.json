@@ -1,0 +1,123 @@
+[
+  {
+    "lemma": "sprachbund",
+    "glosses": [
+      "A linguistic area whose languages share structural features because of contact."
+    ],
+    "short_gloss": "A linguistic area shaped by contact.",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "semantic_links": ["zeitgeist", "schadenfreude", "kindergarten"],
+    "search_rank": 54
+  },
+  {
+    "lemma": "zeitgeist",
+    "glosses": [
+      "The general spirit or intellectual fashion of a period."
+    ],
+    "short_gloss": "The spirit of a historical moment.",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "semantic_links": ["sprachbund", "schadenfreude", "wanderlust"],
+    "search_rank": 92
+  },
+  {
+    "lemma": "schadenfreude",
+    "glosses": [
+      "Satisfaction felt at someone else's misfortune."
+    ],
+    "short_gloss": "Pleasure at another's trouble.",
+    "parts_of_speech": ["noun"],
+    "topics": ["loanwords"],
+    "semantic_links": ["zeitgeist", "epitome"],
+    "search_rank": 88
+  },
+  {
+    "lemma": "qigong",
+    "glosses": [
+      "A practice that combines posture, breath, and meditative focus."
+    ],
+    "short_gloss": "A Chinese practice combining breath and movement.",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic", "loanwords"],
+    "semantic_links": ["tangzhong", "mahjong", "feng shui"],
+    "search_rank": 73
+  },
+  {
+    "lemma": "tangzhong",
+    "glosses": [
+      "A bread-making paste used to hold moisture and softness."
+    ],
+    "short_gloss": "A moisture-retaining bread paste.",
+    "parts_of_speech": ["noun"],
+    "topics": ["loanwords"],
+    "semantic_links": ["qigong", "mahjong", "jalapeno"],
+    "search_rank": 61
+  },
+  {
+    "lemma": "epitome",
+    "glosses": [
+      "A person or thing that perfectly represents a type or quality."
+    ],
+    "short_gloss": "A perfect example.",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "semantic_links": ["hyperbole", "forte", "cache"],
+    "search_rank": 94
+  },
+  {
+    "lemma": "hyperbole",
+    "glosses": [
+      "Rhetorical exaggeration used for emphasis rather than literal truth."
+    ],
+    "short_gloss": "Rhetorical exaggeration.",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "semantic_links": ["epitome", "forte", "cache"],
+    "search_rank": 95
+  },
+  {
+    "lemma": "cache",
+    "glosses": [
+      "A hidden reserve of goods or data kept for quick retrieval."
+    ],
+    "short_gloss": "A reserve kept for quick access.",
+    "parts_of_speech": ["noun", "verb"],
+    "topics": ["academic"],
+    "semantic_links": ["forte", "epitome", "graphene"],
+    "search_rank": 90
+  },
+  {
+    "lemma": "graphene",
+    "glosses": [
+      "A single atomic layer of carbon with exceptional strength and conductivity."
+    ],
+    "short_gloss": "A one-atom-thick carbon sheet.",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "semantic_links": ["epinephrine", "omeprazole", "cache"],
+    "search_rank": 74
+  },
+  {
+    "lemma": "epinephrine",
+    "glosses": [
+      "A hormone and emergency medication also known as adrenaline."
+    ],
+    "short_gloss": "The hormone and medicine called adrenaline.",
+    "parts_of_speech": ["noun"],
+    "topics": ["medicine"],
+    "semantic_links": ["omeprazole", "graphene"],
+    "search_rank": 82
+  },
+  {
+    "lemma": "omeprazole",
+    "glosses": [
+      "A proton-pump inhibitor used to reduce stomach acid."
+    ],
+    "short_gloss": "A drug that lowers stomach acid.",
+    "parts_of_speech": ["noun"],
+    "topics": ["medicine"],
+    "semantic_links": ["epinephrine", "graphene"],
+    "search_rank": 78
+  }
+]

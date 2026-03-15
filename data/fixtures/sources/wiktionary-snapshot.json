@@ -1,0 +1,1376 @@
+[
+  {
+    "term": "sprachbund",
+    "display": "Sprachbund",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A group of languages in one region that developed shared features through long contact."
+    ],
+    "short_gloss": "A linguistic area shaped by language contact.",
+    "origin": { "code": "german", "name": "German", "label": "Borrowed from German" },
+    "topics": ["academic", "loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈʃprɑkˌbʊnt/",
+        "respelling": "SHPRAHK-boont",
+        "notes": ["Used in English-language linguistics classrooms and talks."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "sprachbund",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.78
+        }
+      },
+      {
+        "id": "de-native",
+        "label": "German",
+        "locale": "de",
+        "ipa": "/ˈʃpʁaːxˌbʊnt/",
+        "respelling": "SHPRAAKH-boont",
+        "notes": ["Closer to the source-language consonant cluster."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Sprachbund.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.94
+        }
+      }
+    ],
+    "related_terms": ["zeitgeist", "schadenfreude", "kindergarten", "hyperbole"],
+    "semantic_links": ["zeitgeist", "epitome"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 54
+  },
+  {
+    "term": "zeitgeist",
+    "display": "Zeitgeist",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "The general cultural, intellectual, or moral climate of a particular time."
+    ],
+    "short_gloss": "The defining mood or spirit of an era.",
+    "origin": { "code": "german", "name": "German", "label": "Borrowed from German" },
+    "topics": ["academic", "loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈzaɪtˌɡaɪst/",
+        "respelling": "ZYTE-ghyste",
+        "notes": ["English speakers often clip the final consonant cluster."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Zeitgeist.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.91
+        }
+      },
+      {
+        "id": "de-native",
+        "label": "German",
+        "locale": "de",
+        "ipa": "/ˈtsaɪtˌɡaɪst/",
+        "respelling": "TSYTE-ghyste",
+        "notes": ["The opening consonant is usually the main difference from English."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Zeitgeist_de.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.95
+        }
+      }
+    ],
+    "related_terms": ["sprachbund", "schadenfreude", "wanderlust", "epitome"],
+    "semantic_links": ["schadenfreude", "wanderlust"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 92
+  },
+  {
+    "term": "schadenfreude",
+    "display": "Schadenfreude",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "Pleasure felt at another person's misfortune."
+    ],
+    "short_gloss": "Pleasure at someone else's setback.",
+    "origin": { "code": "german", "name": "German", "label": "Borrowed from German" },
+    "topics": ["loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈʃɑdənˌfrɔɪdə/",
+        "respelling": "SHAH-duhn-froy-duh",
+        "notes": ["English speakers often over-stress the last syllable."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "schadenfreude",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.79
+        }
+      },
+      {
+        "id": "de-native",
+        "label": "German",
+        "locale": "de",
+        "ipa": "/ˈʃaːdn̩ˌfʁɔʏ̯də/",
+        "respelling": "SHAAD-n-froi-duh",
+        "notes": ["Closer to the German vowel quality."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Schadenfreude.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.93
+        }
+      }
+    ],
+    "related_terms": ["zeitgeist", "kindergarten", "wanderlust", "epitome"],
+    "semantic_links": ["zeitgeist", "epitome"],
+    "confusions": [],
+    "confusion_notes": ["The final syllable is often reduced in English, but not dropped."],
+    "search_rank": 88
+  },
+  {
+    "term": "kindergarten",
+    "display": "Kindergarten",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A school or class for young children before primary school."
+    ],
+    "short_gloss": "A preschool or class for very young children.",
+    "origin": { "code": "german", "name": "German", "label": "Borrowed from German" },
+    "topics": ["loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈkɪndərˌɡɑɹtən/",
+        "respelling": "KIN-der-gar-t'n",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Kindergarten_en.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.92
+        }
+      },
+      {
+        "id": "de-native",
+        "label": "German",
+        "locale": "de",
+        "ipa": "/ˈkɪndɐˌɡaʁtn̩/",
+        "respelling": "KIN-dur-gahr-tn",
+        "notes": ["Often quoted to show how English changed the vowel and r-sound."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Kindergarten_de.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.95
+        }
+      }
+    ],
+    "related_terms": ["schadenfreude", "zeitgeist", "wanderlust", "sprachbund"],
+    "semantic_links": ["zeitgeist", "wanderlust"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 97
+  },
+  {
+    "term": "wanderlust",
+    "display": "Wanderlust",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A strong desire to travel."
+    ],
+    "short_gloss": "A strong urge to travel.",
+    "origin": { "code": "german", "name": "German", "label": "Borrowed from German" },
+    "topics": ["loanwords", "places"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈwɑndɚˌlʌst/",
+        "respelling": "WAHN-der-lust",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "wanderlust",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.82
+        }
+      },
+      {
+        "id": "de-native",
+        "label": "German",
+        "locale": "de",
+        "ipa": "/ˈvandɐˌlʊst/",
+        "respelling": "VAHN-dur-loost",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Wanderlust.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.92
+        }
+      }
+    ],
+    "related_terms": ["zeitgeist", "kindergarten", "doha", "qatar"],
+    "semantic_links": ["zeitgeist", "doha"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 85
+  },
+  {
+    "term": "Porsche",
+    "display": "Porsche",
+    "language": "en",
+    "parts_of_speech": ["proper noun"],
+    "definitions": [
+      "A German automobile brand and the family name behind it."
+    ],
+    "short_gloss": "The German sports-car brand.",
+    "origin": { "code": "german", "name": "German", "label": "German family name" },
+    "topics": ["brands", "news-names"],
+    "pronunciations": [
+      {
+        "id": "en-us-brand",
+        "label": "English brand usage",
+        "locale": "en-US",
+        "ipa": "/ˈpɔɹʃə/",
+        "respelling": "POR-shuh",
+        "notes": ["The final syllable is usually preserved in careful English speech."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Porsche",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.8
+        }
+      },
+      {
+        "id": "de-family",
+        "label": "German",
+        "locale": "de",
+        "ipa": "/ˈpɔʁʃə/",
+        "respelling": "POR-shuh",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Porsche.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.93
+        }
+      }
+    ],
+    "related_terms": ["chipotle", "nguyen", "qatar", "zeitgeist"],
+    "semantic_links": ["chipotle"],
+    "confusions": [],
+    "confusion_notes": ["A common mistake is dropping the last syllable entirely."],
+    "search_rank": 81
+  },
+  {
+    "term": "qigong",
+    "display": "Qigong",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A Chinese system of coordinated breathing, movement, and meditation."
+    ],
+    "short_gloss": "A Chinese movement and breathing practice.",
+    "origin": { "code": "chinese", "name": "Chinese", "label": "Borrowed from Mandarin Chinese" },
+    "topics": ["loanwords", "academic"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "English approximation",
+        "locale": "en-US",
+        "ipa": "/ˈtʃiːˌɡʊŋ/",
+        "respelling": "CHEE-goong",
+        "notes": ["English speakers often map q to ch."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "qigong",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.77
+        }
+      },
+      {
+        "id": "zh-native",
+        "label": "Mandarin",
+        "locale": "zh",
+        "ipa": "/tɕʰì.kʊ́ŋ/",
+        "respelling": "CHEE-goong",
+        "notes": ["A tonal audio clip is better than text alone here."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Qigong.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.94
+        }
+      }
+    ],
+    "related_terms": ["tangzhong", "feng-shui", "mahjong", "xi-jinping"],
+    "semantic_links": ["tangzhong", "mahjong"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 73
+  },
+  {
+    "term": "tangzhong",
+    "display": "Tangzhong",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A cooked flour-and-liquid paste used to keep bread soft."
+    ],
+    "short_gloss": "A roux-like paste used in soft bread making.",
+    "origin": { "code": "chinese", "name": "Chinese", "label": "Borrowed from Mandarin Chinese" },
+    "topics": ["loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "English approximation",
+        "locale": "en-US",
+        "ipa": "/ˈtɑŋˌʒɔŋ/",
+        "respelling": "tahng-ZHONG",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "tangzhong",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.75
+        }
+      },
+      {
+        "id": "zh-native",
+        "label": "Mandarin",
+        "locale": "zh",
+        "ipa": "/tʰɑ̌ŋ.ʈʂʊ́ŋ/",
+        "respelling": "tahng-JOONG",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Tangzhong.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.92
+        }
+      }
+    ],
+    "related_terms": ["qigong", "feng-shui", "mahjong", "jalapeno"],
+    "semantic_links": ["qigong", "mahjong"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 61
+  },
+  {
+    "term": "feng shui",
+    "display": "Feng Shui",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A Chinese practice of arranging spaces to promote harmony."
+    ],
+    "short_gloss": "A Chinese geomantic practice about harmonious placement.",
+    "origin": { "code": "chinese", "name": "Chinese", "label": "Borrowed from Mandarin Chinese" },
+    "topics": ["loanwords", "places"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "English approximation",
+        "locale": "en-US",
+        "ipa": "/ˌfʌŋˈʃweɪ/",
+        "respelling": "fung-SHWAY",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "feng shui",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.78
+        }
+      },
+      {
+        "id": "zh-native",
+        "label": "Mandarin",
+        "locale": "zh",
+        "ipa": "/fə́ŋ.ʂwèɪ/",
+        "respelling": "fung-SHWAY",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Feng_shui.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.93
+        }
+      }
+    ],
+    "related_terms": ["qigong", "tangzhong", "mahjong", "beijing"],
+    "semantic_links": ["qigong", "beijing"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 84
+  },
+  {
+    "term": "mahjong",
+    "display": "Mahjong",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A Chinese tile-based game played in many regional variants."
+    ],
+    "short_gloss": "A Chinese tile game.",
+    "origin": { "code": "chinese", "name": "Chinese", "label": "Borrowed from Chinese" },
+    "topics": ["loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "English approximation",
+        "locale": "en-US",
+        "ipa": "/mɑːˈʒɑŋ/",
+        "respelling": "mah-ZHONG",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "mahjong",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.79
+        }
+      },
+      {
+        "id": "zh-native",
+        "label": "Chinese",
+        "locale": "zh",
+        "ipa": "/mǎ.ʈʂjɑ̀ŋ/",
+        "respelling": "mah-jyahng",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Mahjong.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.93
+        }
+      }
+    ],
+    "related_terms": ["qigong", "tangzhong", "feng-shui", "beijing"],
+    "semantic_links": ["qigong", "beijing"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 68
+  },
+  {
+    "term": "Xi Jinping",
+    "display": "Xi Jinping",
+    "language": "en",
+    "parts_of_speech": ["proper noun"],
+    "definitions": [
+      "The name of the Chinese political leader Xi Jinping."
+    ],
+    "short_gloss": "The name of China's current political leader.",
+    "origin": { "code": "chinese", "name": "Chinese", "label": "Modern Mandarin personal name" },
+    "topics": ["news-names", "places"],
+    "pronunciations": [
+      {
+        "id": "en-newsroom",
+        "label": "English newsroom",
+        "locale": "en-US",
+        "ipa": "/ʃiː dʒɪnˈpɪŋ/",
+        "respelling": "shee jin-PING",
+        "notes": ["A common English newsroom approximation."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Xi Jinping",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.71
+        }
+      },
+      {
+        "id": "zh-native",
+        "label": "Mandarin",
+        "locale": "zh",
+        "ipa": "/ɕí tɕîn.pʰǐŋ/",
+        "respelling": "shee jin-ping",
+        "notes": ["Tone matters more than English spelling suggests."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Xi_Jinping.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.95
+        }
+      }
+    ],
+    "related_terms": ["qatar", "beijing", "nguyen", "qigong"],
+    "semantic_links": ["beijing", "qatar"],
+    "confusions": [],
+    "confusion_notes": ["The first syllable is closer to shee than eks-eye in English-targeted guidance."],
+    "search_rank": 98
+  },
+  {
+    "term": "Beijing",
+    "display": "Beijing",
+    "language": "en",
+    "parts_of_speech": ["proper noun"],
+    "definitions": [
+      "The capital city of China."
+    ],
+    "short_gloss": "The capital of China.",
+    "origin": { "code": "chinese", "name": "Chinese", "label": "Modern Mandarin place name" },
+    "topics": ["news-names", "places"],
+    "pronunciations": [
+      {
+        "id": "en-newsroom",
+        "label": "English newsroom",
+        "locale": "en-US",
+        "ipa": "/beɪˈdʒɪŋ/",
+        "respelling": "bay-JING",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Beijing",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.8
+        }
+      },
+      {
+        "id": "zh-native",
+        "label": "Mandarin",
+        "locale": "zh",
+        "ipa": "/pèɪ.tɕíŋ/",
+        "respelling": "bay-jing",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Beijing.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.94
+        }
+      }
+    ],
+    "related_terms": ["xi-jinping", "qatar", "doha", "mahjong"],
+    "semantic_links": ["xi-jinping", "doha"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 93
+  },
+  {
+    "term": "Qatar",
+    "display": "Qatar",
+    "language": "en",
+    "parts_of_speech": ["proper noun"],
+    "definitions": [
+      "A country on the northeastern coast of the Arabian Peninsula."
+    ],
+    "short_gloss": "The Gulf state on the Arabian Peninsula.",
+    "origin": { "code": "arabic", "name": "Arabic", "label": "Arabic place name" },
+    "topics": ["news-names", "places"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈkʌtɑɹ/",
+        "respelling": "KUH-tar",
+        "notes": ["Still common in casual American speech."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Qatar",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.74
+        }
+      },
+      {
+        "id": "en-newsroom",
+        "label": "Newsroom",
+        "locale": "en-US",
+        "ipa": "/ˈkɑːtɑɹ/",
+        "respelling": "KAH-tar",
+        "notes": ["A common on-air compromise in U.S. broadcasting."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Qatar newsroom",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.76
+        }
+      },
+      {
+        "id": "ar-local",
+        "label": "Arabic local",
+        "locale": "ar",
+        "ipa": "/qɑtˤɑr/",
+        "respelling": "qa-TAR",
+        "notes": ["The initial consonant is not an English k sound."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Qatar.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.95
+        }
+      }
+    ],
+    "related_terms": ["doha", "xi-jinping", "beijing", "nguyen"],
+    "semantic_links": ["doha", "beijing"],
+    "confusions": [],
+    "confusion_notes": ["Many English speakers move between two newsroom forms depending on context."],
+    "search_rank": 99
+  },
+  {
+    "term": "Doha",
+    "display": "Doha",
+    "language": "en",
+    "parts_of_speech": ["proper noun"],
+    "definitions": [
+      "The capital city of Qatar."
+    ],
+    "short_gloss": "The capital city of Qatar.",
+    "origin": { "code": "arabic", "name": "Arabic", "label": "Arabic place name" },
+    "topics": ["news-names", "places"],
+    "pronunciations": [
+      {
+        "id": "en-newsroom",
+        "label": "English newsroom",
+        "locale": "en-US",
+        "ipa": "/ˈdoʊhə/",
+        "respelling": "DOH-huh",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Doha",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.78
+        }
+      },
+      {
+        "id": "ar-local",
+        "label": "Arabic local",
+        "locale": "ar",
+        "ipa": "/doːħa/",
+        "respelling": "DOH-ha",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Doha.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.94
+        }
+      }
+    ],
+    "related_terms": ["qatar", "beijing", "xi-jinping", "nguyen"],
+    "semantic_links": ["qatar", "beijing"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 89
+  },
+  {
+    "term": "Nguyen",
+    "display": "Nguyen",
+    "language": "en",
+    "parts_of_speech": ["proper noun"],
+    "definitions": [
+      "A common Vietnamese family name."
+    ],
+    "short_gloss": "A common Vietnamese surname.",
+    "origin": { "code": "vietnamese", "name": "Vietnamese", "label": "Vietnamese family name" },
+    "topics": ["news-names"],
+    "pronunciations": [
+      {
+        "id": "en-friendly",
+        "label": "English-friendly",
+        "locale": "en-US",
+        "ipa": "/wɪn/",
+        "respelling": "win",
+        "notes": ["A common simplified form in U.S. English."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Nguyen",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.69
+        }
+      },
+      {
+        "id": "vi-local",
+        "label": "Vietnamese",
+        "locale": "vi",
+        "ipa": "/ŋʷǐən/",
+        "respelling": "ngwi-yen",
+        "notes": ["There is no single perfect English approximation."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Nguyen.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.95
+        }
+      }
+    ],
+    "related_terms": ["xi-jinping", "qatar", "doha", "porsche"],
+    "semantic_links": ["xi-jinping", "qatar"],
+    "confusions": [],
+    "confusion_notes": ["English approximations vary widely, so showing the native form matters."],
+    "search_rank": 96
+  },
+  {
+    "term": "epitome",
+    "display": "Epitome",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A person or thing that perfectly represents a quality or type."
+    ],
+    "short_gloss": "A perfect example of something.",
+    "origin": { "code": "greek", "name": "Greek", "label": "Via Greek and Latin" },
+    "topics": ["academic"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ɪˈpɪtəmi/",
+        "respelling": "ih-PIT-uh-mee",
+        "notes": ["Often misread as if it rhymed with dome."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "epitome",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.88
+        }
+      },
+      {
+        "id": "en-gb-default",
+        "label": "British English",
+        "locale": "en-GB",
+        "ipa": "/ɪˈpɪtəmi/",
+        "respelling": "ih-PIT-uh-mee",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "epitome british",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.86
+        }
+      }
+    ],
+    "related_terms": ["hyperbole", "forte", "cache", "sprachbund"],
+    "semantic_links": ["hyperbole", "cache"],
+    "confusions": ["hyperbole", "forte"],
+    "confusion_notes": ["The silent final e misleads readers into inventing a short final syllable."],
+    "search_rank": 94
+  },
+  {
+    "term": "hyperbole",
+    "display": "Hyperbole",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "Exaggerated statements not meant to be taken literally."
+    ],
+    "short_gloss": "Deliberate exaggeration.",
+    "origin": { "code": "greek", "name": "Greek", "label": "Via Greek and Latin" },
+    "topics": ["academic"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/haɪˈpɝbəli/",
+        "respelling": "hy-PER-buh-lee",
+        "notes": ["Frequently misread as hyper-bowl."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "hyperbole",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.86
+        }
+      },
+      {
+        "id": "en-gb-default",
+        "label": "British English",
+        "locale": "en-GB",
+        "ipa": "/haɪˈpɜːbəli/",
+        "respelling": "hy-PER-buh-lee",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "hyperbole british",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.84
+        }
+      }
+    ],
+    "related_terms": ["epitome", "forte", "cache", "sprachbund"],
+    "semantic_links": ["epitome", "cache"],
+    "confusions": ["epitome", "forte"],
+    "confusion_notes": ["Readers often pronounce the final letters as bowl because they never heard it aloud."],
+    "search_rank": 95
+  },
+  {
+    "term": "Chipotle",
+    "display": "Chipotle",
+    "language": "en",
+    "parts_of_speech": ["noun", "proper noun"],
+    "definitions": [
+      "A smoked jalapeño pepper, and by extension the restaurant brand name."
+    ],
+    "short_gloss": "A smoked jalapeño pepper and a restaurant brand.",
+    "origin": { "code": "spanish", "name": "Spanish", "label": "Borrowed via Mexican Spanish" },
+    "topics": ["brands", "loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-brand",
+        "label": "English brand usage",
+        "locale": "en-US",
+        "ipa": "/tʃɪˈpoʊtleɪ/",
+        "respelling": "chih-POHT-lay",
+        "notes": ["Often simplified incorrectly to chi-POT-ul."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "Chipotle",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.85
+        }
+      },
+      {
+        "id": "es-local",
+        "label": "Spanish",
+        "locale": "es",
+        "ipa": "/tʃiˈpotle/",
+        "respelling": "chee-POT-leh",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Chipotle.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.93
+        }
+      }
+    ],
+    "related_terms": ["jalapeno", "gyro", "porsche", "qigong"],
+    "semantic_links": ["jalapeno", "gyro"],
+    "confusions": ["jalapeno", "gyro"],
+    "confusion_notes": ["The final syllable is lay, not tull."],
+    "search_rank": 97
+  },
+  {
+    "term": "jalapeño",
+    "display": "Jalapeño",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A medium-sized chili pepper from Mexico."
+    ],
+    "short_gloss": "A medium-hot Mexican chili pepper.",
+    "origin": { "code": "spanish", "name": "Spanish", "label": "Borrowed via Mexican Spanish" },
+    "topics": ["loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-default",
+        "label": "English approximation",
+        "locale": "en-US",
+        "ipa": "/ˌhɑləˈpeɪnjoʊ/",
+        "respelling": "hah-luh-PAYN-yo",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "jalapeno",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.84
+        }
+      },
+      {
+        "id": "es-local",
+        "label": "Spanish",
+        "locale": "es",
+        "ipa": "/xalaˈpeɲo/",
+        "respelling": "ha-la-PEH-nyo",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Jalapeno.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.93
+        }
+      }
+    ],
+    "related_terms": ["chipotle", "gyro", "tangzhong", "qigong"],
+    "semantic_links": ["chipotle", "gyro"],
+    "confusions": ["chipotle", "gyro"],
+    "confusion_notes": [],
+    "search_rank": 93
+  },
+  {
+    "term": "gyro",
+    "display": "Gyro",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A Greek dish of roasted meat served in pita or on a plate."
+    ],
+    "short_gloss": "A Greek meat dish often served in pita.",
+    "origin": { "code": "greek", "name": "Greek", "label": "Borrowed from Modern Greek" },
+    "topics": ["loanwords"],
+    "pronunciations": [
+      {
+        "id": "en-us-restaurant",
+        "label": "U.S. restaurant usage",
+        "locale": "en-US",
+        "ipa": "/ˈjɪəroʊ/",
+        "respelling": "YEER-oh",
+        "notes": ["Regional English variants also exist."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "gyro food",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.79
+        }
+      },
+      {
+        "id": "el-local",
+        "label": "Greek",
+        "locale": "el",
+        "ipa": "/ˈʝiro/",
+        "respelling": "YEE-ro",
+        "notes": [],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Gyro.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.94
+        }
+      }
+    ],
+    "related_terms": ["chipotle", "jalapeno", "forte", "cache"],
+    "semantic_links": ["chipotle", "jalapeno"],
+    "confusions": ["chipotle", "jalapeno"],
+    "confusion_notes": ["The opening sound is usually y rather than hard g in careful usage."],
+    "search_rank": 96
+  },
+  {
+    "term": "graphene",
+    "display": "Graphene",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A single layer of carbon atoms arranged in a hexagonal lattice."
+    ],
+    "short_gloss": "A one-atom-thick sheet of carbon.",
+    "origin": { "code": "greek", "name": "Greek", "label": "Coined from graphite and Greek roots" },
+    "topics": ["academic"],
+    "pronunciations": [
+      {
+        "id": "en-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˈɡræfiːn/",
+        "respelling": "GRAF-een",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "graphene",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.9
+        }
+      }
+    ],
+    "related_terms": ["epinephrine", "omeprazole", "cache", "epitome"],
+    "semantic_links": ["epinephrine", "cache"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 74
+  },
+  {
+    "term": "forte",
+    "display": "Forte",
+    "language": "en",
+    "parts_of_speech": ["noun", "adjective"],
+    "definitions": [
+      "A person's strong point or specialty.",
+      "In music, a direction to play loudly."
+    ],
+    "short_gloss": "A strong point; in music, a loud dynamic marking.",
+    "origin": { "code": "french", "name": "French", "label": "Via French and Italian" },
+    "topics": ["academic"],
+    "pronunciations": [
+      {
+        "id": "en-general",
+        "label": "General English",
+        "locale": "en-US",
+        "ipa": "/ˈfɔɹteɪ/",
+        "respelling": "FOR-tay",
+        "notes": ["Common for the strength or specialty sense."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "forte",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.84
+        }
+      },
+      {
+        "id": "music-italian",
+        "label": "Music tradition",
+        "locale": "it",
+        "ipa": "/ˈfɔrte/",
+        "respelling": "FOR-teh",
+        "notes": ["Still heard in music pedagogy and performance contexts."],
+        "audio": {
+          "kind": "human",
+          "src": "/audio/fixtures/human-sample.wav",
+          "source_name": "Wikimedia Commons fixture",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Forte.ogg",
+          "license": "CC BY-SA 4.0",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.9
+        }
+      }
+    ],
+    "related_terms": ["epitome", "hyperbole", "cache", "gyro"],
+    "semantic_links": ["epitome", "hyperbole"],
+    "confusions": ["epitome", "hyperbole"],
+    "confusion_notes": ["The preferred pronunciation changes with sense and context."],
+    "search_rank": 91
+  },
+  {
+    "term": "cache",
+    "display": "Cache",
+    "language": "en",
+    "parts_of_speech": ["noun", "verb"],
+    "definitions": [
+      "A hidden store of items, or in computing, a fast storage layer for data."
+    ],
+    "short_gloss": "A hidden store; in computing, a fast temporary data store.",
+    "origin": { "code": "french", "name": "French", "label": "Borrowed from French" },
+    "topics": ["academic"],
+    "pronunciations": [
+      {
+        "id": "en-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/kæʃ/",
+        "respelling": "cash",
+        "notes": ["Often confused with cachet because of spelling."],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "cache",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.9
+        }
+      }
+    ],
+    "related_terms": ["epitome", "hyperbole", "forte", "graphene"],
+    "semantic_links": ["epitome", "graphene"],
+    "confusions": ["forte"],
+    "confusion_notes": ["Readers sometimes add a second syllable because of the final e."],
+    "search_rank": 90
+  },
+  {
+    "term": "epinephrine",
+    "display": "Epinephrine",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A hormone and medication also known as adrenaline."
+    ],
+    "short_gloss": "The hormone and medicine also called adrenaline.",
+    "origin": { "code": "greek", "name": "Greek", "label": "Coined from Greek elements" },
+    "topics": ["medicine"],
+    "pronunciations": [
+      {
+        "id": "en-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/ˌɛpɪˈnɛfrɪn/",
+        "respelling": "ep-ih-NEF-rin",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "epinephrine",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.87
+        }
+      }
+    ],
+    "related_terms": ["omeprazole", "graphene", "hyperbole", "qigong"],
+    "semantic_links": ["omeprazole", "graphene"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 82
+  },
+  {
+    "term": "omeprazole",
+    "display": "Omeprazole",
+    "language": "en",
+    "parts_of_speech": ["noun"],
+    "definitions": [
+      "A medication that reduces stomach acid."
+    ],
+    "short_gloss": "A medication used to reduce stomach acid.",
+    "origin": { "code": "greek", "name": "Greek", "label": "International scientific coinage" },
+    "topics": ["medicine"],
+    "pronunciations": [
+      {
+        "id": "en-default",
+        "label": "General American",
+        "locale": "en-US",
+        "ipa": "/oʊˈmɛprəˌzoʊl/",
+        "respelling": "oh-MEP-ruh-zohl",
+        "notes": [],
+        "audio": {
+          "kind": "synthetic",
+          "src": "/audio/fixtures/synthetic-sample.wav",
+          "engine": "espeak-ng",
+          "engine_input": "omeprazole",
+          "source_name": "Synthetic fixture",
+          "source_url": "https://github.com/espeak-ng/espeak-ng",
+          "license": "GPL-3.0-or-later",
+          "license_status": "clear",
+          "review_status": "reviewed",
+          "confidence": 0.42
+        }
+      }
+    ],
+    "related_terms": ["epinephrine", "graphene", "cache", "hyperbole"],
+    "semantic_links": ["epinephrine", "graphene"],
+    "confusions": [],
+    "confusion_notes": [],
+    "search_rank": 78
+  }
+]

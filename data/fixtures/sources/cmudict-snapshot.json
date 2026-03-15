@@ -1,0 +1,101 @@
+[
+  {
+    "headword": "epitome",
+    "ipa": "/ɪˈpɪtəmi/",
+    "respelling": "ih-PIT-uh-mee",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "confidence": 0.93,
+    "search_rank": 94
+  },
+  {
+    "headword": "hyperbole",
+    "ipa": "/haɪˈpɝbəli/",
+    "respelling": "hy-PER-buh-lee",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "confidence": 0.92,
+    "search_rank": 95
+  },
+  {
+    "headword": "chipotle",
+    "ipa": "/tʃɪˈpoʊtleɪ/",
+    "respelling": "chih-POHT-lay",
+    "parts_of_speech": ["noun", "proper noun"],
+    "topics": ["brands", "loanwords"],
+    "confidence": 0.9,
+    "search_rank": 97
+  },
+  {
+    "headword": "jalapeno",
+    "ipa": "/ˌhɑləˈpeɪnjoʊ/",
+    "respelling": "hah-luh-PAYN-yo",
+    "parts_of_speech": ["noun"],
+    "topics": ["loanwords"],
+    "confidence": 0.89,
+    "search_rank": 93
+  },
+  {
+    "headword": "gyro",
+    "ipa": "/ˈjɪəroʊ/",
+    "respelling": "YEER-oh",
+    "parts_of_speech": ["noun"],
+    "topics": ["loanwords"],
+    "confidence": 0.84,
+    "search_rank": 96
+  },
+  {
+    "headword": "graphene",
+    "ipa": "/ˈɡræfiːn/",
+    "respelling": "GRAF-een",
+    "parts_of_speech": ["noun"],
+    "topics": ["academic"],
+    "confidence": 0.93,
+    "search_rank": 74
+  },
+  {
+    "headword": "forte",
+    "ipa": "/ˈfɔɹteɪ/",
+    "respelling": "FOR-tay",
+    "parts_of_speech": ["noun", "adjective"],
+    "topics": ["academic"],
+    "confidence": 0.88,
+    "search_rank": 91
+  },
+  {
+    "headword": "cache",
+    "ipa": "/kæʃ/",
+    "respelling": "cash",
+    "parts_of_speech": ["noun", "verb"],
+    "topics": ["academic"],
+    "confidence": 0.93,
+    "search_rank": 90
+  },
+  {
+    "headword": "epinephrine",
+    "ipa": "/ˌɛpɪˈnɛfrɪn/",
+    "respelling": "ep-ih-NEF-rin",
+    "parts_of_speech": ["noun"],
+    "topics": ["medicine"],
+    "confidence": 0.91,
+    "search_rank": 82
+  },
+  {
+    "headword": "omeprazole",
+    "ipa": "/oʊˈmɛprəˌzoʊl/",
+    "respelling": "oh-MEP-ruh-zohl",
+    "parts_of_speech": ["noun"],
+    "topics": ["medicine"],
+    "confidence": 0.89,
+    "search_rank": 78
+  },
+  {
+    "headword": "Porsche",
+    "ipa": "/ˈpɔɹʃə/",
+    "respelling": "POR-shuh",
+    "parts_of_speech": ["proper noun"],
+    "topics": ["brands"],
+    "confidence": 0.88,
+    "search_rank": 81
+  }
+]
