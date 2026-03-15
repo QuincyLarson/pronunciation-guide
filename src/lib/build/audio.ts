@@ -1,9 +1,10 @@
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { rmSync } from "node:fs";
+import { copyFile, readFile, stat, writeFile } from "node:fs/promises";
 
 import type { Entry, PronunciationVariant } from "../../types/content";
-import { DIST_AUDIO_DIR } from "./paths";
+import { AUDIO_CACHE_DIR, DIST_AUDIO_DIR } from "./paths";
 import { ensureDir } from "./io";
 
 const FIXTURE_PREVIEW_SOURCES = new Set([
@@ -75,6 +76,52 @@ function synthesizeWithSay(outputPath: string, voice: string, text: string): voi
   rmSync(tempAiffPath, { force: true });
 }
 
+interface AudioCacheMetadata {
+  voice: string;
+  text: string;
+}
+
+async function readCacheMetadata(filePath: string): Promise<AudioCacheMetadata | null> {
+  try {
+    return JSON.parse(await readFile(filePath, "utf8")) as AudioCacheMetadata;
+  } catch {
+    return null;
+  }
+}
+
+async function fileExists(filePath: string): Promise<boolean> {
+  try {
+    await stat(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function restoreOrBuildCachedAudio(
+  cacheAudioPath: string,
+  cacheMetadataPath: string,
+  distAudioPath: string,
+  voice: string,
+  text: string
+): Promise<void> {
+  await ensureDir(path.dirname(cacheAudioPath));
+  await ensureDir(path.dirname(distAudioPath));
+
+  const cacheMetadata = await readCacheMetadata(cacheMetadataPath);
+  const cacheIsUsable =
+    (await fileExists(cacheAudioPath)) &&
+    cacheMetadata?.voice === voice &&
+    cacheMetadata?.text === text;
+
+  if (!cacheIsUsable) {
+    synthesizeWithSay(cacheAudioPath, voice, text);
+    await writeFile(cacheMetadataPath, `${JSON.stringify({ voice, text }, null, 2)}\n`, "utf8");
+  }
+
+  await copyFile(cacheAudioPath, distAudioPath);
+}
+
 async function materializePreviewVariantAudio(
   entry: Entry,
   variant: PronunciationVariant
@@ -89,12 +136,17 @@ async function materializePreviewVariantAudio(
 
   const relativeOutputPath = `/audio/generated/${entry.slug}/${variant.id}.wav`;
   const absoluteOutputPath = path.join(DIST_AUDIO_DIR, "generated", entry.slug, `${variant.id}.wav`);
-  await ensureDir(path.dirname(absoluteOutputPath));
+  const cacheAudioPath = path.join(AUDIO_CACHE_DIR, entry.slug, `${variant.id}.wav`);
+  const cacheMetadataPath = path.join(AUDIO_CACHE_DIR, entry.slug, `${variant.id}.json`);
+  const voice = chooseSayVoice(variant.locale);
+  const text = choosePreviewSpeechText(entry, variant);
 
-  synthesizeWithSay(
+  await restoreOrBuildCachedAudio(
+    cacheAudioPath,
+    cacheMetadataPath,
     absoluteOutputPath,
-    chooseSayVoice(variant.locale),
-    choosePreviewSpeechText(entry, variant)
+    voice,
+    text
   );
 
   return {
@@ -107,7 +159,7 @@ async function materializePreviewVariantAudio(
       src: relativeOutputPath,
       mimeType: "audio/wav",
       engine: variant.audio.engine ?? "say",
-      engineInput: variant.audio.engineInput ?? choosePreviewSpeechText(entry, variant)
+      engineInput: variant.audio.engineInput ?? text
     }
   };
 }

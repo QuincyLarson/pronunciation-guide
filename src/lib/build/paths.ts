@@ -4,10 +4,12 @@ const root = process.cwd();
 
 export const PROJECT_ROOT = root;
 export const FIXTURE_DIR = path.join(root, "data", "fixtures", "sources");
+export const FIXTURE_GENERATED_DIR = path.join(FIXTURE_DIR, "generated");
 export const OVERRIDES_DIR = path.join(root, "content", "overrides");
 export const GENERATED_DIR = path.join(root, "data", "generated");
 export const STAGES_DIR = path.join(GENERATED_DIR, "stages");
 export const GENERATED_SHARDS_DIR = path.join(GENERATED_DIR, "shards");
+export const AUDIO_CACHE_DIR = path.join(GENERATED_DIR, "audio-cache");
 export const DIST_DIR = path.join(root, "dist");
 export const DIST_PUBLIC_DIR = path.join(DIST_DIR, "public");
 export const DIST_AUDIO_DIR = path.join(DIST_PUBLIC_DIR, "audio");

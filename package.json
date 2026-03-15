@@ -20,6 +20,7 @@
     "build:prerender": "tsx scripts/prerender.ts",
     "build:sitemaps": "tsx scripts/generate-sitemaps.ts",
     "build:attribution": "tsx scripts/generate-attribution.ts",
+    "fixtures:generate-batch": "tsx scripts/generate-fixture-batch.ts",
     "check": "tsc --noEmit",
     "dev": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",

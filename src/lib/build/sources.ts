@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { slugify } from "../slug";
 import {
   audioKindSchema,
+  contributionBadgeSchema,
   corpusSchema,
   licenseStatusSchema,
   normalizedSourceEntrySchema,
@@ -31,6 +32,17 @@ const rawAudioSchema = z.object({
   license_status: licenseStatusSchema.optional(),
   review_status: reviewStatusSchema,
   confidence: z.number().min(0).max(1)
+});
+
+const rawSourceMetadataSchema = z.object({
+  name: z.string(),
+  url: z.string().url(),
+  license: z.string(),
+  revision: z.string(),
+  attribution: z.string(),
+  fields: z.array(z.string()).min(1).optional(),
+  confidence: z.number().min(0).max(1).default(0.8),
+  review_status: reviewStatusSchema.default("reviewed")
 });
 
 const rawWiktionaryEntrySchema = z.object({
@@ -65,7 +77,9 @@ const rawWiktionaryEntrySchema = z.object({
   semantic_links: z.array(z.string()).default([]),
   confusions: z.array(z.string()).default([]),
   confusion_notes: z.array(z.string()).default([]),
-  search_rank: z.number().default(0)
+  search_rank: z.number().default(0),
+  badges: z.array(contributionBadgeSchema).default([]),
+  source: rawSourceMetadataSchema.optional()
 });
 
 const rawCmudictEntrySchema = z.object({
@@ -146,16 +160,17 @@ function rawAudioToAudio(raw: z.infer<typeof rawAudioSchema>): AudioMetadata {
 function normalizeWiktionary(entries: z.infer<typeof rawWiktionaryEntrySchema>[]): NormalizedSourceEntry[] {
   return entries.map((entry) => {
     const slug = slugify(entry.term);
+    const source = entry.source;
     const provenance = buildProvenance(
       `wiktionary:${slug}`,
-      "Kaikki/Wiktextract fixture",
-      "https://kaikki.org/",
-      "CC BY-SA 4.0 + GFDL",
-      "fixture-2026-03-14",
-      "Derived from a local Wiktionary fixture snapshot.",
-      ["display", "glosses", "origin", "variants", "topics", "related"],
-      0.86,
-      "reviewed"
+      source?.name ?? "Kaikki/Wiktextract fixture",
+      source?.url ?? "https://kaikki.org/",
+      source?.license ?? "CC BY-SA 4.0 + GFDL",
+      source?.revision ?? "fixture-2026-03-14",
+      source?.attribution ?? "Derived from a local Wiktionary fixture snapshot.",
+      source?.fields ?? ["display", "glosses", "origin", "variants", "topics", "related"],
+      source?.confidence ?? 0.86,
+      source?.review_status ?? "reviewed"
     );
 
     return normalizedSourceEntrySchema.parse({
@@ -188,6 +203,7 @@ function normalizeWiktionary(entries: z.infer<typeof rawWiktionaryEntrySchema>[]
       confusionNotes: entry.confusion_notes,
       provenance: [provenance],
       searchRank: entry.search_rank,
+      badges: entry.badges,
       sourcePriority: 70
     });
   });
@@ -291,12 +307,21 @@ function normalizeWordnet(entries: z.infer<typeof rawWordnetEntrySchema>[]): Nor
 
 export async function importSources(): Promise<ImportedSources> {
   const [wiktionary, cmudict, wordnet] = await Promise.all([
-    readJsonFile<unknown>(path.join(FIXTURE_DIR, "wiktionary-snapshot.json")),
-    readJsonFile<unknown>(path.join(FIXTURE_DIR, "cmudict-snapshot.json")),
-    readJsonFile<unknown>(path.join(FIXTURE_DIR, "wordnet-snapshot.json"))
+    readFixtureEntries<z.infer<typeof rawWiktionaryEntrySchema>>("wiktionary"),
+    readFixtureEntries<z.infer<typeof rawCmudictEntrySchema>>("cmudict"),
+    readFixtureEntries<z.infer<typeof rawWordnetEntrySchema>>("wordnet")
   ]);
 
   return importedSourcesSchema.parse({ wiktionary, cmudict, wordnet });
+}
+
+async function readFixtureEntries<T>(prefix: string): Promise<T[]> {
+  const files = (await collectFiles(FIXTURE_DIR, ".json")).filter((filePath) =>
+    path.basename(filePath).startsWith(prefix)
+  );
+
+  const arrays = await Promise.all(files.map((filePath) => readJsonFile<unknown>(filePath)));
+  return arrays.flatMap((value) => (Array.isArray(value) ? (value as T[]) : []));
 }
 
 export function normalizeImportedSources(importedSources: ImportedSources): NormalizedSourceEntry[] {
