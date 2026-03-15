@@ -55,7 +55,9 @@ dist/public/     Generated static site output
 
 ## Sample corpus
 
-The initial fixture corpus includes 20+ entries and exercises:
+The fixture corpus now includes exactly 1000 unique entries. It combines a curated base set with generated seed batches so the build and routing path can be exercised at realistic directory scale.
+
+The curated slice still exercises:
 
 - German-origin words: `sprachbund`, `zeitgeist`, `schadenfreude`, `kindergarten`, `wanderlust`, `Porsche`
 - Chinese-origin words: `qigong`, `tangzhong`, `feng shui`, `mahjong`, `Xi Jinping`, `Beijing`
@@ -63,13 +65,14 @@ The initial fixture corpus includes 20+ entries and exercises:
 - Commonly mispronounced terms: `epitome`, `hyperbole`, `chipotle`, `jalapeño`, `gyro`, `forte`, `cache`
 - Medicine: `epinephrine`, `omeprazole`
 
-The fixtures include:
+Across the full fixture set, the project includes:
 
 - multiple pronunciation variants
 - human-audio placeholders
 - synthetic-audio metadata
 - provenance and licensing metadata
 - at least one intentional `noindex` case for testing sitemap gating
+- generated batch coverage for uncommon words and proper names
 
 ## Getting started
 
@@ -109,6 +112,7 @@ Useful pages to inspect locally:
 - `npm run build:prerender` prerenders home, hubs, and top word pages
 - `npm run build:sitemaps` generates sitemap index and child sitemaps
 - `npm run build:attribution` generates the attribution page and machine-readable manifest
+- `npm run fixtures:generate-batch -- --count 100 --target 1000` adds the next deterministic fixture batch from local system word/name lists
 - `npm run check` runs TypeScript type-checking
 - `npm test` runs the test suite
 - `npm run deploy` builds and deploys with Wrangler
@@ -129,6 +133,8 @@ The build is intentionally stage-based so contributors can inspect artifacts bet
 8. Prerender the home page, hub pages, and top pages
 9. Generate XML sitemaps from eligible pages only
 10. Generate attribution HTML plus `/attribution/manifest.json`
+
+The batch generator writes additional fixture files into `data/fixtures/sources/generated/`. The importer automatically loads every `wiktionary*.json` batch from `data/fixtures/sources/`, so contributors can scale the fixture corpus without changing runtime code.
 
 ## Data model
 

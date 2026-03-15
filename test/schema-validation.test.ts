@@ -3,11 +3,11 @@ import { importSources, importedSourcesSchema, loadOverrides } from "../src/lib/
 import { buildFixtureCorpus } from "./helpers/fixture-corpus";
 
 describe("schema validation", () => {
-  test("fixture snapshots validate and exceed the minimum corpus size", async () => {
+  test("fixture snapshots validate and reach the 1000-entry target corpus", async () => {
     const imported = await importSources();
     const parsed = importedSourcesSchema.parse(imported);
 
-    expect(parsed.wiktionary.length).toBeGreaterThanOrEqual(20);
+    expect(parsed.wiktionary.length).toBe(1000);
     expect(parsed.cmudict.length).toBeGreaterThan(0);
     expect(parsed.wordnet.length).toBeGreaterThan(0);
   });
@@ -15,7 +15,7 @@ describe("schema validation", () => {
   test("merged fixture corpus validates entry schema", async () => {
     const corpus = await buildFixtureCorpus();
 
-    expect(corpus.length).toBeGreaterThanOrEqual(20);
+    expect(corpus.length).toBe(1000);
     for (const entry of corpus) {
       expect(() => entrySchema.parse(entry)).not.toThrow();
     }
