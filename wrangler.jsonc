@@ -11,11 +11,11 @@
   "r2_buckets": [
     {
       "binding": "AUDIO_BUCKET",
-      "bucket_name": "REPLACE_ME_AUDIO"
+      "bucket_name": "replace-me-audio"
     },
     {
       "binding": "CORPUS_BUCKET",
-      "bucket_name": "REPLACE_ME_CORPUS"
+      "bucket_name": "replace-me-corpus"
     }
   ],
   "vars": {

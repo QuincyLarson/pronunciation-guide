@@ -82,8 +82,19 @@ npm test
 To work locally with the Worker:
 
 ```bash
-npm run dev
+npm run dev -- --port 8787 --ip 127.0.0.1
 ```
+
+Then open [http://127.0.0.1:8787](http://127.0.0.1:8787).
+
+Useful pages to inspect locally:
+
+- [http://127.0.0.1:8787/](http://127.0.0.1:8787/)
+- [http://127.0.0.1:8787/w/qatar](http://127.0.0.1:8787/w/qatar)
+- [http://127.0.0.1:8787/w/qigong](http://127.0.0.1:8787/w/qigong)
+- [http://127.0.0.1:8787/origins/german/](http://127.0.0.1:8787/origins/german/)
+- [http://127.0.0.1:8787/topics/news-names/](http://127.0.0.1:8787/topics/news-names/)
+- [http://127.0.0.1:8787/attribution/](http://127.0.0.1:8787/attribution/)
 
 ## Commands
 
@@ -100,6 +111,8 @@ npm run dev
 - `npm run check` runs TypeScript type-checking
 - `npm test` runs the test suite
 - `npm run deploy` builds and deploys with Wrangler
+- `npm run r2:sync:corpus -- --remote` uploads built shard files to the configured corpus bucket
+- `npm run r2:sync:audio -- --remote` uploads built audio files to the configured audio bucket
 
 ## Build pipeline
 
@@ -218,9 +231,22 @@ Replace the placeholder values before deploying:
 - `PUBLIC_SITE_URL`
 - `PUBLIC_AUDIO_BASE_URL`
 
+For local development, the placeholder bucket names are syntactically valid so `wrangler dev` can start without editing them first.
+
 `CORPUS_SOURCE=assets` serves shards from Workers Static Assets.
 
 For a larger corpus, switch to `CORPUS_SOURCE=r2` and upload `dist/public/data/shards/**/*` into the R2 corpus bucket using the same relative paths.
+
+If you want the Worker to serve audio directly from R2 at `/audio/...`, upload `dist/public/audio/**/*` into the configured audio bucket with the same relative paths. The Worker falls back to `AUDIO_BUCKET` when a local static audio asset is not present.
+
+Typical deploy sequence:
+
+```bash
+npm run build
+npm run r2:sync:corpus -- --remote
+npm run r2:sync:audio -- --remote
+npm run deploy
+```
 
 ## Generated output
 

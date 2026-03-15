@@ -10,6 +10,7 @@ interface AssetBinding {
 
 interface R2ObjectLike {
   text(): Promise<string>;
+  arrayBuffer(): Promise<ArrayBuffer>;
 }
 
 interface R2BucketLike {
@@ -18,6 +19,7 @@ interface R2BucketLike {
 
 export interface Env extends SiteEnvLike {
   ASSETS: AssetBinding;
+  AUDIO_BUCKET?: R2BucketLike;
   CORPUS_BUCKET?: R2BucketLike;
   CORPUS_SOURCE?: "assets" | "r2";
 }
@@ -42,6 +44,26 @@ function jsonResponse(data: unknown, status = 200): Response {
   });
 }
 
+function contentTypeFromPath(pathname: string): string {
+  if (pathname.endsWith(".wav")) {
+    return "audio/wav";
+  }
+
+  if (pathname.endsWith(".mp3")) {
+    return "audio/mpeg";
+  }
+
+  if (pathname.endsWith(".ogg")) {
+    return "audio/ogg";
+  }
+
+  if (pathname.endsWith(".json")) {
+    return "application/json; charset=utf-8";
+  }
+
+  return "application/octet-stream";
+}
+
 async function maybeServeStaticAsset(request: Request, env: Env): Promise<Response | null> {
   if (request.method !== "GET" && request.method !== "HEAD") {
     return null;
@@ -49,6 +71,25 @@ async function maybeServeStaticAsset(request: Request, env: Env): Promise<Respon
 
   const response = await env.ASSETS.fetch(request);
   return response.status === 404 ? null : response;
+}
+
+async function maybeServeAudioFromR2(url: URL, env: Env): Promise<Response | null> {
+  if (!env.AUDIO_BUCKET || !url.pathname.startsWith("/audio/")) {
+    return null;
+  }
+
+  const key = url.pathname.replace(/^\/+/, "");
+  const object = await env.AUDIO_BUCKET.get(key);
+  if (!object) {
+    return null;
+  }
+
+  return new Response(await object.arrayBuffer(), {
+    headers: {
+      "content-type": contentTypeFromPath(url.pathname),
+      "cache-control": "public, max-age=31536000, immutable"
+    }
+  });
 }
 
 async function loadShard(pathname: string, env: Env, requestUrl: string): Promise<Entry | null> {
@@ -86,6 +127,11 @@ export default {
 
     const url = new URL(request.url);
     const config = buildSiteConfig(env);
+
+    const audioResponse = await maybeServeAudioFromR2(url, env);
+    if (audioResponse) {
+      return audioResponse;
+    }
 
     if (url.pathname.startsWith("/w/")) {
       const slug = decodeURIComponent(url.pathname.slice(3).replace(/\/$/, ""));
