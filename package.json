@@ -1,0 +1,39 @@
+{
+  "name": "pronunciation-guide",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An ultra-fast pronunciation directory for difficult words, loanwords, names, and uncommon terms.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "build:clean": "tsx scripts/clean.ts",
+    "build:import": "tsx scripts/import-sources.ts",
+    "build:normalize": "tsx scripts/normalize.ts",
+    "build:merge": "tsx scripts/merge-corpus.ts",
+    "build:links": "tsx scripts/compute-related.ts",
+    "build:score": "tsx scripts/score-corpus.ts",
+    "build:shards": "tsx scripts/shard-corpus.ts",
+    "build:prerender": "tsx scripts/prerender.ts",
+    "build:sitemaps": "tsx scripts/generate-sitemaps.ts",
+    "build:attribution": "tsx scripts/generate-attribution.ts",
+    "check": "tsc --noEmit",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^15.0.12",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.34.0"
+  }
+}
