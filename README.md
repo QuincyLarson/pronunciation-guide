@@ -111,6 +111,7 @@ Useful pages to inspect locally:
 - `npm run build:merge` merges normalized entries and applies markdown overrides
 - `npm run build:links` computes related/internal links
 - `npm run build:score` computes quality scores and index eligibility
+- `npm run build:graduate` re-runs candidate graduation using `content/indexing-rules.json`
 - `npm run build:audio` materializes spoken preview audio for placeholder fixture variants when local speech synthesis is available
 - `npm run build:shards` emits JSON shard files
 - `npm run build:learn-ipa` generates the Learn IPA curriculum and lookup artifacts
@@ -133,12 +134,13 @@ The build is intentionally stage-based so contributors can inspect artifacts bet
 3. Merge fields by precedence
 4. Apply markdown overrides from `content/overrides/`
 5. Compute related links
-6. Compute quality score and `indexStatus`
-7. Shard the corpus by page language and slug prefix
-8. Generate the Learn IPA curriculum, lookup map, and static course pages
-9. Prerender the home page, hub pages, and top pages
-10. Generate XML sitemaps from eligible pages only
-11. Generate attribution HTML plus `/attribution/manifest.json`
+6. Compute quality score, candidate/indexable graduation, and `indexStatus`
+7. Materialize build-time audio jobs and manifests
+8. Shard the corpus by page language and slug prefix
+9. Generate the Learn IPA curriculum, lookup map, and static course pages
+10. Prerender the home page, hub pages, and top pages
+11. Generate tiered XML sitemaps from eligible pages only
+12. Generate attribution HTML plus `/attribution/manifest.json` and `/attribution/license-manifest.json`
 
 The batch generator writes additional fixture files into `data/fixtures/sources/generated/`. The importer automatically loads every `wiktionary*.json` batch from `data/fixtures/sources/`, so contributors can scale the fixture corpus without changing runtime code.
 
@@ -217,6 +219,7 @@ Overrides can replace or refine:
 - `/learn-ipa/about/` course scope and philosophy
 - `/attribution/` human-readable attribution page
 - `/attribution/manifest.json` machine-readable attribution manifest
+- `/attribution/license-manifest.json` machine-readable license manifest
 - `/api/lookup/:slug` tiny JSON lookup endpoint
 - `/sitemap.xml` sitemap index
 
@@ -234,6 +237,13 @@ Pages are only sitemap-eligible when they have:
 
 Non-eligible pages are still routable, but they render `noindex,follow`.
 
+Candidate-to-indexable graduation is controlled by:
+
+- hard usefulness gates inside the scoring logic
+- `content/indexing-rules.json` for editorial promotions/suppressions
+- optional Search Console-style promotion fixtures in that same rules file
+- `data/generated/index-graduation-manifest.json` for the build output report
+
 ## Audio
 
 Word pages use a normal HTML `<audio>` element with tiny custom buttons for:
@@ -242,6 +252,12 @@ Word pages use a normal HTML `<audio>` element with tiny custom buttons for:
 - replay at `0.5x`
 
 The sample project still includes tiny fallback WAV placeholders under `public/audio/fixtures/`, but the build now materializes per-word spoken preview audio into `dist/public/audio/generated/` when local speech synthesis is available. On macOS, it uses `say` plus `afconvert` during `npm run build`.
+
+The audio stage now writes:
+
+- `data/generated/audio-manifest.json` with passthrough, generated, skipped, and failed jobs
+- cache-stable generated paths under `dist/public/audio/generated/:slug/:variant-:engine-:hash.wav`
+- retained engine-specific inputs on `audio.engineInputs` so the default engine can be replaced later
 
 If local speech synthesis is not available, the project falls back to the fixture placeholders.
 
@@ -299,6 +315,9 @@ After `npm run build`, the important outputs are:
 - `dist/public/sitemap.xml` sitemap index
 - `dist/public/attribution/index.html`
 - `dist/public/attribution/manifest.json`
+- `dist/public/attribution/license-manifest.json`
+- `data/generated/index-graduation-manifest.json`
+- `data/generated/audio-manifest.json`
 
 ## Testing
 
@@ -320,6 +339,8 @@ The test suite covers:
 Application code is licensed under the repository license.
 
 Imported content and audio metadata are tracked separately through per-entry provenance and a generated attribution manifest. That separation matters for mixed-source datasets and future share-alike obligations.
+
+Per-field provenance is retained on entries and pronunciation variants, and the generated license manifest aggregates source licenses, field coverage, and audio-license status counts for each build.
 
 ## Notes for contributors
 

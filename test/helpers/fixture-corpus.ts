@@ -1,4 +1,5 @@
-import { scoreEntries } from "../../src/lib/index-status";
+import { loadGraduationRules } from "../../src/lib/build/graduation";
+import { createIndexStatusRules, scoreEntries } from "../../src/lib/index-status";
 import { applyOverride, mergeNormalizedEntries } from "../../src/lib/merge";
 import { computeRelatedLinks } from "../../src/lib/related";
 import { slugify } from "../../src/lib/slug";
@@ -27,6 +28,7 @@ export async function buildFixtureCorpus(): Promise<Entry[]> {
     bySlug.set(slug, applyOverride(existing, override.frontmatter, override.bodyHtml, override.path));
   }
 
-  cachedCorpus = scoreEntries(computeRelatedLinks([...bySlug.values()]));
+  const graduationRules = await loadGraduationRules();
+  cachedCorpus = scoreEntries(computeRelatedLinks([...bySlug.values()]), createIndexStatusRules(graduationRules));
   return cachedCorpus;
 }

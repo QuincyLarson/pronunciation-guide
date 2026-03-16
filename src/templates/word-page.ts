@@ -147,6 +147,7 @@ export function renderWordPage(entry: Entry, config: SiteConfig, learnLinks: Lea
   const contributionUrl = `${config.repoUrl}/issues/new?title=${encodeURIComponent(
     `Pronunciation correction: ${entry.display}`
   )}`;
+  const candidateReasons = entry.indexStatus.reasons.slice(0, 2).join("; ");
   const main = `<article class="word-page">
     <section class="hero">
       <p class="eyebrow">Pronunciation directory</p>
@@ -158,7 +159,7 @@ export function renderWordPage(entry: Entry, config: SiteConfig, learnLinks: Lea
       </div>
       ${
         entry.indexStatus.mode === "noindex"
-          ? `<p class="status-note">This page stays available but is marked noindex while it needs more editorial support.</p>`
+          ? `<p class="status-note">This page stays available but is marked noindex while it needs more editorial support.${candidateReasons ? ` Current blockers: ${escapeHtml(candidateReasons)}.` : ""}</p>`
           : ""
       }
     </section>

@@ -7,6 +7,8 @@ describe("index eligibility", () => {
 
     expect(qatar?.indexStatus.mode).toBe("index");
     expect(qatar?.indexStatus.sitemapEligible).toBe(true);
+    expect(qatar?.indexStatus.stage).toBe("indexable");
+    expect(qatar?.indexStatus.tier).toBe("core");
   });
 
   test("keeps low-confidence entries out of sitemaps", async () => {
@@ -14,6 +16,7 @@ describe("index eligibility", () => {
     const omeprazole = corpus.find((entry) => entry.slug === "omeprazole");
 
     expect(omeprazole?.indexStatus.mode).toBe("noindex");
+    expect(omeprazole?.indexStatus.stage).toBe("candidate");
     expect(omeprazole?.indexStatus.reasons.join(" ")).toContain("low-confidence audio");
   });
 });

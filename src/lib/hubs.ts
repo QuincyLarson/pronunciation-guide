@@ -1,8 +1,19 @@
+import { ORIGIN_ORDER, TOPIC_ORDER } from "./constants";
+import type { Entry } from "../types/content";
+
 export interface HubDefinition {
   slug: string;
   title: string;
   description: string;
   intro: string;
+}
+
+export interface HubPageState extends HubDefinition {
+  kind: "origin" | "topic";
+  path: string;
+  totalEntries: number;
+  indexableEntries: number;
+  indexable: boolean;
 }
 
 function labelFromSlug(slug: string): string {
@@ -115,6 +126,107 @@ export const topicHubDefinitions: Record<string, HubDefinition> = {
       "Loanwords are where this project starts: useful pages with context, variants, and provenance instead of raw IPA alone."
   }
 };
+
+function fallbackOriginDefinition(slug: string): HubDefinition {
+  const label = labelFromSlug(slug);
+  return {
+    slug,
+    title: `${label}-Origin Words`,
+    description: `Pronunciation pages grouped under ${label} as an origin language.`,
+    intro: `This hub groups pronunciation pages whose source language metadata points to ${label}.`
+  };
+}
+
+function fallbackTopicDefinition(slug: string): HubDefinition {
+  const label = labelFromSlug(slug);
+  return {
+    slug,
+    title: `${label} Terms`,
+    description: `Pronunciation pages grouped into the ${label} editorial topic.`,
+    intro: `This hub collects pronunciation pages associated with the ${label} topic cluster.`
+  };
+}
+
+export function getOriginHubDefinition(slug: string): HubDefinition {
+  return originHubDefinitions[slug] ?? fallbackOriginDefinition(slug);
+}
+
+export function getTopicHubDefinition(slug: string): HubDefinition {
+  return topicHubDefinitions[slug] ?? fallbackTopicDefinition(slug);
+}
+
+function sortSlugs(slugs: Iterable<string>, preferred: string[]): string[] {
+  const order = new Map(preferred.map((slug, index) => [slug, index]));
+  return [...new Set([...slugs])]
+    .filter(Boolean)
+    .sort(
+      (left, right) =>
+        (order.get(left) ?? Number.POSITIVE_INFINITY) -
+          (order.get(right) ?? Number.POSITIVE_INFINITY) || left.localeCompare(right)
+    );
+}
+
+export function buildOriginHubStates(
+  entries: Entry[],
+  minIndexableEntries: number
+): HubPageState[] {
+  const counts = new Map<string, { total: number; indexable: number }>();
+
+  for (const entry of entries) {
+    const slug = entry.origin.sourceLanguage;
+    if (!slug) {
+      continue;
+    }
+
+    const current = counts.get(slug) ?? { total: 0, indexable: 0 };
+    current.total += 1;
+    if (entry.indexStatus.sitemapEligible) {
+      current.indexable += 1;
+    }
+    counts.set(slug, current);
+  }
+
+  return sortSlugs(counts.keys(), ORIGIN_ORDER).map((slug) => {
+    const definition = getOriginHubDefinition(slug);
+    const count = counts.get(slug) ?? { total: 0, indexable: 0 };
+    return {
+      ...definition,
+      kind: "origin",
+      path: `/origins/${slug}/`,
+      totalEntries: count.total,
+      indexableEntries: count.indexable,
+      indexable: count.indexable >= minIndexableEntries
+    };
+  });
+}
+
+export function buildTopicHubStates(entries: Entry[], minIndexableEntries: number): HubPageState[] {
+  const counts = new Map<string, { total: number; indexable: number }>();
+
+  for (const entry of entries) {
+    for (const slug of entry.topics) {
+      const current = counts.get(slug) ?? { total: 0, indexable: 0 };
+      current.total += 1;
+      if (entry.indexStatus.sitemapEligible) {
+        current.indexable += 1;
+      }
+      counts.set(slug, current);
+    }
+  }
+
+  return sortSlugs(counts.keys(), TOPIC_ORDER).map((slug) => {
+    const definition = getTopicHubDefinition(slug);
+    const count = counts.get(slug) ?? { total: 0, indexable: 0 };
+    return {
+      ...definition,
+      kind: "topic",
+      path: `/topics/${slug}/`,
+      totalEntries: count.total,
+      indexableEntries: count.indexable,
+      indexable: count.indexable >= minIndexableEntries
+    };
+  });
+}
 
 export function hubLabel(slug: string): string {
   return labelFromSlug(slug);

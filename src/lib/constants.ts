@@ -15,3 +15,7 @@ export const SHARD_ROOT = "data/shards";
 export const TOPIC_ORDER = ["news-names", "academic", "brands", "medicine", "places", "loanwords"];
 export const ORIGIN_ORDER = ["german", "chinese", "spanish", "greek", "vietnamese", "arabic"];
 export const AUDIO_CONFIDENCE_FLOOR = 0.45;
+export const MIN_USEFULNESS_SCORE_FOR_INDEXING = 58;
+export const MIN_USEFULNESS_SCORE_FOR_CORE = 82;
+export const MIN_INDEXABLE_ENTRIES_PER_HUB = 4;
+export const SITEMAP_CHUNK_SIZE = 250;

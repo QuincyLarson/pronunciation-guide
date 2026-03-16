@@ -163,7 +163,11 @@ export function mergeNormalizedEntries(entries: NormalizedSourceEntry[]): Entry[
         indexStatus: {
           mode: "noindex",
           sitemapEligible: false,
-          reasons: ["pending quality evaluation"]
+          stage: "candidate",
+          tier: "candidate",
+          usefulnessScore: 0,
+          reasons: ["pending quality evaluation"],
+          signals: []
         },
         searchRank: 0,
         badges: [],
@@ -451,7 +455,11 @@ export function applyOverride(
     next.indexStatus = {
       mode: override.index_status_override,
       sitemapEligible: override.index_status_override === "index",
-      reasons: [`override forced ${override.index_status_override}`]
+      stage: override.index_status_override === "index" ? "indexable" : "candidate",
+      tier: override.index_status_override === "index" ? "expanded" : "candidate",
+      usefulnessScore: next.qualityScore,
+      reasons: [`override forced ${override.index_status_override}`],
+      signals: ["manual-index-override"]
     };
   }
 

@@ -1,0 +1,44 @@
+{
+  "metadataThresholds": {
+    "minUsefulnessScoreForIndexing": 58,
+    "minUsefulnessScoreForCore": 82,
+    "minIndexableEntriesPerHub": 4
+  },
+  "manual": {
+    "promote": [
+      {
+        "slug": "qatar",
+        "tier": "core",
+        "reason": "High-value newsroom geography page with multiple sourced variants",
+        "source": "manual"
+      },
+      {
+        "slug": "nguyen",
+        "tier": "core",
+        "reason": "High-demand surname page with strong editorial value",
+        "source": "manual"
+      }
+    ],
+    "suppress": [
+      {
+        "slug": "omeprazole",
+        "reason": "Audio still needs review before indexing",
+        "source": "manual"
+      }
+    ]
+  },
+  "searchConsole": {
+    "promote": [
+      {
+        "slug": "jalapeno",
+        "impressions": 640,
+        "clicks": 58,
+        "ctr": 0.09,
+        "position": 7.4,
+        "tier": "expanded",
+        "reason": "Fixture demand signal to validate future Search Console promotion rules"
+      }
+    ],
+    "suppress": []
+  }
+}

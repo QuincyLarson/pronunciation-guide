@@ -1,16 +1,22 @@
 import path from "node:path";
 import ts from "typescript";
 
-import { PRE_RENDER_LIMIT } from "../constants";
+import { PRE_RENDER_LIMIT, SITEMAP_CHUNK_SIZE } from "../constants";
 import { materializePreviewAudio } from "./audio";
+import { loadGraduationRules, writeGraduationManifest } from "./graduation";
 import {
   LEARN_IPA_CURRICULUM_PATH,
   LEARN_IPA_LOOKUP_PATH,
   buildLearnIpaCurriculum,
   writeLearnIpaCurriculum
 } from "./learn-ipa";
-import { originHubDefinitions, topicHubDefinitions } from "../hubs";
-import { computeIndexStatus, scoreEntries } from "../index-status";
+import {
+  buildOriginHubStates,
+  buildTopicHubStates,
+  originHubDefinitions,
+  topicHubDefinitions
+} from "../hubs";
+import { createIndexStatusRules, scoreEntries } from "../index-status";
 import { buildLearnIpaLookup, getLearnIpaLinks } from "../learn-ipa/lookup";
 import { applyOverride, mergeNormalizedEntries } from "../merge";
 import { computeRelatedLinks } from "../related";
@@ -43,6 +49,7 @@ import {
   GENERATED_SHARDS_DIR,
   IMPORTED_SOURCES_PATH,
   LINKED_CORPUS_PATH,
+  LICENSE_MANIFEST_PATH,
   MERGED_CORPUS_PATH,
   NORMALIZED_SOURCES_PATH,
   PROJECT_ROOT,
@@ -156,27 +163,31 @@ export async function runMergeStage(normalized?: Awaited<ReturnType<typeof runNo
 
 export async function runRelatedStage(corpus?: Entry[]) {
   const entries = corpus ?? parseCorpus(await readJsonFile(MERGED_CORPUS_PATH));
-  const related = computeRelatedLinks(entries).map((entry) => ({
-    ...entry,
-    indexStatus: computeIndexStatus(entry)
-  }));
+  const related = computeRelatedLinks(entries);
   await writeJsonFile(LINKED_CORPUS_PATH, related);
   return related;
 }
 
 export async function runScoreStage(corpus?: Entry[]) {
   const entries = corpus ?? parseCorpus(await readJsonFile(LINKED_CORPUS_PATH));
-  const scored = scoreEntries(entries);
+  const graduationRules = await loadGraduationRules();
+  const scored = scoreEntries(entries, createIndexStatusRules(graduationRules));
+  const graduationManifest = await writeGraduationManifest(scored, graduationRules);
   await writeJsonFile(SCORED_CORPUS_PATH, scored);
   await writeJsonFile(SITE_MANIFEST_PATH, {
     generatedAt: new Date().toISOString(),
     totalEntries: scored.length,
+    indexableEntries: graduationManifest.counts.indexable,
+    candidateEntries: graduationManifest.counts.candidate,
+    coreEntries: graduationManifest.counts.core,
+    expandedEntries: graduationManifest.counts.expanded,
     topPages: sortEntries(scored)
       .slice(0, PRE_RENDER_LIMIT)
       .map((entry) => ({
         slug: entry.slug,
         display: entry.display,
-        indexable: entry.indexStatus.sitemapEligible
+        indexable: entry.indexStatus.sitemapEligible,
+        tier: entry.indexStatus.tier
       }))
   });
   return scored;
@@ -234,33 +245,21 @@ export async function runLearnIpaStage(corpus?: Entry[]) {
   });
 }
 
-function countOrigins(entries: Entry[]): Array<{ slug: string; count: number }> {
-  const counts = new Map<string, number>();
-
-  for (const entry of entries) {
-    if (!entry.origin.sourceLanguage) {
-      continue;
-    }
-
-    counts.set(entry.origin.sourceLanguage, (counts.get(entry.origin.sourceLanguage) ?? 0) + 1);
-  }
-
-  return [...counts.entries()]
-    .map(([slug, count]) => ({ slug: originHubDefinitions[slug] ? slug : slug, count }))
-    .sort((left, right) => right.count - left.count || left.slug.localeCompare(right.slug));
+function countOrigins(
+  entries: Entry[],
+  minIndexableEntries: number
+): Array<{ slug: string; count: number }> {
+  return buildOriginHubStates(entries, minIndexableEntries).map((state) => ({
+    slug: state.slug,
+    count: state.indexableEntries
+  }));
 }
 
-function countTopics(entries: Entry[]): Array<{ slug: string; count: number }> {
-  const counts = new Map<string, number>();
-  for (const entry of entries) {
-    for (const topic of entry.topics) {
-      counts.set(topic, (counts.get(topic) ?? 0) + 1);
-    }
-  }
-
-  return [...counts.entries()]
-    .map(([slug, count]) => ({ slug, count }))
-    .sort((left, right) => right.count - left.count || left.slug.localeCompare(right.slug));
+function countTopics(entries: Entry[], minIndexableEntries: number): Array<{ slug: string; count: number }> {
+  return buildTopicHubStates(entries, minIndexableEntries).map((state) => ({
+    slug: state.slug,
+    count: state.indexableEntries
+  }));
 }
 
 async function buildClientScript(): Promise<void> {
@@ -302,14 +301,23 @@ export async function runPrerenderStage(corpus?: Entry[]) {
     .catch(async () => buildLearnIpaCurriculum(entries));
   const learnLookup = buildLearnIpaLookup(learnCurriculum);
   const config = buildSiteConfig(process.env);
+  const graduationRules = await loadGraduationRules();
+  const originHubStates = buildOriginHubStates(
+    entries,
+    graduationRules.metadataThresholds.minIndexableEntriesPerHub
+  );
+  const topicHubStates = buildTopicHubStates(
+    entries,
+    graduationRules.metadataThresholds.minIndexableEntriesPerHub
+  );
 
   await ensureDir(DIST_PUBLIC_DIR);
   await copyPublicAssets(PUBLIC_DIR, DIST_PUBLIC_DIR);
   await buildClientScript();
 
-  const featured = sortEntries(entries).slice(0, 9);
-  const origins = countOrigins(entries);
-  const topics = countTopics(entries);
+  const featured = sortEntries(entries.filter((entry) => entry.indexStatus.sitemapEligible)).slice(0, 9);
+  const origins = countOrigins(entries, graduationRules.metadataThresholds.minIndexableEntriesPerHub);
+  const topics = countTopics(entries, graduationRules.metadataThresholds.minIndexableEntriesPerHub);
 
   await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, origins, topics, entries.length, config));
   await writeRouteHtml(DIST_PUBLIC_DIR, "/browse/", renderBrowsePage(sortEntries(entries), config));
@@ -337,8 +345,12 @@ export async function runPrerenderStage(corpus?: Entry[]) {
       originHubDefinitions.root.description,
       originHubDefinitions.root.intro,
       "/origins/",
-      pickHubEntries(entries.filter((entry) => !!entry.origin.sourceLanguage)),
-      config
+      pickHubEntries(entries.filter((entry) => !!entry.origin.sourceLanguage && entry.indexStatus.sitemapEligible)),
+      config,
+      {
+        totalEntries: originHubStates.reduce((sum, state) => sum + state.totalEntries, 0),
+        indexableEntries: originHubStates.reduce((sum, state) => sum + state.indexableEntries, 0)
+      }
     )
   );
   await writeRouteHtml(
@@ -349,55 +361,53 @@ export async function runPrerenderStage(corpus?: Entry[]) {
       topicHubDefinitions.root.description,
       topicHubDefinitions.root.intro,
       "/topics/",
-      pickHubEntries(entries.filter((entry) => entry.topics.length > 0)),
-      config
+      pickHubEntries(entries.filter((entry) => entry.topics.length > 0 && entry.indexStatus.sitemapEligible)),
+      config,
+      {
+        totalEntries: topicHubStates.reduce((sum, state) => sum + state.totalEntries, 0),
+        indexableEntries: topicHubStates.reduce((sum, state) => sum + state.indexableEntries, 0)
+      }
     )
   );
 
-  for (const [slug, definition] of Object.entries(originHubDefinitions)) {
-    if (slug === "root") {
-      continue;
-    }
-
-    const hubEntries = entries.filter((entry) => entry.origin.sourceLanguage === slug);
-    if (hubEntries.length === 0) {
-      continue;
-    }
-
+  for (const hub of originHubStates) {
+    const hubEntries = entries.filter((entry) => entry.origin.sourceLanguage === hub.slug);
     await writeRouteHtml(
       DIST_PUBLIC_DIR,
-      `/origins/${slug}/`,
+      hub.path,
       renderHubPage(
-        definition.title,
-        definition.description,
-        definition.intro,
-        `/origins/${slug}/`,
-        pickHubEntries(hubEntries),
-        config
+        hub.title,
+        hub.description,
+        hub.intro,
+        hub.path,
+        pickHubEntries(hubEntries.filter((entry) => entry.indexStatus.sitemapEligible || !hub.indexable)),
+        config,
+        {
+          robots: hub.indexable ? "index,follow" : "noindex,follow",
+          totalEntries: hub.totalEntries,
+          indexableEntries: hub.indexableEntries
+        }
       )
     );
   }
 
-  for (const [slug, definition] of Object.entries(topicHubDefinitions)) {
-    if (slug === "root") {
-      continue;
-    }
-
-    const hubEntries = entries.filter((entry) => entry.topics.includes(slug));
-    if (hubEntries.length === 0) {
-      continue;
-    }
-
+  for (const hub of topicHubStates) {
+    const hubEntries = entries.filter((entry) => entry.topics.includes(hub.slug));
     await writeRouteHtml(
       DIST_PUBLIC_DIR,
-      `/topics/${slug}/`,
+      hub.path,
       renderHubPage(
-        definition.title,
-        definition.description,
-        definition.intro,
-        `/topics/${slug}/`,
-        pickHubEntries(hubEntries),
-        config
+        hub.title,
+        hub.description,
+        hub.intro,
+        hub.path,
+        pickHubEntries(hubEntries.filter((entry) => entry.indexStatus.sitemapEligible || !hub.indexable)),
+        config,
+        {
+          robots: hub.indexable ? "index,follow" : "noindex,follow",
+          totalEntries: hub.totalEntries,
+          indexableEntries: hub.indexableEntries
+        }
       )
     );
   }
@@ -432,6 +442,14 @@ function renderSitemapIndex(urls: string[]): string {
     .join("\n")}\n</sitemapindex>\n`;
 }
 
+function chunkUrls(urls: string[], size: number): string[][] {
+  const chunks: string[][] = [];
+  for (let index = 0; index < urls.length; index += size) {
+    chunks.push(urls.slice(index, index + size));
+  }
+  return chunks;
+}
+
 function buildLearnIpaSitemapUrls(
   learnCurriculum: Awaited<ReturnType<typeof buildLearnIpaCurriculum>>,
   siteUrl: string
@@ -449,46 +467,55 @@ export async function buildSitemapArtifacts(
   siteUrl: string
 ): Promise<Map<string, string>> {
   const eligible = entries.filter((entry) => entry.indexStatus.sitemapEligible);
+  const graduationRules = await loadGraduationRules();
+  const originHubStates = buildOriginHubStates(
+    entries,
+    graduationRules.metadataThresholds.minIndexableEntriesPerHub
+  );
+  const topicHubStates = buildTopicHubStates(
+    entries,
+    graduationRules.metadataThresholds.minIndexableEntriesPerHub
+  );
   const learnCurriculum = await readJsonFile(LEARN_IPA_CURRICULUM_PATH)
     .then((value) => learnCurriculumSchema.parse(value))
     .catch(async () => buildLearnIpaCurriculum(entries));
   const sitemapUrls: string[] = [];
   const files = new Map<string, string>();
 
-  const coreUrls = sortEntries(eligible)
-    .slice(0, PRE_RENDER_LIMIT)
-    .map((entry) => `${siteUrl}/w/${entry.slug}`);
-  files.set("sitemaps/core.xml", renderSitemap(coreUrls));
+  const coreUrls = [
+    `${siteUrl}/`,
+    `${siteUrl}/browse/`,
+    `${siteUrl}/origins/`,
+    `${siteUrl}/topics/`,
+    `${siteUrl}/attribution/`,
+    ...sortEntries(eligible.filter((entry) => entry.indexStatus.tier === "core"))
+      .slice(0, PRE_RENDER_LIMIT * 2)
+      .map((entry) => `${siteUrl}/w/${entry.slug}`)
+  ];
+  files.set("sitemaps/core.xml", renderSitemap([...new Set(coreUrls)]));
   sitemapUrls.push(`${siteUrl}/sitemaps/core.xml`);
 
-  for (const origin of Object.keys(originHubDefinitions).filter((slug) => slug !== "root")) {
-    const urls = eligible
-      .filter((entry) => entry.origin.sourceLanguage === origin)
-      .map((entry) => `${siteUrl}/w/${entry.slug}`);
-    if (urls.length === 0) {
-      continue;
-    }
-    files.set(`sitemaps/origins-${origin}.xml`, renderSitemap(urls));
-    sitemapUrls.push(`${siteUrl}/sitemaps/origins-${origin}.xml`);
-  }
+  const originHubUrls = [
+    `${siteUrl}/origins/`,
+    ...originHubStates.filter((hub) => hub.indexable).map((hub) => `${siteUrl}${hub.path}`)
+  ];
+  files.set("sitemaps/hubs-origins.xml", renderSitemap(originHubUrls));
+  sitemapUrls.push(`${siteUrl}/sitemaps/hubs-origins.xml`);
 
-  for (const topic of Object.keys(topicHubDefinitions).filter((slug) => slug !== "root")) {
-    const urls = eligible
-      .filter((entry) => entry.topics.includes(topic))
-      .map((entry) => `${siteUrl}/w/${entry.slug}`);
-    if (urls.length === 0) {
-      continue;
-    }
-    files.set(`sitemaps/topics-${topic}.xml`, renderSitemap(urls));
-    sitemapUrls.push(`${siteUrl}/sitemaps/topics-${topic}.xml`);
-  }
+  const topicHubUrls = [
+    `${siteUrl}/topics/`,
+    ...topicHubStates.filter((hub) => hub.indexable).map((hub) => `${siteUrl}${hub.path}`)
+  ];
+  files.set("sitemaps/hubs-topics.xml", renderSitemap(topicHubUrls));
+  sitemapUrls.push(`${siteUrl}/sitemaps/hubs-topics.xml`);
 
   const expandedUrls = sortEntries(eligible)
-    .slice(PRE_RENDER_LIMIT)
+    .filter((entry) => entry.indexStatus.tier !== "core")
     .map((entry) => `${siteUrl}/w/${entry.slug}`);
-  if (expandedUrls.length > 0) {
-    files.set("sitemaps/expanded-1.xml", renderSitemap(expandedUrls));
-    sitemapUrls.push(`${siteUrl}/sitemaps/expanded-1.xml`);
+  for (const [index, urls] of chunkUrls(expandedUrls, SITEMAP_CHUNK_SIZE).entries()) {
+    const relativePath = `sitemaps/words-expanded-${index + 1}.xml`;
+    files.set(relativePath, renderSitemap(urls));
+    sitemapUrls.push(`${siteUrl}/${relativePath}`);
   }
 
   const learnUrls = buildLearnIpaSitemapUrls(learnCurriculum, siteUrl);
@@ -513,7 +540,7 @@ export async function runSitemapStage(corpus?: Entry[]) {
   }
 }
 
-function buildAttributionGroups(entries: Entry[]): AttributionGroup[] {
+export function buildAttributionGroups(entries: Entry[]): AttributionGroup[] {
   const groups = new Map<string, AttributionGroup>();
 
   for (const entry of entries) {
@@ -527,18 +554,112 @@ function buildAttributionGroups(entries: Entry[]): AttributionGroup[] {
           sourceLicense: provenance.sourceLicense,
           attributionText: provenance.attributionText,
           entryCount: 1,
-          entrySlugs: [entry.slug]
+          entrySlugs: [entry.slug],
+          fields: [...new Set(provenance.fields)].sort(),
+          audioVariantCount: entry.variants.filter((variant) =>
+            variant.provenanceIds.includes(provenance.id)
+          ).length
         });
       } else {
-        current.entryCount += 1;
         if (!current.entrySlugs.includes(entry.slug)) {
+          current.entryCount += 1;
           current.entrySlugs.push(entry.slug);
         }
+        current.fields = [...new Set([...current.fields, ...provenance.fields])].sort();
+        current.audioVariantCount += entry.variants.filter((variant) =>
+          variant.provenanceIds.includes(provenance.id)
+        ).length;
       }
     }
   }
 
   return [...groups.values()].sort((left, right) => right.entryCount - left.entryCount);
+}
+
+export function buildLicenseManifest(entries: Entry[], groups: AttributionGroup[]) {
+  const byLicense = new Map<
+    string,
+    {
+      license: string;
+      sourceNames: string[];
+      entrySlugs: string[];
+      fields: string[];
+      audioVariantCount: number;
+    }
+  >();
+  const audioLicenses = new Map<
+    string,
+    {
+      license: string;
+      variantCount: number;
+      entrySlugs: string[];
+      engineIds: string[];
+      statusCounts: Record<"clear" | "review-needed" | "blocked", number>;
+    }
+  >();
+
+  for (const group of groups) {
+    const current = byLicense.get(group.sourceLicense);
+    if (!current) {
+      byLicense.set(group.sourceLicense, {
+        license: group.sourceLicense,
+        sourceNames: [group.sourceName],
+        entrySlugs: [...group.entrySlugs],
+        fields: [...group.fields],
+        audioVariantCount: group.audioVariantCount
+      });
+      continue;
+    }
+
+    current.sourceNames = [...new Set([...current.sourceNames, group.sourceName])].sort();
+    current.entrySlugs = [...new Set([...current.entrySlugs, ...group.entrySlugs])].sort();
+    current.fields = [...new Set([...current.fields, ...group.fields])].sort();
+    current.audioVariantCount += group.audioVariantCount;
+  }
+
+  for (const entry of entries) {
+    for (const variant of entry.variants) {
+      const license = variant.audio.license ?? "unspecified";
+      const current = audioLicenses.get(license);
+      if (!current) {
+        audioLicenses.set(license, {
+          license,
+          variantCount: 1,
+          entrySlugs: [entry.slug],
+          engineIds: variant.audio.engine ? [variant.audio.engine] : [],
+          statusCounts: {
+            clear: variant.audio.licenseStatus === "clear" ? 1 : 0,
+            "review-needed": variant.audio.licenseStatus === "review-needed" ? 1 : 0,
+            blocked: variant.audio.licenseStatus === "blocked" ? 1 : 0
+          }
+        });
+        continue;
+      }
+
+      current.variantCount += 1;
+      current.entrySlugs = [...new Set([...current.entrySlugs, entry.slug])].sort();
+      current.engineIds = [
+        ...new Set([...current.engineIds, ...(variant.audio.engine ? [variant.audio.engine] : [])])
+      ].sort();
+      current.statusCounts[variant.audio.licenseStatus] += 1;
+    }
+  }
+
+  return {
+    generatedAt: new Date().toISOString(),
+    sourceCount: groups.length,
+    licenseCount: byLicense.size,
+    licenses: [...byLicense.values()]
+      .map((license) => ({
+        ...license,
+        sourceCount: license.sourceNames.length,
+        entryCount: license.entrySlugs.length
+      }))
+      .sort((left, right) => right.entryCount - left.entryCount || left.license.localeCompare(right.license)),
+    audioLicenses: [...audioLicenses.values()].sort(
+      (left, right) => right.variantCount - left.variantCount || left.license.localeCompare(right.license)
+    )
+  };
 }
 
 export async function runAttributionStage(corpus?: Entry[]) {
@@ -549,6 +670,7 @@ export async function runAttributionStage(corpus?: Entry[]) {
     );
   const config = buildSiteConfig(process.env);
   const groups = buildAttributionGroups(entries);
+  const licenseManifest = buildLicenseManifest(entries, groups);
   const manifest = {
     generatedAt: new Date().toISOString(),
     sourceCount: groups.length,
@@ -557,14 +679,24 @@ export async function runAttributionStage(corpus?: Entry[]) {
   };
 
   await writeJsonFile(ATTRIBUTION_MANIFEST_PATH, manifest);
+  await writeJsonFile(LICENSE_MANIFEST_PATH, licenseManifest);
   await writeTextFile(
     path.join(DIST_PUBLIC_DIR, "attribution", "manifest.json"),
     `${JSON.stringify(manifest, null, 2)}\n`
   );
+  await writeTextFile(
+    path.join(DIST_PUBLIC_DIR, "attribution", "license-manifest.json"),
+    `${JSON.stringify(licenseManifest, null, 2)}\n`
+  );
   await writeRouteHtml(
     DIST_PUBLIC_DIR,
     "/attribution/",
-    renderAttributionPage(groups, "/attribution/manifest.json", config)
+    renderAttributionPage(
+      groups,
+      "/attribution/manifest.json",
+      "/attribution/license-manifest.json",
+      config
+    )
   );
 }
 

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { indexStageSchema, indexTierSchema } from "./graduation";
+
 export const reviewStatusSchema = z.enum([
   "auto-imported",
   "human-edited",
@@ -89,7 +91,11 @@ export const relatedLinkSchema = z.object({
 export const indexStatusSchema = z.object({
   mode: z.enum(["index", "noindex"]),
   sitemapEligible: z.boolean(),
-  reasons: z.array(z.string()).default([])
+  stage: indexStageSchema.default("candidate"),
+  tier: indexTierSchema.default("candidate"),
+  usefulnessScore: z.number().min(0).max(100).default(0),
+  reasons: z.array(z.string()).default([]),
+  signals: z.array(z.string()).default([])
 });
 
 export const entrySchema = z.object({

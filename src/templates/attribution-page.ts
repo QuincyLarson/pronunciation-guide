@@ -9,11 +9,14 @@ export interface AttributionGroup {
   attributionText: string;
   entryCount: number;
   entrySlugs: string[];
+  fields: string[];
+  audioVariantCount: number;
 }
 
 export function renderAttributionPage(
   groups: AttributionGroup[],
   manifestPath: string,
+  licenseManifestPath: string,
   config: SiteConfig
 ): string {
   const main = `<section class="hero">
@@ -23,6 +26,7 @@ export function renderAttributionPage(
   </section>
   <section class="panel">
     <p><a href="${escapeHtml(manifestPath)}">Download the machine-readable attribution manifest</a></p>
+    <p><a href="${escapeHtml(licenseManifestPath)}">Download the machine-readable license manifest</a></p>
     <ul class="attribution-list">
       ${groups
         .map(
@@ -32,6 +36,8 @@ export function renderAttributionPage(
               <p>${escapeHtml(group.sourceLicense)}</p>
               <p>${escapeHtml(group.attributionText)}</p>
               <p>${group.entryCount} entries</p>
+              <p>${group.audioVariantCount} linked audio variants</p>
+              <p>Fields: ${escapeHtml(group.fields.slice(0, 8).join(", "))}${group.fields.length > 8 ? " ..." : ""}</p>
               <p>${escapeHtml(group.entrySlugs.slice(0, 8).join(", "))}${group.entrySlugs.length > 8 ? " ..." : ""}</p>
             </li>`
         )
