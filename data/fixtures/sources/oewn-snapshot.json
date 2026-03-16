@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "lemma": "qigong",
+      "partOfSpeech": "noun",
+      "senses": [
+        {
+          "definition": "A Chinese system of coordinated breathing, posture, and movement."
+        }
+      ],
+      "related": ["tai chi"]
+    },
+    {
+      "lemma": "schadenfreude",
+      "partOfSpeech": "noun",
+      "senses": [
+        {
+          "definition": "Pleasure felt at another person's misfortune."
+        }
+      ],
+      "related": ["zeitgeist", "sprachbund"]
+    }
+  ]
+}

@@ -27,6 +27,7 @@ export const relatedReasonSchema = z.enum([
   "transliteration",
   "topic"
 ]);
+export const fieldProvenanceSchema = z.record(z.string(), z.array(z.string()).min(1));
 
 export const provenanceSchema = z.object({
   id: z.string(),
@@ -47,12 +48,16 @@ export const audioSchema = z.object({
   mimeType: z.string().default("audio/wav"),
   engine: z.string().nullable().default(null),
   engineInput: z.string().nullable().default(null),
+  engineInputs: z.record(z.string(), z.string()).default({}),
   sourceName: z.string().nullable().default(null),
   sourceUrl: z.string().nullable().default(null),
   license: z.string().nullable().default(null),
   licenseStatus: licenseStatusSchema.default("clear"),
   reviewStatus: reviewStatusSchema,
-  confidence: z.number().min(0).max(1)
+  confidence: z.number().min(0).max(1),
+  cachePath: z.string().nullable().default(null),
+  reviewFlags: z.array(z.string()).default([]),
+  qualityFlags: z.array(z.string()).default([])
 });
 
 export const pronunciationVariantSchema = z.object({
@@ -64,7 +69,8 @@ export const pronunciationVariantSchema = z.object({
   notes: z.array(z.string()).default([]),
   audio: audioSchema,
   provenanceIds: z.array(z.string()).default([]),
-  sortOrder: z.number().int().default(0)
+  sortOrder: z.number().int().default(0),
+  fieldProvenance: fieldProvenanceSchema.default({})
 });
 
 export const originSchema = z.object({
@@ -103,6 +109,7 @@ export const entrySchema = z.object({
   confusions: z.array(z.string()).default([]),
   confusionNotes: z.array(z.string()).default([]),
   provenance: z.array(provenanceSchema).default([]),
+  fieldProvenance: fieldProvenanceSchema.default({}),
   qualityScore: z.number().default(0),
   indexStatus: indexStatusSchema,
   searchRank: z.number().default(0),
@@ -133,6 +140,7 @@ export const normalizedSourceEntrySchema = z.object({
   confusions: z.array(z.string()).default([]),
   confusionNotes: z.array(z.string()).default([]),
   provenance: z.array(provenanceSchema).min(1),
+  fieldProvenance: fieldProvenanceSchema.default({}),
   searchRank: z.number().default(0),
   badges: z.array(contributionBadgeSchema).default([]),
   bodyHtml: z.string().default(""),
@@ -152,6 +160,7 @@ export const overrideVariantSchema = z.object({
   audio_src: z.string().optional(),
   engine: z.string().optional(),
   engine_input: z.string().optional(),
+  engine_inputs: z.record(z.string(), z.string()).optional(),
   source_name: z.string().optional(),
   source_url: z.string().url().optional(),
   license: z.string().optional(),
@@ -194,6 +203,7 @@ export type ReviewStatus = z.infer<typeof reviewStatusSchema>;
 export type AudioKind = z.infer<typeof audioKindSchema>;
 export type LicenseStatus = z.infer<typeof licenseStatusSchema>;
 export type ContributionBadge = z.infer<typeof contributionBadgeSchema>;
+export type FieldProvenanceMap = z.infer<typeof fieldProvenanceSchema>;
 export type Provenance = z.infer<typeof provenanceSchema>;
 export type AudioMetadata = z.infer<typeof audioSchema>;
 export type PronunciationVariant = z.infer<typeof pronunciationVariantSchema>;

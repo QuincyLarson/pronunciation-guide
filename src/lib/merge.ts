@@ -2,7 +2,9 @@ import { marked } from "marked";
 
 import { slugify } from "./slug";
 import type {
+  AudioMetadata,
   Entry,
+  FieldProvenanceMap,
   NormalizedSourceEntry,
   OverrideFrontmatter,
   OverrideVariant,
@@ -31,6 +33,48 @@ function uniqueProvenance(values: Provenance[]): Provenance[] {
   return result;
 }
 
+function mergeFieldProvenance(stronger: FieldProvenanceMap, weaker: FieldProvenanceMap): FieldProvenanceMap {
+  const keys = new Set([...Object.keys(weaker), ...Object.keys(stronger)]);
+  const merged: FieldProvenanceMap = {};
+
+  for (const key of keys) {
+    const values = [...(weaker[key] ?? []), ...(stronger[key] ?? [])];
+    if (values.length > 0) {
+      merged[key] = uniqueStrings(values);
+    }
+  }
+
+  return merged;
+}
+
+function buildFieldProvenance(provenanceId: string, fields: string[]): FieldProvenanceMap {
+  return Object.fromEntries(fields.map((field) => [field, [provenanceId]]));
+}
+
+function pickFieldProvenance(
+  field: string,
+  stronger: FieldProvenanceMap,
+  weaker: FieldProvenanceMap
+): string[] | undefined {
+  return stronger[field] ?? weaker[field];
+}
+
+function mergeAudio(stronger: AudioMetadata, weaker: AudioMetadata): AudioMetadata {
+  return {
+    ...weaker,
+    ...stronger,
+    engine: stronger.engine ?? weaker.engine,
+    engineInput: stronger.engineInput ?? weaker.engineInput,
+    engineInputs: { ...weaker.engineInputs, ...stronger.engineInputs },
+    sourceName: stronger.sourceName ?? weaker.sourceName,
+    sourceUrl: stronger.sourceUrl ?? weaker.sourceUrl,
+    license: stronger.license ?? weaker.license,
+    cachePath: stronger.cachePath ?? weaker.cachePath,
+    reviewFlags: uniqueStrings([...weaker.reviewFlags, ...stronger.reviewFlags]),
+    qualityFlags: uniqueStrings([...weaker.qualityFlags, ...stronger.qualityFlags])
+  };
+}
+
 function mergeVariants(
   stronger: PronunciationVariant[],
   weaker: PronunciationVariant[]
@@ -50,7 +94,33 @@ function mergeVariants(
       ipa: variant.ipa ?? current.ipa,
       respelling: variant.respelling ?? current.respelling,
       notes: uniqueStrings([...variant.notes, ...current.notes]),
-      provenanceIds: uniqueStrings([...variant.provenanceIds, ...current.provenanceIds])
+      provenanceIds: uniqueStrings([...variant.provenanceIds, ...current.provenanceIds]),
+      audio: mergeAudio(variant.audio, current.audio),
+      fieldProvenance: {
+        ...mergeFieldProvenance(variant.fieldProvenance, current.fieldProvenance),
+        ...(pickFieldProvenance("label", variant.fieldProvenance, current.fieldProvenance)
+          ? {
+              label: pickFieldProvenance("label", variant.fieldProvenance, current.fieldProvenance)
+            }
+          : {}),
+        ...(pickFieldProvenance("locale", variant.fieldProvenance, current.fieldProvenance)
+          ? {
+              locale: pickFieldProvenance("locale", variant.fieldProvenance, current.fieldProvenance)
+            }
+          : {}),
+        ...(pickFieldProvenance("ipa", variant.fieldProvenance, current.fieldProvenance)
+          ? { ipa: pickFieldProvenance("ipa", variant.fieldProvenance, current.fieldProvenance) }
+          : {}),
+        ...(pickFieldProvenance("respelling", variant.fieldProvenance, current.fieldProvenance)
+          ? {
+              respelling: pickFieldProvenance(
+                "respelling",
+                variant.fieldProvenance,
+                current.fieldProvenance
+              )
+            }
+          : {})
+      }
     }));
   }
 
@@ -88,6 +158,7 @@ export function mergeNormalizedEntries(entries: NormalizedSourceEntry[]): Entry[
         confusions: [],
         confusionNotes: [],
         provenance: [],
+        fieldProvenance: {},
         qualityScore: 0,
         indexStatus: {
           mode: "noindex",
@@ -102,33 +173,129 @@ export function mergeNormalizedEntries(entries: NormalizedSourceEntry[]): Entry[
       };
 
       for (const current of sorted) {
+        const displayWasEmpty = !merged.display;
         merged.display = merged.display || current.display;
+        if (displayWasEmpty && current.fieldProvenance.display) {
+          merged.fieldProvenance.display = current.fieldProvenance.display;
+        }
+
         merged.language = merged.language || current.language;
         merged.pos = uniqueStrings([...merged.pos, ...current.pos]);
+        if (current.fieldProvenance.pos) {
+          merged.fieldProvenance.pos = uniqueStrings([
+            ...(merged.fieldProvenance.pos ?? []),
+            ...current.fieldProvenance.pos
+          ]);
+        }
+
         merged.glosses = uniqueStrings([...merged.glosses, ...current.glosses]);
+        if (current.fieldProvenance.glosses) {
+          merged.fieldProvenance.glosses = uniqueStrings([
+            ...(merged.fieldProvenance.glosses ?? []),
+            ...current.fieldProvenance.glosses
+          ]);
+        }
+
+        const shortGlossWasEmpty = merged.shortGloss === null;
         merged.shortGloss = merged.shortGloss ?? current.shortGloss;
-        merged.origin = merged.origin.sourceLanguage ? merged.origin : current.origin;
+        if (shortGlossWasEmpty && current.shortGloss && current.fieldProvenance.shortGloss) {
+          merged.fieldProvenance.shortGloss = current.fieldProvenance.shortGloss;
+        }
+
+        if (!merged.origin.sourceLanguage && current.origin.sourceLanguage) {
+          merged.origin = current.origin;
+          for (const field of [
+            "origin.sourceLanguage",
+            "origin.sourceLanguageName",
+            "origin.etymologyLabel"
+          ]) {
+            if (current.fieldProvenance[field]) {
+              merged.fieldProvenance[field] = current.fieldProvenance[field];
+            }
+          }
+        }
+
         merged.topics = uniqueStrings([...merged.topics, ...current.topics]);
+        if (current.fieldProvenance.topics) {
+          merged.fieldProvenance.topics = uniqueStrings([
+            ...(merged.fieldProvenance.topics ?? []),
+            ...current.fieldProvenance.topics
+          ]);
+        }
+
         merged.variants = mergeVariants(merged.variants, current.variants);
         merged.relatedSeedSlugs = uniqueStrings([
           ...merged.relatedSeedSlugs,
           ...current.relatedSeedSlugs
         ]);
+        if (current.fieldProvenance.relatedSeedSlugs) {
+          merged.fieldProvenance.relatedSeedSlugs = uniqueStrings([
+            ...(merged.fieldProvenance.relatedSeedSlugs ?? []),
+            ...current.fieldProvenance.relatedSeedSlugs
+          ]);
+        }
+
         merged.semanticLinkSlugs = uniqueStrings([
           ...merged.semanticLinkSlugs,
           ...current.semanticLinkSlugs
         ]);
+        if (current.fieldProvenance.semanticLinkSlugs) {
+          merged.fieldProvenance.semanticLinkSlugs = uniqueStrings([
+            ...(merged.fieldProvenance.semanticLinkSlugs ?? []),
+            ...current.fieldProvenance.semanticLinkSlugs
+          ]);
+        }
+
         merged.confusions = uniqueStrings([...merged.confusions, ...current.confusions]);
+        if (current.fieldProvenance.confusions) {
+          merged.fieldProvenance.confusions = uniqueStrings([
+            ...(merged.fieldProvenance.confusions ?? []),
+            ...current.fieldProvenance.confusions
+          ]);
+        }
+
         merged.confusionNotes = uniqueStrings([
           ...merged.confusionNotes,
           ...current.confusionNotes
         ]);
+        if (current.fieldProvenance.confusionNotes) {
+          merged.fieldProvenance.confusionNotes = uniqueStrings([
+            ...(merged.fieldProvenance.confusionNotes ?? []),
+            ...current.fieldProvenance.confusionNotes
+          ]);
+        }
+
         merged.provenance = uniqueProvenance([...merged.provenance, ...current.provenance]);
         merged.searchRank = Math.max(merged.searchRank, current.searchRank);
         merged.badges = uniqueStrings([...merged.badges, ...current.badges]) as Entry["badges"];
+        if (current.fieldProvenance.badges) {
+          merged.fieldProvenance.badges = uniqueStrings([
+            ...(merged.fieldProvenance.badges ?? []),
+            ...current.fieldProvenance.badges
+          ]);
+        }
+
+        const bodyWasEmpty = !merged.bodyHtml;
         merged.bodyHtml = merged.bodyHtml || current.bodyHtml;
+        if (bodyWasEmpty && current.bodyHtml && current.fieldProvenance.bodyHtml) {
+          merged.fieldProvenance.bodyHtml = current.fieldProvenance.bodyHtml;
+        }
+
         merged.licenseNotes = uniqueStrings([...merged.licenseNotes, ...current.licenseNotes]);
+        if (current.fieldProvenance.licenseNotes) {
+          merged.fieldProvenance.licenseNotes = uniqueStrings([
+            ...(merged.fieldProvenance.licenseNotes ?? []),
+            ...current.fieldProvenance.licenseNotes
+          ]);
+        }
+
         merged.reviewers = uniqueStrings([...merged.reviewers, ...current.reviewers]);
+        if (current.fieldProvenance.reviewers) {
+          merged.fieldProvenance.reviewers = uniqueStrings([
+            ...(merged.fieldProvenance.reviewers ?? []),
+            ...current.fieldProvenance.reviewers
+          ]);
+        }
       }
 
       merged.shortGloss = merged.shortGloss ?? merged.glosses[0] ?? null;
@@ -151,18 +318,43 @@ function overrideVariantToVariant(
     notes: variant.notes,
     sortOrder,
     provenanceIds: [provenanceId],
+    fieldProvenance: mergeFieldProvenance(
+      buildFieldProvenance(provenanceId, [
+        "label",
+        "locale",
+        ...(variant.ipa ? ["ipa"] : []),
+        ...(variant.respelling ? ["respelling"] : []),
+        ...(variant.notes.length > 0 ? ["notes"] : []),
+        "audio.kind",
+        ...(variant.audio_src ? ["audio.src"] : []),
+        ...(variant.engine ? ["audio.engine"] : []),
+        ...(variant.engine_input ? ["audio.engineInput"] : []),
+        ...(variant.engine_inputs ? ["audio.engineInputs"] : []),
+        ...(variant.source_name ? ["audio.sourceName"] : []),
+        ...(variant.source_url ? ["audio.sourceUrl"] : []),
+        ...(variant.license ? ["audio.license"] : []),
+        ...(variant.license_status ? ["audio.licenseStatus"] : []),
+        "audio.reviewStatus",
+        "audio.confidence"
+      ]),
+      {}
+    ),
     audio: {
       kind: variant.audio_mode,
       src: variant.audio_src ?? "/audio/fixtures/synthetic-sample.wav",
       mimeType: "audio/wav",
       engine: variant.engine ?? null,
       engineInput: variant.engine_input ?? null,
+      engineInputs: variant.engine_inputs ?? {},
       sourceName: variant.source_name ?? null,
       sourceUrl: variant.source_url ?? null,
       license: variant.license ?? null,
       licenseStatus: variant.license_status ?? "clear",
       reviewStatus: variant.review_status,
-      confidence: variant.confidence
+      confidence: variant.confidence,
+      cachePath: null,
+      reviewFlags: [],
+      qualityFlags: []
     }
   });
 }
@@ -225,6 +417,26 @@ export function applyOverride(
     confusions: uniqueStrings([...override.confusions, ...entry.confusions]),
     confusionNotes: uniqueStrings([...override.confusion_notes, ...entry.confusionNotes]),
     provenance: uniqueProvenance([overrideProvenance, ...entry.provenance]),
+    fieldProvenance: mergeFieldProvenance(
+      buildFieldProvenance(provenanceId, [
+        "display",
+        ...(override.pos.length > 0 ? ["pos"] : []),
+        ...(override.glosses.length > 0 ? ["glosses"] : []),
+        ...(override.short_gloss ? ["shortGloss"] : []),
+        ...(override.origin_language ? ["origin.sourceLanguage"] : []),
+        ...(override.origin_language_name ? ["origin.sourceLanguageName"] : []),
+        ...(override.origin_label ? ["origin.etymologyLabel"] : []),
+        ...(override.topics.length > 0 ? ["topics"] : []),
+        ...(override.related.length > 0 ? ["relatedSeedSlugs"] : []),
+        ...(override.confusions.length > 0 ? ["confusions"] : []),
+        ...(override.confusion_notes.length > 0 ? ["confusionNotes"] : []),
+        ...(override.badges.length > 0 ? ["badges"] : []),
+        ...(overrideBody ? ["bodyHtml"] : []),
+        ...(override.license_notes.length > 0 ? ["licenseNotes"] : []),
+        ...(override.reviewers.length > 0 ? ["reviewers"] : [])
+      ]),
+      entry.fieldProvenance
+    ),
     badges: uniqueStrings([
       ...(override.badges.length > 0 ? override.badges : []),
       ...entry.badges
