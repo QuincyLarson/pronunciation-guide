@@ -1,93 +1,88 @@
 import path from "node:path";
-import { execFileSync } from "node:child_process";
-import { rmSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { copyFile, readFile, stat, writeFile } from "node:fs/promises";
 
 import type { Entry, PronunciationVariant } from "../../types/content";
-import { AUDIO_CACHE_DIR, DIST_AUDIO_DIR } from "./paths";
-import { ensureDir } from "./io";
+import { createSayAudioEngine, choosePreviewSpeechText, chooseSayVoice, isFixturePreviewAudio, type AudioGenerationEngine, type AudioGenerationInput } from "./audio-engine";
+import {
+  AUDIO_CACHE_DIR,
+  AUDIO_MANIFEST_PATH,
+  DIST_AUDIO_DIR,
+  DIST_PUBLIC_DIR
+} from "./paths";
+import { ensureDir, writeJsonFile } from "./io";
 
-const FIXTURE_PREVIEW_SOURCES = new Set([
-  "/audio/fixtures/human-sample.wav",
-  "/audio/fixtures/synthetic-sample.wav"
-]);
+export { choosePreviewSpeechText, chooseSayVoice, isFixturePreviewAudio };
 
-const SAY_VOICE_BY_LOCALE: Array<[prefix: string, voice: string]> = [
-  ["de", "Anna"],
-  ["en-gb", "Daniel"],
-  ["en-us", "Samantha"],
-  ["en", "Samantha"],
-  ["es-mx", "Eddy (Spanish (Mexico))"],
-  ["es", "Eddy (Spanish (Spain))"],
-  ["fr-ca", "Eddy (French (Canada))"],
-  ["fr", "Thomas"],
-  ["it", "Eddy (Italian (Italy))"],
-  ["ja", "Kyoko"],
-  ["ko", "Yuna"],
-  ["zh-cn", "Eddy (Chinese (China mainland))"],
-  ["zh-tw", "Eddy (Chinese (Taiwan))"],
-  ["zh", "Eddy (Chinese (China mainland))"]
-];
-
-export function isFixturePreviewAudio(src: string): boolean {
-  return FIXTURE_PREVIEW_SOURCES.has(src);
-}
-
-export function choosePreviewSpeechText(entry: Entry, variant: PronunciationVariant): string {
-  const candidate = variant.respelling ?? entry.display;
-
-  return candidate
-    .replace(/[\/()[\],.]/g, " ")
-    .replace(/[-–—]+/g, " ")
-    .replace(/\b([A-Z]{2,})\b/g, (match) => match.toLowerCase())
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-export function chooseSayVoice(locale: string): string {
-  const normalized = locale.toLowerCase();
-
-  for (const [prefix, voice] of SAY_VOICE_BY_LOCALE) {
-    if (normalized === prefix || normalized.startsWith(`${prefix}-`)) {
-      return voice;
-    }
-  }
-
-  return "Samantha";
-}
-
-function canUseCommand(command: string): boolean {
-  try {
-    execFileSync("which", [command], { stdio: "ignore" });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function synthesizeWithSay(outputPath: string, voice: string, text: string): void {
-  const tempAiffPath = `${outputPath}.aiff`;
-  execFileSync("say", ["-v", voice, "-o", tempAiffPath, text], {
-    stdio: "ignore"
-  });
-  execFileSync("afconvert", ["-f", "WAVE", "-d", "LEI16@22050", tempAiffPath, outputPath], {
-    stdio: "ignore"
-  });
-  rmSync(tempAiffPath, { force: true });
-}
+type AudioJobStatus = "passthrough" | "generated" | "skipped" | "failed";
 
 interface AudioCacheMetadata {
-  voice: string;
-  text: string;
+  cacheKey: string;
+  engineId: string;
+  inputKind: string;
+  inputValue: string;
   failed?: boolean;
 }
 
-async function readCacheMetadata(filePath: string): Promise<AudioCacheMetadata | null> {
-  try {
-    return JSON.parse(await readFile(filePath, "utf8")) as AudioCacheMetadata;
-  } catch {
-    return null;
+interface AudioJobManifest {
+  entrySlug: string;
+  variantId: string;
+  locale: string;
+  kind: string;
+  status: AudioJobStatus;
+  engineId: string | null;
+  inputKind: string | null;
+  inputValue: string | null;
+  sourcePath: string;
+  outputPath: string | null;
+  cacheKey: string | null;
+  reviewFlags: string[];
+  qualityFlags: string[];
+}
+
+interface AudioManifest {
+  generatedAt: string;
+  engineIds: string[];
+  jobCount: number;
+  jobs: AudioJobManifest[];
+}
+
+const DEFAULT_ENGINES: AudioGenerationEngine[] = [createSayAudioEngine()];
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function hashJobInput(parts: string[]): string {
+  return createHash("sha256").update(parts.join("\u0000")).digest("hex").slice(0, 12);
+}
+
+function audioExtensionForMimeType(mimeType: string): string {
+  if (mimeType === "audio/mpeg") {
+    return "mp3";
   }
+  if (mimeType === "audio/ogg") {
+    return "ogg";
+  }
+  return "wav";
+}
+
+function buildGeneratedOutputPath(
+  entry: Entry,
+  variant: PronunciationVariant,
+  engine: AudioGenerationEngine,
+  cacheKey: string
+): { relative: string; absolute: string; cache: string; cacheMeta: string } {
+  const extension = audioExtensionForMimeType(engine.mimeType);
+  const fileName = `${variant.id}-${engine.id}-${cacheKey}.${extension}`;
+  const relative = `/audio/generated/${entry.slug}/${fileName}`;
+
+  return {
+    relative,
+    absolute: path.join(DIST_AUDIO_DIR, "generated", entry.slug, fileName),
+    cache: path.join(AUDIO_CACHE_DIR, entry.slug, fileName),
+    cacheMeta: path.join(AUDIO_CACHE_DIR, entry.slug, `${fileName}.json`)
+  };
 }
 
 async function audioFileLooksUsable(filePath: string): Promise<boolean> {
@@ -99,106 +94,257 @@ async function audioFileLooksUsable(filePath: string): Promise<boolean> {
   }
 }
 
-async function restoreOrBuildCachedAudio(
-  cacheAudioPath: string,
-  cacheMetadataPath: string,
-  distAudioPath: string,
-  voice: string,
-  text: string
-): Promise<boolean> {
-  await ensureDir(path.dirname(cacheAudioPath));
-  await ensureDir(path.dirname(distAudioPath));
+async function readCacheMetadata(filePath: string): Promise<AudioCacheMetadata | null> {
+  try {
+    return JSON.parse(await readFile(filePath, "utf8")) as AudioCacheMetadata;
+  } catch {
+    return null;
+  }
+}
 
-  const cacheMetadata = await readCacheMetadata(cacheMetadataPath);
-  const metadataMatches = cacheMetadata?.voice === voice && cacheMetadata?.text === text;
-  const cacheIsUsable =
-    metadataMatches && !cacheMetadata?.failed && (await audioFileLooksUsable(cacheAudioPath));
+function selectEngine(
+  entry: Entry,
+  variant: PronunciationVariant,
+  engines: AudioGenerationEngine[]
+): { engine: AudioGenerationEngine; input: AudioGenerationInput } | null {
+  const requestedEngine = variant.audio.engine;
+  const candidates = requestedEngine
+    ? engines.filter((engine) => engine.id === requestedEngine)
+    : engines;
 
-  if (!cacheIsUsable) {
-    if (metadataMatches && cacheMetadata?.failed) {
-      return false;
+  for (const engine of candidates) {
+    const input = engine.pickInput(entry, variant);
+    if (input) {
+      return { engine, input };
     }
+  }
 
-    synthesizeWithSay(cacheAudioPath, voice, text);
-    const usable = await audioFileLooksUsable(cacheAudioPath);
+  return null;
+}
+
+async function restoreOrGenerateAudio(
+  engine: AudioGenerationEngine,
+  variant: PronunciationVariant,
+  output: ReturnType<typeof buildGeneratedOutputPath>,
+  cacheKey: string,
+  input: AudioGenerationInput
+): Promise<AudioJobStatus> {
+  await ensureDir(path.dirname(output.cache));
+  await ensureDir(path.dirname(output.absolute));
+
+  const cacheMetadata = await readCacheMetadata(output.cacheMeta);
+  const cacheMatches =
+    cacheMetadata?.cacheKey === cacheKey &&
+    cacheMetadata.engineId === engine.id &&
+    cacheMetadata.inputKind === input.kind &&
+    cacheMetadata.inputValue === input.value;
+
+  if (cacheMatches && !cacheMetadata?.failed && (await audioFileLooksUsable(output.cache))) {
+    await copyFile(output.cache, output.absolute);
+    return "generated";
+  }
+
+  if (!engine.canRun()) {
+    return "skipped";
+  }
+
+  try {
+    await engine.generate(output.cache, variant, input);
+    const usable = await audioFileLooksUsable(output.cache);
     await writeFile(
-      cacheMetadataPath,
-      `${JSON.stringify({ voice, text, failed: !usable }, null, 2)}\n`,
+      output.cacheMeta,
+      `${JSON.stringify(
+        {
+          cacheKey,
+          engineId: engine.id,
+          inputKind: input.kind,
+          inputValue: input.value,
+          failed: !usable
+        } satisfies AudioCacheMetadata,
+        null,
+        2
+      )}\n`,
       "utf8"
     );
 
     if (!usable) {
-      return false;
+      return "failed";
     }
-  }
 
-  await copyFile(cacheAudioPath, distAudioPath);
-  return true;
+    await copyFile(output.cache, output.absolute);
+    return "generated";
+  } catch {
+    await writeFile(
+      output.cacheMeta,
+      `${JSON.stringify(
+        {
+          cacheKey,
+          engineId: engine.id,
+          inputKind: input.kind,
+          inputValue: input.value,
+          failed: true
+        } satisfies AudioCacheMetadata,
+        null,
+        2
+      )}\n`,
+      "utf8"
+    );
+    return "failed";
+  }
 }
 
-async function materializePreviewVariantAudio(
+function buildPassthroughResult(
   entry: Entry,
-  variant: PronunciationVariant
-): Promise<PronunciationVariant> {
-  if (!isFixturePreviewAudio(variant.audio.src)) {
-    return variant;
-  }
-
-  if (!canUseCommand("say") || !canUseCommand("afconvert")) {
-    return variant;
-  }
-
-  const relativeOutputPath = `/audio/generated/${entry.slug}/${variant.id}.wav`;
-  const absoluteOutputPath = path.join(DIST_AUDIO_DIR, "generated", entry.slug, `${variant.id}.wav`);
-  const cacheAudioPath = path.join(AUDIO_CACHE_DIR, entry.slug, `${variant.id}.wav`);
-  const cacheMetadataPath = path.join(AUDIO_CACHE_DIR, entry.slug, `${variant.id}.json`);
-  const voice = chooseSayVoice(variant.locale);
-  const text = choosePreviewSpeechText(entry, variant);
-
-  const restored = await restoreOrBuildCachedAudio(
-    cacheAudioPath,
-    cacheMetadataPath,
-    absoluteOutputPath,
-    voice,
-    text
-  );
-
-  if (!restored) {
-    return {
-      ...variant,
-      notes: variant.notes.includes(
-        "Local speech synthesis could not produce a file here; browser speech fallback will be used when available."
-      )
-        ? variant.notes
-        : [
-            ...variant.notes,
-            "Local speech synthesis could not produce a file here; browser speech fallback will be used when available."
-          ]
-    };
-  }
+  variant: PronunciationVariant,
+  status: AudioJobStatus
+): { variant: PronunciationVariant; job: AudioJobManifest } {
+  const qualityFlags = uniqueStrings([
+    ...variant.audio.qualityFlags,
+    variant.audio.kind === "human" ? "human-passthrough" : "prebuilt-audio"
+  ]);
 
   return {
-    ...variant,
-    notes: variant.notes.includes("Locally synthesized preview audio.")
-      ? variant.notes
-      : [...variant.notes, "Locally synthesized preview audio."],
-    audio: {
-      ...variant.audio,
-      src: relativeOutputPath,
-      mimeType: "audio/wav",
-      engine: variant.audio.engine ?? "say",
-      engineInput: variant.audio.engineInput ?? text
+    variant: {
+      ...variant,
+      audio: {
+        ...variant.audio,
+        qualityFlags
+      }
+    },
+    job: {
+      entrySlug: entry.slug,
+      variantId: variant.id,
+      locale: variant.locale,
+      kind: variant.audio.kind,
+      status,
+      engineId: variant.audio.engine,
+      inputKind: null,
+      inputValue: null,
+      sourcePath: variant.audio.src,
+      outputPath: variant.audio.src,
+      cacheKey: null,
+      reviewFlags: variant.audio.reviewFlags,
+      qualityFlags
     }
   };
 }
 
-export async function materializePreviewAudio(entries: Entry[]): Promise<Entry[]> {
+async function processVariantAudio(
+  entry: Entry,
+  variant: PronunciationVariant,
+  engines: AudioGenerationEngine[]
+): Promise<{ variant: PronunciationVariant; job: AudioJobManifest }> {
+  if (!isFixturePreviewAudio(variant.audio.src) && variant.audio.kind === "human") {
+    return buildPassthroughResult(entry, variant, "passthrough");
+  }
+
+  if (!isFixturePreviewAudio(variant.audio.src) && variant.audio.kind === "synthetic" && !variant.audio.engine) {
+    return buildPassthroughResult(entry, variant, "passthrough");
+  }
+
+  const selected = selectEngine(entry, variant, engines);
+  if (!selected) {
+    const reviewFlags = uniqueStrings([...variant.audio.reviewFlags, "generation-unavailable"]);
+    const qualityFlags = uniqueStrings([...variant.audio.qualityFlags, "generation-skipped"]);
+    return {
+      variant: {
+        ...variant,
+        audio: {
+          ...variant.audio,
+          reviewFlags,
+          qualityFlags
+        }
+      },
+      job: {
+        entrySlug: entry.slug,
+        variantId: variant.id,
+        locale: variant.locale,
+        kind: variant.audio.kind,
+        status: "skipped",
+        engineId: variant.audio.engine,
+        inputKind: null,
+        inputValue: null,
+        sourcePath: variant.audio.src,
+        outputPath: null,
+        cacheKey: null,
+        reviewFlags,
+        qualityFlags
+      }
+    };
+  }
+
+  const cacheKey = hashJobInput([
+    selected.engine.id,
+    variant.locale,
+    selected.input.kind,
+    selected.input.value,
+    JSON.stringify(variant.audio.engineInputs)
+  ]);
+  const output = buildGeneratedOutputPath(entry, variant, selected.engine, cacheKey);
+  const status = await restoreOrGenerateAudio(selected.engine, variant, output, cacheKey, selected.input);
+  const reviewFlags = uniqueStrings([
+    ...variant.audio.reviewFlags,
+    ...(status === "skipped" ? ["generation-unavailable"] : []),
+    ...(status === "failed" ? ["generation-failed"] : [])
+  ]);
+  const qualityFlags = uniqueStrings([
+    ...variant.audio.qualityFlags,
+    ...(status === "generated" ? ["generated-audio"] : []),
+    ...(status === "skipped" ? ["generation-skipped"] : []),
+    ...(status === "failed" ? ["generation-failed"] : [])
+  ]);
+
+  return {
+    variant: {
+      ...variant,
+      audio: {
+        ...variant.audio,
+        src: status === "generated" ? output.relative : variant.audio.src,
+        mimeType: status === "generated" ? selected.engine.mimeType : variant.audio.mimeType,
+        engine: selected.engine.id,
+        engineInput: selected.input.value,
+        cachePath: status === "generated" ? output.relative : variant.audio.cachePath,
+        reviewFlags,
+        qualityFlags
+      }
+    },
+    job: {
+      entrySlug: entry.slug,
+      variantId: variant.id,
+      locale: variant.locale,
+      kind: variant.audio.kind,
+      status,
+      engineId: selected.engine.id,
+      inputKind: selected.input.kind,
+      inputValue: selected.input.value,
+      sourcePath: variant.audio.src,
+      outputPath: status === "generated" ? output.relative : null,
+      cacheKey,
+      reviewFlags,
+      qualityFlags
+    }
+  };
+}
+
+export async function materializePreviewAudio(
+  entries: Entry[],
+  engines: AudioGenerationEngine[] = DEFAULT_ENGINES
+): Promise<Entry[]> {
+  const manifest: AudioManifest = {
+    generatedAt: new Date().toISOString(),
+    engineIds: engines.map((engine) => engine.id),
+    jobCount: 0,
+    jobs: []
+  };
   const nextEntries: Entry[] = [];
 
   for (const entry of entries) {
     const variants: PronunciationVariant[] = [];
+
     for (const variant of entry.variants) {
-      variants.push(await materializePreviewVariantAudio(entry, variant));
+      const result = await processVariantAudio(entry, variant, engines);
+      variants.push(result.variant);
+      manifest.jobs.push(result.job);
     }
 
     nextEntries.push({
@@ -206,6 +352,10 @@ export async function materializePreviewAudio(entries: Entry[]): Promise<Entry[]
       variants
     });
   }
+
+  manifest.jobCount = manifest.jobs.length;
+  await writeJsonFile(AUDIO_MANIFEST_PATH, manifest);
+  await writeJsonFile(path.join(DIST_PUBLIC_DIR, "audio", "manifest.json"), manifest);
 
   return nextEntries;
 }

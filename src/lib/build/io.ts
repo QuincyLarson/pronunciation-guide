@@ -52,6 +52,7 @@ export async function cleanBuildOutputs(): Promise<void> {
   await rm(STAGES_DIR, { recursive: true, force: true });
   await rm(path.join(GENERATED_DIR, "shards"), { recursive: true, force: true });
   await rm(path.join(GENERATED_DIR, "ipa"), { recursive: true, force: true });
+  await rm(path.join(GENERATED_DIR, "audio-manifest.json"), { force: true });
   await rm(path.join(GENERATED_DIR, "attribution-manifest.json"), { force: true });
   await rm(path.join(GENERATED_DIR, "site-manifest.json"), { force: true });
   await ensureDir(GENERATED_DIR);

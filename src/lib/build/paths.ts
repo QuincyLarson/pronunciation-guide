@@ -22,5 +22,6 @@ export const MERGED_CORPUS_PATH = path.join(STAGES_DIR, "merged-corpus.json");
 export const LINKED_CORPUS_PATH = path.join(STAGES_DIR, "linked-corpus.json");
 export const SCORED_CORPUS_PATH = path.join(STAGES_DIR, "scored-corpus.json");
 export const AUDIO_READY_CORPUS_PATH = path.join(STAGES_DIR, "audio-ready-corpus.json");
+export const AUDIO_MANIFEST_PATH = path.join(GENERATED_DIR, "audio-manifest.json");
 export const ATTRIBUTION_MANIFEST_PATH = path.join(GENERATED_DIR, "attribution-manifest.json");
 export const SITE_MANIFEST_PATH = path.join(GENERATED_DIR, "site-manifest.json");
