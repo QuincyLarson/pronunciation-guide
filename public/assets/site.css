@@ -209,6 +209,17 @@ main.shell {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.browse-sections,
+.browse-group {
+  display: grid;
+  gap: 1rem;
+}
+
+.browse-group + .browse-group {
+  padding-top: 1rem;
+  border-top: 1px solid var(--outline);
+}
+
 .hub-list li,
 .link-list li,
 .provenance-list li {

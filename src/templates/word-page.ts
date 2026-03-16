@@ -9,6 +9,9 @@ function renderVariant(variant: PronunciationVariant, entry: Entry, config: Site
   const audioId = `audio-${entry.slug}-${variant.id}`;
   const audioSrc = audioUrl(config, variant.audio.src);
   const shouldAutoplay = index === 0;
+  const speechText = variant.respelling ?? variant.audio.engineInput ?? entry.display;
+  const prefersSpeechFallback =
+    variant.audio.engine === "say" || variant.audio.src.startsWith("/audio/fixtures/");
 
   return `<article class="variant-card">
     <header class="variant-header">
@@ -55,6 +58,9 @@ function renderVariant(variant: PronunciationVariant, entry: Entry, config: Site
       preload="${shouldAutoplay ? "auto" : "none"}"
       src="${escapeHtml(audioSrc)}"
       data-autoplay="${shouldAutoplay ? "true" : "false"}"
+      data-prefer-speech="${prefersSpeechFallback ? "true" : "false"}"
+      data-speech-text="${escapeHtml(speechText)}"
+      data-speech-locale="${escapeHtml(variant.locale)}"
       ${shouldAutoplay ? "autoplay" : ""}
       playsinline
     ></audio>

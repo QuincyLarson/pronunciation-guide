@@ -18,6 +18,7 @@ import {
   type Entry
 } from "../../types/content";
 import { renderAttributionPage, type AttributionGroup } from "../../templates/attribution-page";
+import { renderBrowsePage } from "../../templates/browse-page";
 import { renderHomePage } from "../../templates/home-page";
 import { renderHubPage } from "../../templates/hub-page";
 import { renderNotFoundPage } from "../../templates/not-found-page";
@@ -254,7 +255,8 @@ export async function runPrerenderStage(corpus?: Entry[]) {
   const origins = countOrigins(entries);
   const topics = countTopics(entries);
 
-  await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, origins, topics, config));
+  await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, origins, topics, entries.length, config));
+  await writeRouteHtml(DIST_PUBLIC_DIR, "/browse/", renderBrowsePage(sortEntries(entries), config));
   await writeRouteHtml(
     DIST_PUBLIC_DIR,
     "/origins/",

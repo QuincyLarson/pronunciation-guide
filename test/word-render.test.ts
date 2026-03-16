@@ -18,6 +18,8 @@ describe("word page rendering", () => {
     expect(html).toContain("Pronunciation variants");
     expect(html).toContain('data-autoplay="true"');
     expect(html).toContain('preload="auto"');
+    expect(html).toContain('data-speech-text=');
+    expect(html).toContain('data-speech-locale=');
     expect(html).toContain("autoplay");
   });
 });

@@ -32,6 +32,7 @@ export function renderLayout(config: SiteConfig, props: LayoutProps): string {
       <div class="shell">
         <a class="brand" href="/">${escapeHtml(config.siteName)}</a>
         <nav class="site-nav" aria-label="Primary">
+          <a href="/browse/">Browse</a>
           <a href="/origins/">Origins</a>
           <a href="/topics/">Topics</a>
           <a href="/attribution/">Attribution</a>

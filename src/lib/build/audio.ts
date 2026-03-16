@@ -79,6 +79,7 @@ function synthesizeWithSay(outputPath: string, voice: string, text: string): voi
 interface AudioCacheMetadata {
   voice: string;
   text: string;
+  failed?: boolean;
 }
 
 async function readCacheMetadata(filePath: string): Promise<AudioCacheMetadata | null> {
@@ -89,10 +90,10 @@ async function readCacheMetadata(filePath: string): Promise<AudioCacheMetadata |
   }
 }
 
-async function fileExists(filePath: string): Promise<boolean> {
+async function audioFileLooksUsable(filePath: string): Promise<boolean> {
   try {
-    await stat(filePath);
-    return true;
+    const details = await stat(filePath);
+    return details.size > 4096;
   } catch {
     return false;
   }
@@ -104,22 +105,35 @@ async function restoreOrBuildCachedAudio(
   distAudioPath: string,
   voice: string,
   text: string
-): Promise<void> {
+): Promise<boolean> {
   await ensureDir(path.dirname(cacheAudioPath));
   await ensureDir(path.dirname(distAudioPath));
 
   const cacheMetadata = await readCacheMetadata(cacheMetadataPath);
+  const metadataMatches = cacheMetadata?.voice === voice && cacheMetadata?.text === text;
   const cacheIsUsable =
-    (await fileExists(cacheAudioPath)) &&
-    cacheMetadata?.voice === voice &&
-    cacheMetadata?.text === text;
+    metadataMatches && !cacheMetadata?.failed && (await audioFileLooksUsable(cacheAudioPath));
 
   if (!cacheIsUsable) {
+    if (metadataMatches && cacheMetadata?.failed) {
+      return false;
+    }
+
     synthesizeWithSay(cacheAudioPath, voice, text);
-    await writeFile(cacheMetadataPath, `${JSON.stringify({ voice, text }, null, 2)}\n`, "utf8");
+    const usable = await audioFileLooksUsable(cacheAudioPath);
+    await writeFile(
+      cacheMetadataPath,
+      `${JSON.stringify({ voice, text, failed: !usable }, null, 2)}\n`,
+      "utf8"
+    );
+
+    if (!usable) {
+      return false;
+    }
   }
 
   await copyFile(cacheAudioPath, distAudioPath);
+  return true;
 }
 
 async function materializePreviewVariantAudio(
@@ -141,13 +155,27 @@ async function materializePreviewVariantAudio(
   const voice = chooseSayVoice(variant.locale);
   const text = choosePreviewSpeechText(entry, variant);
 
-  await restoreOrBuildCachedAudio(
+  const restored = await restoreOrBuildCachedAudio(
     cacheAudioPath,
     cacheMetadataPath,
     absoluteOutputPath,
     voice,
     text
   );
+
+  if (!restored) {
+    return {
+      ...variant,
+      notes: variant.notes.includes(
+        "Local speech synthesis could not produce a file here; browser speech fallback will be used when available."
+      )
+        ? variant.notes
+        : [
+            ...variant.notes,
+            "Local speech synthesis could not produce a file here; browser speech fallback will be used when available."
+          ]
+    };
+  }
 
   return {
     ...variant,
