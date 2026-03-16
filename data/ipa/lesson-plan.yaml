@@ -1,0 +1,292 @@
+- id: unit-01
+  module_id: vowel-basics
+  slug: first-short-vowels
+  title: First wins with familiar short vowels
+  summary: Learn three high-frequency short vowels using very familiar English words.
+  teach:
+    - { type: symbol, id: "æ" }
+    - { type: symbol, id: "ɛ" }
+    - { type: symbol, id: "ɪ" }
+  practice_examples: [ex-cat, ex-bed, ex-sit, ex-men, ex-pin]
+  bonus_examples: [ex-cat, ex-bed, ex-sit, ex-men, ex-pin]
+  review_focus: ["æ", "ɛ", "ɪ"]
+- id: unit-02
+  module_id: vowel-basics
+  slug: schwa-and-strut
+  title: More short vowels and schwa
+  summary: Add the strut vowel and the reduced vowel that appears everywhere in English.
+  teach:
+    - { type: symbol, id: "ʌ" }
+    - { type: symbol, id: "ə" }
+    - { type: concept, id: reduced-vowels }
+  practice_examples: [ex-sun, ex-cup, ex-about, ex-sofa, ex-taken]
+  bonus_examples: [ex-sun, ex-cup, ex-about, ex-sofa, ex-taken]
+  review_focus: ["ʌ", "ə", "reduced-vowels"]
+- id: unit-03
+  module_id: high-and-back-vowels
+  slug: high-vowels
+  title: High vowels and close contrasts
+  summary: Separate i, u, and ʊ without over-theorizing.
+  teach:
+    - { type: symbol, id: "i" }
+    - { type: symbol, id: "u" }
+    - { type: symbol, id: "ʊ" }
+  practice_examples: [ex-see, ex-food, ex-book, ex-good, ex-blue]
+  bonus_examples: [ex-see, ex-food, ex-book, ex-good, ex-blue]
+  review_focus: ["i", "u", "ʊ"]
+- id: unit-04
+  module_id: high-and-back-vowels
+  slug: open-back-vowels
+  title: Open and back vowels
+  summary: Get comfortable with broad low back vowels and the thought vowel.
+  teach:
+    - { type: symbol, id: "ɑ" }
+    - { type: symbol, id: "ɔ" }
+    - { type: concept, id: broad-transcription }
+  practice_examples: [ex-father, ex-spa, ex-law, ex-thought, ex-caught]
+  bonus_examples: [ex-father, ex-spa, ex-law, ex-thought, ex-caught]
+  review_focus: ["ɑ", "ɔ", "broad-transcription"]
+- id: unit-05
+  module_id: mappings-and-diphthongs
+  slug: british-us-mapping
+  title: British and American vowel mapping
+  summary: Learn how British ɒ and ɜː map onto common American broad transcriptions.
+  teach:
+    - { type: symbol, id: "ɒ" }
+    - { type: symbol, id: "ɜ" }
+    - { type: concept, id: accent-labels }
+  practice_examples: [ex-lot-uk, ex-nurse, ex-bird, ex-learn, ex-word]
+  bonus_examples: [ex-lot-uk, ex-nurse, ex-bird, ex-learn, ex-word]
+  review_focus: ["ɒ", "ɜ", "accent-labels"]
+- id: unit-06
+  module_id: mappings-and-diphthongs
+  slug: diphthongs-one
+  title: Diphthongs I
+  summary: Treat diphthongs as moving vowels written as clear symbol sequences.
+  teach:
+    - { type: symbol, id: "eɪ" }
+    - { type: symbol, id: "aɪ" }
+    - { type: symbol, id: "oʊ" }
+  practice_examples: [ex-say, ex-day, ex-time, ex-ride, ex-go, ex-home]
+  bonus_examples: [ex-say, ex-time, ex-go, ex-home, ex-ride, ex-day]
+  review_focus: ["eɪ", "aɪ", "oʊ"]
+- id: unit-07
+  module_id: more-diphthongs-and-core-consonants
+  slug: diphthongs-two
+  title: Diphthongs II and the length mark
+  summary: Finish the common English diphthongs and learn how ː behaves.
+  teach:
+    - { type: symbol, id: "aʊ" }
+    - { type: symbol, id: "ɔɪ" }
+    - { type: symbol, id: "ː" }
+  practice_examples: [ex-now, ex-mouth, ex-boy, ex-choice, ex-law, ex-blue]
+  bonus_examples: [ex-now, ex-mouth, ex-boy, ex-choice, ex-law, ex-blue]
+  review_focus: ["aʊ", "ɔɪ", "ː"]
+- id: unit-08
+  module_id: more-diphthongs-and-core-consonants
+  slug: unfamiliar-consonants
+  title: English consonants that look unfamiliar
+  summary: Learn the symbols for sh, ch, and j sounds.
+  teach:
+    - { type: symbol, id: "ʃ" }
+    - { type: symbol, id: "tʃ" }
+    - { type: symbol, id: "dʒ" }
+  practice_examples: [ex-ship, ex-she, ex-chew, ex-chip, ex-job, ex-jam]
+  bonus_examples: [ex-ship, ex-chew, ex-chip, ex-job, ex-jam, ex-she]
+  review_focus: ["ʃ", "tʃ", "dʒ"]
+- id: unit-09
+  module_id: more-consonants-and-th-r
+  slug: more-core-consonants
+  title: More high-value English consonants
+  summary: Add ʒ, ŋ, and the IPA letter j.
+  teach:
+    - { type: symbol, id: "ʒ" }
+    - { type: symbol, id: "ŋ" }
+    - { type: symbol, id: "j" }
+  practice_examples: [ex-measure, ex-vision, ex-sing, ex-song, ex-yes, ex-yarn]
+  bonus_examples: [ex-measure, ex-sing, ex-song, ex-yes, ex-yarn, ex-vision]
+  review_focus: ["ʒ", "ŋ", "j"]
+- id: unit-10
+  module_id: more-consonants-and-th-r
+  slug: th-and-r
+  title: The th pair and English r
+  summary: Separate θ and ð, then lock in English r.
+  teach:
+    - { type: symbol, id: "θ" }
+    - { type: symbol, id: "ð" }
+    - { type: symbol, id: "ɹ" }
+  practice_examples: [ex-thin, ex-bath, ex-this, ex-those, ex-red, ex-right]
+  bonus_examples: [ex-thin, ex-this, ex-those, ex-red, ex-right, ex-bath]
+  review_focus: ["θ", "ð", "ɹ"]
+- id: unit-11
+  module_id: stress-and-american-realizations
+  slug: stress-and-syllables
+  title: Stress and syllables
+  summary: Read primary stress, secondary stress, and rhythm in longer words.
+  teach:
+    - { type: symbol, id: "ˈ" }
+    - { type: symbol, id: "ˌ" }
+    - { type: concept, id: stress-and-syllables }
+  practice_examples: [ex-banana, ex-computer, ex-linguistics, ex-photograph, ex-about]
+  bonus_examples: [ex-banana, ex-computer, ex-linguistics, ex-photograph, ex-about]
+  review_focus: ["ˈ", "ˌ", "stress-and-syllables"]
+- id: unit-12
+  module_id: stress-and-american-realizations
+  slug: american-realizations
+  title: American realizations
+  summary: Meet the flap and glottal stop without treating them as a separate spelling system.
+  teach:
+    - { type: symbol, id: "ɾ" }
+    - { type: symbol, id: "ʔ" }
+    - { type: concept, id: american-realizations }
+  practice_examples: [ex-water, ex-city, ex-button, ex-uhoh, ex-computer]
+  bonus_examples: [ex-water, ex-city, ex-button, ex-uhoh, ex-computer]
+  review_focus: ["ɾ", "ʔ", "american-realizations"]
+- id: unit-13
+  module_id: taps-trills-and-throat-sounds
+  slug: taps-trills-and-palatal-nasal
+  title: Taps, trills, and palatal nasals
+  summary: Add non-English r behavior and the ñ / ny family.
+  teach:
+    - { type: symbol, id: "r" }
+    - { type: symbol, id: "ɲ" }
+    - { type: concept, id: tap-vs-trill }
+  practice_examples: [ex-pero, ex-perro, ex-canyon, ex-senor, ex-jalapeno]
+  bonus_examples: [ex-pero, ex-perro, ex-canyon, ex-senor, ex-jalapeno]
+  review_focus: ["r", "ɲ", "tap-vs-trill"]
+- id: unit-14
+  module_id: taps-trills-and-throat-sounds
+  slug: german-french-throat-sounds
+  title: German and French throat sounds
+  summary: Learn x, ç, and ʁ with familiar loanwords and names.
+  teach:
+    - { type: symbol, id: "x" }
+    - { type: symbol, id: "ç" }
+    - { type: symbol, id: "ʁ" }
+  practice_examples: [ex-bach, ex-ich, ex-rouge, ex-paris-fr, ex-sprachbund]
+  bonus_examples: [ex-bach, ex-ich, ex-rouge, ex-paris-fr, ex-sprachbund]
+  review_focus: ["x", "ç", "ʁ"]
+  capstone_word_slugs: [sprachbund, schadenfreude, zeitgeist]
+- id: unit-15
+  module_id: rounded-and-nasal-vowels
+  slug: front-rounded-vowels
+  title: Front rounded vowels
+  summary: Meet the y ø œ family without getting lost in theory.
+  teach:
+    - { type: symbol, id: "y" }
+    - { type: symbol, id: "ø" }
+    - { type: symbol, id: "œ" }
+  practice_examples: [ex-lune, ex-deux, ex-peur, ex-rouge]
+  bonus_examples: [ex-lune, ex-deux, ex-peur, ex-rouge]
+  review_focus: ["y", "ø", "œ"]
+- id: unit-16
+  module_id: rounded-and-nasal-vowels
+  slug: nasal-vowels
+  title: Nasal vowels
+  summary: Learn what the tilde means and how nasalized vowels behave in broad borrowings.
+  teach:
+    - { type: symbol, id: "̃" }
+    - { type: symbol, id: "ɑ̃" }
+    - { type: concept, id: nasalization }
+  practice_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre]
+  bonus_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre]
+  review_focus: ["̃", "ɑ̃", "nasalization"]
+- id: unit-17
+  module_id: high-value-close-vowels-and-sibilants
+  slug: high-value-close-vowels
+  title: High-value non-English close vowels
+  summary: Add ɨ, ɯ, and aspiration as a practical reading tool.
+  teach:
+    - { type: symbol, id: "ɨ" }
+    - { type: symbol, id: "ɯ" }
+    - { type: symbol, id: "ʰ" }
+  practice_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-tsunami]
+  bonus_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-tsunami]
+  review_focus: ["ɨ", "ɯ", "ʰ"]
+- id: unit-18
+  module_id: high-value-close-vowels-and-sibilants
+  slug: sibilant-families-one
+  title: Sibilant families I
+  summary: Learn why sh-like sounds split into different symbols in real names and loanwords.
+  teach:
+    - { type: symbol, id: "ɕ" }
+    - { type: symbol, id: "ʂ" }
+    - { type: symbol, id: "ts" }
+  practice_examples: [ex-xi, ex-shi-retroflex, ex-tsar, ex-qigong, ex-beijing]
+  bonus_examples: [ex-xi, ex-shi-retroflex, ex-tsar, ex-qigong, ex-beijing]
+  review_focus: ["ɕ", "ʂ", "ts"]
+- id: unit-19
+  module_id: advanced-sibilants-and-small-marks
+  slug: sibilant-families-two
+  title: Sibilant families II
+  summary: Add the affricate cousins used in a lot of Chinese and Slavic names.
+  teach:
+    - { type: symbol, id: "tɕ" }
+    - { type: symbol, id: "ʈʂ" }
+    - { type: symbol, id: "ʐ" }
+  practice_examples: [ex-qi, ex-xi-jinping, ex-zhang, ex-rz]
+  bonus_examples: [ex-qi, ex-xi-jinping, ex-zhang, ex-rz]
+  review_focus: ["tɕ", "ʈʂ", "ʐ"]
+- id: unit-20
+  module_id: advanced-sibilants-and-small-marks
+  slug: practical-small-marks
+  title: Practical small marks
+  summary: Recognize palatalization, syllabic marks, and other small notational helpers when they matter.
+  teach:
+    - { type: symbol, id: "ʲ" }
+    - { type: symbol, id: "̩" }
+    - { type: concept, id: practical-marks }
+  practice_examples: [ex-button, ex-sprachbund, ex-city, ex-jalapeno]
+  bonus_examples: [ex-button, ex-sprachbund, ex-city, ex-jalapeno]
+  review_focus: ["ʲ", "̩", "practical-marks"]
+- id: unit-21
+  module_id: capstones-and-gauntlet
+  slug: tone-lite
+  title: Tone lite
+  summary: Recognize basic tone notation without turning the course into full tonal phonology.
+  teach:
+    - { type: symbol, id: "˥" }
+    - { type: symbol, id: "˧" }
+    - { type: symbol, id: "˩" }
+  practice_examples: [ex-xi, ex-qi, ex-beijing, ex-xi-jinping]
+  bonus_examples: [ex-xi, ex-qi, ex-beijing, ex-xi-jinping]
+  review_focus: ["˥", "˧", "˩"]
+- id: unit-22
+  module_id: capstones-and-gauntlet
+  slug: german-french-capstone
+  title: German and French capstone
+  summary: Read real loanwords and names with multiple acceptable pronunciations.
+  teach:
+    - { type: concept, id: native-vs-anglicized }
+    - { type: concept, id: loanword-variants }
+    - { type: concept, id: review-capstone }
+  practice_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre]
+  bonus_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre]
+  review_focus: ["native-vs-anglicized", "loanword-variants"]
+  capstone_word_slugs: [sprachbund, schadenfreude, zeitgeist]
+- id: unit-23
+  module_id: capstones-and-gauntlet
+  slug: asian-spanish-capstone
+  title: Chinese, Japanese, and Spanish capstone
+  summary: Mix public-facing names and familiar loanwords from several origin clusters.
+  teach:
+    - { type: concept, id: origin-pack-bridges }
+    - { type: concept, id: native-vs-anglicized }
+    - { type: concept, id: review-capstone }
+  practice_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata]
+  bonus_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno]
+  review_focus: ["origin-pack-bridges", "native-vs-anglicized"]
+  capstone_word_slugs: [xi-jinping, qigong, beijing, jalapeno]
+- id: unit-24
+  module_id: capstones-and-gauntlet
+  slug: final-gauntlet
+  title: Final mixed gauntlet
+  summary: Prove you can read mixed IPA strings without panicking.
+  teach:
+    - { type: concept, id: fluency-over-perfection }
+    - { type: concept, id: decoding-transfer }
+    - { type: concept, id: review-capstone }
+  practice_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping]
+  bonus_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude]
+  review_focus: ["fluency-over-perfection", "decoding-transfer"]
+  capstone_word_slugs: [sprachbund, schadenfreude, qigong, xi-jinping, jalapeno]

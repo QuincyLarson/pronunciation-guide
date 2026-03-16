@@ -17,6 +17,7 @@
     "build:score": "tsx scripts/score-corpus.ts",
     "build:audio": "tsx scripts/generate-audio.ts",
     "build:shards": "tsx scripts/shard-corpus.ts",
+    "build:learn-ipa": "tsx scripts/generate-learn-ipa.ts",
     "build:prerender": "tsx scripts/prerender.ts",
     "build:sitemaps": "tsx scripts/generate-sitemaps.ts",
     "build:attribution": "tsx scripts/generate-attribution.ts",
@@ -32,6 +33,7 @@
   "dependencies": {
     "gray-matter": "^4.0.3",
     "marked": "^15.0.12",
+    "yaml": "^2.8.2",
     "zod": "^4.1.5"
   },
   "devDependencies": {

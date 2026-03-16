@@ -1,0 +1,867 @@
+- id: ex-cat
+  word: cat
+  display: cat
+  ipa: { en-US: "kæt", en-GB: "kæt" }
+  focus_symbols: ["æ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a small domesticated feline
+- id: ex-bed
+  word: bed
+  display: bed
+  ipa: { en-US: "bɛd", en-GB: "bɛd" }
+  focus_symbols: ["ɛ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a piece of furniture for sleeping
+- id: ex-sit
+  word: sit
+  display: sit
+  ipa: { en-US: "sɪt", en-GB: "sɪt" }
+  focus_symbols: ["ɪ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to rest in a seated position
+- id: ex-men
+  word: men
+  display: men
+  ipa: { en-US: "mɛn", en-GB: "mɛn" }
+  focus_symbols: ["ɛ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: plural of man
+- id: ex-pin
+  word: pin
+  display: pin
+  ipa: { en-US: "pɪn", en-GB: "pɪn" }
+  focus_symbols: ["ɪ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a small pointed fastener
+- id: ex-sun
+  word: sun
+  display: sun
+  ipa: { en-US: "sʌn", en-GB: "sʌn" }
+  focus_symbols: ["ʌ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the star at the center of our solar system
+- id: ex-cup
+  word: cup
+  display: cup
+  ipa: { en-US: "kʌp", en-GB: "kʌp" }
+  focus_symbols: ["ʌ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a small drinking container
+- id: ex-about
+  word: about
+  display: about
+  ipa: { en-US: "əˈbaʊt", en-GB: "əˈbaʊt" }
+  focus_symbols: ["ə", "ˈ", "aʊ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: used to introduce a topic or estimate
+- id: ex-sofa
+  word: sofa
+  display: sofa
+  ipa: { en-US: "ˈsoʊfə", en-GB: "ˈsəʊfə" }
+  focus_symbols: ["ə", "ˈ", "oʊ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: ar
+  meaning_gloss: a long upholstered seat
+- id: ex-taken
+  word: taken
+  display: taken
+  ipa: { en-US: "ˈteɪkən", en-GB: "ˈteɪkən" }
+  focus_symbols: ["ə", "ˈ", "eɪ"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: already occupied or captured
+- id: ex-see
+  word: see
+  display: see
+  ipa: { en-US: "si", en-GB: "siː" }
+  focus_symbols: ["i", "ː"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to perceive with the eyes
+- id: ex-food
+  word: food
+  display: food
+  ipa: { en-US: "fud", en-GB: "fuːd" }
+  focus_symbols: ["u", "ː"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: nourishment
+- id: ex-book
+  word: book
+  display: book
+  ipa: { en-US: "bʊk", en-GB: "bʊk" }
+  focus_symbols: ["ʊ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a bound written work
+- id: ex-good
+  word: good
+  display: good
+  ipa: { en-US: "ɡʊd", en-GB: "ɡʊd" }
+  focus_symbols: ["ʊ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: of high quality
+- id: ex-blue
+  word: blue
+  display: blue
+  ipa: { en-US: "blu", en-GB: "bluː" }
+  focus_symbols: ["u", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the color blue
+- id: ex-father
+  word: father
+  display: father
+  ipa: { en-US: "ˈfɑðɚ", en-GB: "ˈfɑːðə" }
+  focus_symbols: ["ɑ", "ð", "ɚ", "ˈ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a male parent
+- id: ex-spa
+  word: spa
+  display: spa
+  ipa: { en-US: "spɑ", en-GB: "spɑː" }
+  focus_symbols: ["ɑ", "ː"]
+  familiarity: 0.89
+  word_type: loanword
+  origin_language: nl
+  meaning_gloss: a place for health and relaxation treatments
+- id: ex-law
+  word: law
+  display: law
+  ipa: { en-US: "lɔ", en-GB: "lɔː" }
+  focus_symbols: ["ɔ", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a rule backed by authority
+- id: ex-thought
+  word: thought
+  display: thought
+  ipa: { en-US: "θɔt", en-GB: "θɔːt" }
+  focus_symbols: ["θ", "ɔ", "ː"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: an idea or mental act
+- id: ex-caught
+  word: caught
+  display: caught
+  ipa: { en-US: "kɔt", en-GB: "kɔːt" }
+  focus_symbols: ["ɔ", "ː"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: seized or captured
+- id: ex-lot-uk
+  word: lot
+  display: lot (UK)
+  ipa: { en-GB: "lɒt" }
+  focus_symbols: ["ɒ"]
+  familiarity: 0.88
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a large amount or a group
+- id: ex-nurse
+  word: nurse
+  display: nurse
+  ipa: { en-US: "nɝs", en-GB: "nɜːs" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.93
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a medical caregiver
+- id: ex-bird
+  word: bird
+  display: bird
+  ipa: { en-US: "bɝd", en-GB: "bɜːd" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a feathered animal
+- id: ex-learn
+  word: learn
+  display: learn
+  ipa: { en-US: "lɝn", en-GB: "lɜːn" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to gain knowledge
+- id: ex-word
+  word: word
+  display: word
+  ipa: { en-US: "wɝd", en-GB: "wɜːd" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a spoken or written unit of language
+- id: ex-say
+  word: say
+  display: say
+  ipa: { en-US: "seɪ", en-GB: "seɪ" }
+  focus_symbols: ["eɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to speak
+- id: ex-day
+  word: day
+  display: day
+  ipa: { en-US: "deɪ", en-GB: "deɪ" }
+  focus_symbols: ["eɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a twenty-four-hour period
+- id: ex-time
+  word: time
+  display: time
+  ipa: { en-US: "taɪm", en-GB: "taɪm" }
+  focus_symbols: ["aɪ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: measurable duration
+- id: ex-ride
+  word: ride
+  display: ride
+  ipa: { en-US: "ɹaɪd", en-GB: "ɹaɪd" }
+  focus_symbols: ["ɹ", "aɪ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to travel on or in something
+- id: ex-go
+  word: go
+  display: go
+  ipa: { en-US: "ɡoʊ", en-GB: "ɡəʊ" }
+  focus_symbols: ["oʊ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to move
+- id: ex-home
+  word: home
+  display: home
+  ipa: { en-US: "hoʊm", en-GB: "həʊm" }
+  focus_symbols: ["oʊ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the place where one lives
+- id: ex-now
+  word: now
+  display: now
+  ipa: { en-US: "naʊ", en-GB: "naʊ" }
+  focus_symbols: ["aʊ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: at this moment
+- id: ex-mouth
+  word: mouth
+  display: mouth
+  ipa: { en-US: "maʊθ", en-GB: "maʊθ" }
+  focus_symbols: ["aʊ", "θ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the opening used for speaking and eating
+- id: ex-boy
+  word: boy
+  display: boy
+  ipa: { en-US: "bɔɪ", en-GB: "bɔɪ" }
+  focus_symbols: ["ɔɪ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a young male child
+- id: ex-choice
+  word: choice
+  display: choice
+  ipa: { en-US: "tʃɔɪs", en-GB: "tʃɔɪs" }
+  focus_symbols: ["tʃ", "ɔɪ"]
+  familiarity: 0.91
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a selection
+- id: ex-ship
+  word: ship
+  display: ship
+  ipa: { en-US: "ʃɪp", en-GB: "ʃɪp" }
+  focus_symbols: ["ʃ", "ɪ"]
+  familiarity: 0.94
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a large boat
+- id: ex-she
+  word: she
+  display: she
+  ipa: { en-US: "ʃi", en-GB: "ʃiː" }
+  focus_symbols: ["ʃ", "i"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: third-person feminine pronoun
+- id: ex-chew
+  word: chew
+  display: chew
+  ipa: { en-US: "tʃu", en-GB: "tʃuː" }
+  focus_symbols: ["tʃ", "u"]
+  familiarity: 0.86
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to crush food with the teeth
+- id: ex-chip
+  word: chip
+  display: chip
+  ipa: { en-US: "tʃɪp", en-GB: "tʃɪp" }
+  focus_symbols: ["tʃ", "ɪ"]
+  familiarity: 0.92
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a small thin piece
+- id: ex-job
+  word: job
+  display: job
+  ipa: { en-US: "dʒɑb", en-GB: "dʒɒb" }
+  focus_symbols: ["dʒ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: paid work
+- id: ex-jam
+  word: jam
+  display: jam
+  ipa: { en-US: "dʒæm", en-GB: "dʒæm" }
+  focus_symbols: ["dʒ", "æ"]
+  familiarity: 0.92
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: fruit preserved with sugar
+- id: ex-measure
+  word: measure
+  display: measure
+  ipa: { en-US: "ˈmɛʒɚ", en-GB: "ˈmɛʒə" }
+  focus_symbols: ["ʒ", "ˈ"]
+  familiarity: 0.85
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to determine size or amount
+- id: ex-vision
+  word: vision
+  display: vision
+  ipa: { en-US: "ˈvɪʒən", en-GB: "ˈvɪʒən" }
+  focus_symbols: ["ʒ", "ɪ", "ə"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: sight or an imagined picture
+- id: ex-sing
+  word: sing
+  display: sing
+  ipa: { en-US: "sɪŋ", en-GB: "sɪŋ" }
+  focus_symbols: ["ŋ", "ɪ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to produce musical tones
+- id: ex-song
+  word: song
+  display: song
+  ipa: { en-US: "sɔŋ", en-GB: "sɒŋ" }
+  focus_symbols: ["ŋ", "ɔ", "ɒ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a piece of music with words
+- id: ex-yes
+  word: yes
+  display: yes
+  ipa: { en-US: "jɛs", en-GB: "jɛs" }
+  focus_symbols: ["j", "ɛ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: an affirmative response
+- id: ex-yarn
+  word: yarn
+  display: yarn
+  ipa: { en-US: "jɑɹn", en-GB: "jɑːn" }
+  focus_symbols: ["j", "ɑ", "ɹ"]
+  familiarity: 0.75
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: spun thread
+- id: ex-thin
+  word: thin
+  display: thin
+  ipa: { en-US: "θɪn", en-GB: "θɪn" }
+  focus_symbols: ["θ", "ɪ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: not thick
+- id: ex-bath
+  word: bath
+  display: bath
+  ipa: { en-US: "bæθ", en-GB: "bɑːθ" }
+  focus_symbols: ["θ", "æ", "ɑ", "ː"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: washing in water
+- id: ex-this
+  word: this
+  display: this
+  ipa: { en-US: "ðɪs", en-GB: "ðɪs" }
+  focus_symbols: ["ð", "ɪ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the thing near the speaker
+- id: ex-those
+  word: those
+  display: those
+  ipa: { en-US: "ðoʊz", en-GB: "ðəʊz" }
+  focus_symbols: ["ð", "oʊ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: plural of that
+- id: ex-red
+  word: red
+  display: red
+  ipa: { en-US: "ɹɛd", en-GB: "ɹɛd" }
+  focus_symbols: ["ɹ", "ɛ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the color red
+- id: ex-right
+  word: right
+  display: right
+  ipa: { en-US: "ɹaɪt", en-GB: "ɹaɪt" }
+  focus_symbols: ["ɹ", "aɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: correct or on the right side
+- id: ex-banana
+  word: banana
+  display: banana
+  ipa: { en-US: "bəˈnænə", en-GB: "bəˈnɑːnə" }
+  focus_symbols: ["ə", "ˈ", "æ", "ɑ", "ˌ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: es
+  meaning_gloss: a long curved fruit
+- id: ex-computer
+  word: computer
+  display: computer
+  ipa: { en-US: "kəmˈpjutɚ", en-GB: "kəmˈpjuːtə" }
+  focus_symbols: ["ə", "ˈ", "j", "u", "ɚ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: an electronic machine for computation
+- id: ex-linguistics
+  word: linguistics
+  display: linguistics
+  ipa: { en-US: "lɪŋˈɡwɪstɪks", en-GB: "lɪŋˈɡwɪstɪks" }
+  focus_symbols: ["ˈ", "ŋ", "ɪ"]
+  familiarity: 0.68
+  word_type: concept-example
+  origin_language: en
+  meaning_gloss: the scientific study of language
+- id: ex-photograph
+  word: photograph
+  display: photograph
+  ipa: { en-US: "ˈfoʊtəˌɡræf", en-GB: "ˈfəʊtəˌɡrɑːf" }
+  focus_symbols: ["ˈ", "ˌ", "oʊ", "ə", "æ", "ɑ"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: gr
+  meaning_gloss: a picture made with a camera
+- id: ex-water
+  word: water
+  display: water
+  ipa: { en-US: "ˈwɔɾɚ", en-GB: "ˈwɔːtə" }
+  focus_symbols: ["ɾ", "ɚ", "ˈ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: clear liquid for drinking
+- id: ex-city
+  word: city
+  display: city
+  ipa: { en-US: "ˈsɪɾi", en-GB: "ˈsɪti" }
+  focus_symbols: ["ɾ", "ˈ", "ɪ", "i"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a large town
+- id: ex-button
+  word: button
+  display: button
+  ipa: { en-US: "ˈbʌʔn̩", en-GB: "ˈbʌtən" }
+  focus_symbols: ["ʔ", "̩", "ˈ", "ʌ"]
+  familiarity: 0.88
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a small fastener or control
+- id: ex-uhoh
+  word: uh-oh
+  display: uh-oh
+  ipa: { en-US: "ʌʔoʊ", en-GB: "ʌʔəʊ" }
+  focus_symbols: ["ʔ", "ʌ", "oʊ"]
+  familiarity: 0.84
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: an exclamation of trouble
+- id: ex-pero
+  word: pero
+  display: pero
+  ipa: { en-US: "ˈpeɾo", en-GB: "ˈpeɾo" }
+  focus_symbols: ["r"]
+  familiarity: 0.45
+  word_type: concept-example
+  origin_language: es
+  meaning_gloss: Spanish word used to contrast tap and trill
+- id: ex-perro
+  word: perro
+  display: perro
+  ipa: { en-US: "ˈpero", en-GB: "ˈpero" }
+  focus_symbols: ["r"]
+  familiarity: 0.4
+  word_type: concept-example
+  origin_language: es
+  meaning_gloss: Spanish word used to contrast stronger r realizations
+- id: ex-canyon
+  word: canyon
+  display: canyon
+  ipa: { en-US: "ˈkænjən", en-GB: "ˈkænjən" }
+  focus_symbols: ["ɲ", "j"]
+  familiarity: 0.79
+  word_type: common-word
+  origin_language: es
+  meaning_gloss: a deep narrow valley
+- id: ex-senor
+  word: señor
+  display: señor
+  ipa: { en-US: "seˈɲoɾ", en-GB: "seˈɲoɾ" }
+  focus_symbols: ["ɲ", "r"]
+  familiarity: 0.62
+  word_type: loanword
+  origin_language: es
+  meaning_gloss: a polite Spanish title
+  audio_text: { en-US: "senyor" }
+- id: ex-bach
+  word: bach
+  display: Bach
+  ipa: { en-US: "bɑx", en-GB: "bax" }
+  focus_symbols: ["x", "ɑ"]
+  familiarity: 0.74
+  word_type: proper-noun
+  origin_language: de
+  corpus_slug: bach
+  meaning_gloss: the composer Johann Sebastian Bach
+- id: ex-ich
+  word: ich
+  display: ich
+  ipa: { en-US: "ɪç", en-GB: "ɪç" }
+  focus_symbols: ["ç", "ɪ"]
+  familiarity: 0.28
+  word_type: concept-example
+  origin_language: de
+  meaning_gloss: German word often used for the ich sound
+- id: ex-rouge
+  word: rouge
+  display: rouge
+  ipa: { en-US: "ʁuʒ", en-GB: "ʁuʒ" }
+  focus_symbols: ["ʁ", "ʒ", "u"]
+  familiarity: 0.63
+  word_type: loanword
+  origin_language: fr
+  corpus_slug: rouge
+  meaning_gloss: red makeup or the color red in French
+- id: ex-paris-fr
+  word: Paris
+  display: Paris (French)
+  ipa: { en-US: "paʁi", en-GB: "paʁi" }
+  focus_symbols: ["ʁ", "i"]
+  familiarity: 0.94
+  word_type: proper-noun
+  origin_language: fr
+  meaning_gloss: the capital of France in a French-style pronunciation
+- id: ex-sprachbund
+  word: sprachbund
+  display: Sprachbund
+  ipa: { en-US: "ˈʃprɑkˌbʊnt", de: "ˈʃpʁaːxˌbʊnt" }
+  focus_symbols: ["ʃ", "ɑ", "x", "ʁ", "ˌ"]
+  familiarity: 0.3
+  word_type: loanword
+  origin_language: de
+  corpus_slug: sprachbund
+  meaning_gloss: a linguistic area shaped by language contact
+- id: ex-lune
+  word: lune
+  display: lune
+  ipa: { en-US: "lyn", en-GB: "lyn" }
+  focus_symbols: ["y"]
+  familiarity: 0.2
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for moon
+- id: ex-deux
+  word: deux
+  display: deux
+  ipa: { en-US: "dø", en-GB: "dø" }
+  focus_symbols: ["ø"]
+  familiarity: 0.18
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for two
+- id: ex-peur
+  word: peur
+  display: peur
+  ipa: { en-US: "pœʁ", en-GB: "pœʁ" }
+  focus_symbols: ["œ", "ʁ"]
+  familiarity: 0.12
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for fear
+- id: ex-bon
+  word: bon
+  display: bon
+  ipa: { en-US: "bɔ̃", en-GB: "bɔ̃" }
+  focus_symbols: ["ɔ̃", "̃"]
+  familiarity: 0.18
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for good
+- id: ex-vin
+  word: vin
+  display: vin
+  ipa: { en-US: "vɛ̃", en-GB: "vɛ̃" }
+  focus_symbols: ["ɛ̃", "̃"]
+  familiarity: 0.14
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for wine
+- id: ex-blanc
+  word: blanc
+  display: blanc
+  ipa: { en-US: "blɑ̃", en-GB: "blɑ̃" }
+  focus_symbols: ["ɑ̃", "̃"]
+  familiarity: 0.17
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for white
+- id: ex-ty-russian
+  word: ty
+  display: ты
+  ipa: { en-US: "tɨ", en-GB: "tɨ" }
+  focus_symbols: ["ɨ"]
+  familiarity: 0.08
+  word_type: concept-example
+  origin_language: ru
+  meaning_gloss: Russian word used for the barred-i vowel
+- id: ex-kiz
+  word: kiz
+  display: kız
+  ipa: { en-US: "kɯz", en-GB: "kɯz" }
+  focus_symbols: ["ɯ"]
+  familiarity: 0.08
+  word_type: concept-example
+  origin_language: tr
+  meaning_gloss: Turkish-style example for the unrounded back close vowel
+  audio_text: { en-US: "kuz" }
+- id: ex-qi
+  word: qi
+  display: qi
+  ipa: { en-US: "tɕʰi", en-GB: "tɕʰi" }
+  focus_symbols: ["tɕ", "ʰ"]
+  familiarity: 0.34
+  word_type: loanword
+  origin_language: zh
+  meaning_gloss: the romanized form often used to explain q in Pinyin
+- id: ex-xi
+  word: xi
+  display: Xi
+  ipa: { en-US: "ɕi", en-GB: "ɕi" }
+  focus_symbols: ["ɕ"]
+  familiarity: 0.44
+  word_type: proper-noun
+  origin_language: zh
+  corpus_slug: xi-jinping
+  meaning_gloss: a high-value Chinese proper-name syllable
+- id: ex-shi-retroflex
+  word: shi
+  display: shi
+  ipa: { en-US: "ʂɻ", en-GB: "ʂɻ" }
+  focus_symbols: ["ʂ"]
+  familiarity: 0.23
+  word_type: concept-example
+  origin_language: zh
+  meaning_gloss: a retroflex sh-like syllable
+- id: ex-tsar
+  word: tsar
+  display: tsar
+  ipa: { en-US: "tsɑɹ", en-GB: "tsɑː" }
+  focus_symbols: ["ts", "ɑ"]
+  familiarity: 0.62
+  word_type: loanword
+  origin_language: ru
+  meaning_gloss: a Russian imperial title
+- id: ex-zhang
+  word: zhang
+  display: Zhang
+  ipa: { en-US: "ʈʂaŋ", en-GB: "ʈʂaŋ" }
+  focus_symbols: ["ʈʂ", "ŋ"]
+  familiarity: 0.35
+  word_type: proper-noun
+  origin_language: zh
+  meaning_gloss: a common Chinese surname example
+- id: ex-rz
+  word: rz
+  display: rz
+  ipa: { en-US: "ʐ", en-GB: "ʐ" }
+  focus_symbols: ["ʐ"]
+  familiarity: 0.04
+  word_type: concept-example
+  origin_language: pl
+  meaning_gloss: a compact retroflex-zh style example
+- id: ex-xi-jinping
+  word: xi-jinping
+  display: Xi Jinping
+  ipa: { en-US: "ˌʃi dʒɪnˈpɪŋ", zh: "ɕi tɕin pʰiŋ" }
+  focus_symbols: ["ɕ", "tɕ", "ʰ", "ŋ", "ˈ"]
+  familiarity: 0.78
+  word_type: proper-noun
+  origin_language: zh
+  corpus_slug: xi-jinping
+  meaning_gloss: the Chinese leader's name
+- id: ex-qigong
+  word: qigong
+  display: Qigong
+  ipa: { en-US: "ˈtʃiˌɡɔŋ", zh: "tɕʰi kʊŋ" }
+  focus_symbols: ["tʃ", "tɕ", "ʰ", "ɔ", "ŋ"]
+  familiarity: 0.52
+  word_type: loanword
+  origin_language: zh
+  corpus_slug: qigong
+  meaning_gloss: a Chinese movement and breathing practice
+- id: ex-beijing
+  word: beijing
+  display: Beijing
+  ipa: { en-US: "beɪˈdʒɪŋ", zh: "pei tɕiŋ" }
+  focus_symbols: ["eɪ", "dʒ", "ŋ", "tɕ"]
+  familiarity: 0.88
+  word_type: proper-noun
+  origin_language: zh
+  corpus_slug: beijing
+  meaning_gloss: the capital of China
+- id: ex-karaoke
+  word: karaoke
+  display: karaoke
+  ipa: { en-US: "ˌkæriˈoʊki", ja: "kaɾaoke" }
+  focus_symbols: ["ɾ", "oʊ", "ˌ", "ˈ"]
+  familiarity: 0.86
+  word_type: loanword
+  origin_language: ja
+  meaning_gloss: singing along to recorded music
+- id: ex-tsunami
+  word: tsunami
+  display: tsunami
+  ipa: { en-US: "tsuˈnɑmi", ja: "tsɯnami" }
+  focus_symbols: ["ts", "u", "ɯ", "ˈ"]
+  familiarity: 0.83
+  word_type: loanword
+  origin_language: ja
+  meaning_gloss: a destructive sea wave
+- id: ex-jalapeno
+  word: jalapeno
+  display: jalapeño
+  ipa: { en-US: "ˌhɑləˈpeɪnjoʊ", es: "xalaˈpeɲo" }
+  focus_symbols: ["x", "ɲ", "eɪ", "ˈ", "ˌ"]
+  familiarity: 0.85
+  word_type: loanword
+  origin_language: es
+  corpus_slug: jalapeno
+  meaning_gloss: a chili pepper
+- id: ex-pinata
+  word: pinata
+  display: piñata
+  ipa: { en-US: "ˌpiːnˈjɑːtə", es: "piˈɲata" }
+  focus_symbols: ["ɲ", "j", "ˈ"]
+  familiarity: 0.76
+  word_type: loanword
+  origin_language: es
+  meaning_gloss: a decorated container broken at celebrations
+- id: ex-schadenfreude
+  word: schadenfreude
+  display: Schadenfreude
+  ipa: { en-US: "ˈʃɑdənˌfrɔɪdə", de: "ˈʃaːdn̩ˌfʁɔʏ̯də" }
+  focus_symbols: ["ʃ", "ɑ", "ɔɪ", "ʁ", "ˌ"]
+  familiarity: 0.58
+  word_type: loanword
+  origin_language: de
+  corpus_slug: schadenfreude
+  meaning_gloss: pleasure at another person's misfortune
+- id: ex-zeitgeist
+  word: zeitgeist
+  display: Zeitgeist
+  ipa: { en-US: "ˈzaɪtˌɡaɪst", de: "ˈtsaɪtˌɡaɪst" }
+  focus_symbols: ["aɪ", "ˈ", "ˌ", "ts"]
+  familiarity: 0.6
+  word_type: loanword
+  origin_language: de
+  corpus_slug: zeitgeist
+  meaning_gloss: the spirit of an age
+- id: ex-croissant
+  word: croissant
+  display: croissant
+  ipa: { en-US: "krəˈsɑnt", fr: "kʁwaˈsɑ̃" }
+  focus_symbols: ["ə", "ɑ", "ʁ", "ɑ̃", "ˈ"]
+  familiarity: 0.73
+  word_type: loanword
+  origin_language: fr
+  meaning_gloss: a buttery crescent-shaped pastry
+- id: ex-genre
+  word: genre
+  display: genre
+  ipa: { en-US: "ˈʒɑnrə", fr: "ʒɑ̃ʁ" }
+  focus_symbols: ["ʒ", "ɑ", "ɑ̃", "ʁ"]
+  familiarity: 0.72
+  word_type: loanword
+  origin_language: fr
+  meaning_gloss: a category of art or writing

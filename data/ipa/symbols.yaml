@@ -1,0 +1,457 @@
+- id: "æ"
+  symbol: "æ"
+  name: "trap vowel"
+  class: "vowel"
+  difficulty: 0.28
+  confusion_score: 0.82
+  english_examples: ["ex-cat", "ex-men"]
+  notes: ["Short front vowel used in words like cat."]
+- id: "ɛ"
+  symbol: "ɛ"
+  name: "dress vowel"
+  class: "vowel"
+  difficulty: 0.22
+  confusion_score: 0.71
+  english_examples: ["ex-bed", "ex-men"]
+  notes: ["Often read too much like the spelling letter e."]
+- id: "ɪ"
+  symbol: "ɪ"
+  name: "kit vowel"
+  class: "vowel"
+  difficulty: 0.25
+  confusion_score: 0.88
+  english_examples: ["ex-sit", "ex-pin"]
+  notes: ["Short high front vowel, not the same as i."]
+- id: "ʌ"
+  symbol: "ʌ"
+  name: "strut vowel"
+  class: "vowel"
+  difficulty: 0.34
+  confusion_score: 0.89
+  english_examples: ["ex-sun", "ex-cup"]
+  notes: ["Common English vowel that many beginners misread as a."]
+- id: "ə"
+  symbol: "ə"
+  name: "schwa"
+  class: "vowel"
+  difficulty: 0.32
+  confusion_score: 0.97
+  english_examples: ["ex-about", "ex-sofa"]
+  concepts: ["reduced-vowels"]
+  notes: ["The most common reduced vowel in English."]
+- id: "i"
+  symbol: "i"
+  name: "fleece vowel"
+  class: "vowel"
+  difficulty: 0.15
+  confusion_score: 0.45
+  english_examples: ["ex-see", "ex-blue"]
+  notes: ["Long high front vowel in broad English transcription."]
+- id: "u"
+  symbol: "u"
+  name: "goose vowel"
+  class: "vowel"
+  difficulty: 0.18
+  confusion_score: 0.42
+  english_examples: ["ex-food", "ex-blue"]
+  notes: ["High back rounded vowel."]
+- id: "ʊ"
+  symbol: "ʊ"
+  name: "foot vowel"
+  class: "vowel"
+  difficulty: 0.27
+  confusion_score: 0.84
+  english_examples: ["ex-book", "ex-good"]
+  notes: ["Short rounded vowel, often confused with u."]
+- id: "ɑ"
+  symbol: "ɑ"
+  name: "open back a"
+  class: "vowel"
+  difficulty: 0.29
+  confusion_score: 0.82
+  english_examples: ["ex-father", "ex-spa"]
+  notes: ["Used in many American-style broad transcriptions."]
+- id: "ɔ"
+  symbol: "ɔ"
+  name: "thought vowel"
+  class: "vowel"
+  difficulty: 0.31
+  confusion_score: 0.8
+  english_examples: ["ex-law", "ex-thought"]
+  notes: ["Rounded open-mid back vowel."]
+- id: "ɒ"
+  symbol: "ɒ"
+  name: "lot vowel (British)"
+  class: "vowel"
+  difficulty: 0.41
+  confusion_score: 0.79
+  required: false
+  english_examples: ["ex-lot-uk"]
+  notes: ["Useful for reading British-style transcriptions."]
+- id: "ɜ"
+  symbol: "ɜ"
+  name: "nurse vowel core"
+  class: "vowel"
+  difficulty: 0.42
+  confusion_score: 0.74
+  english_examples: ["ex-nurse", "ex-bird"]
+  notes: ["Usually paired with ː in British notation."]
+- id: "ɚ"
+  symbol: "ɚ"
+  name: "r-colored schwa"
+  class: "vowel"
+  difficulty: 0.39
+  confusion_score: 0.66
+  english_examples: ["ex-water"]
+  notes: ["Common American reduced r-colored vowel."]
+- id: "ɝ"
+  symbol: "ɝ"
+  name: "stressed r-colored vowel"
+  class: "vowel"
+  difficulty: 0.41
+  confusion_score: 0.69
+  english_examples: ["ex-bird", "ex-word"]
+  notes: ["Common American stressed r-colored vowel."]
+- id: "eɪ"
+  symbol: "eɪ"
+  name: "face diphthong"
+  class: "cluster"
+  difficulty: 0.2
+  confusion_score: 0.32
+  english_examples: ["ex-say", "ex-day"]
+  notes: ["A moving vowel written as a sequence."]
+- id: "aɪ"
+  symbol: "aɪ"
+  name: "price diphthong"
+  class: "cluster"
+  difficulty: 0.18
+  confusion_score: 0.28
+  english_examples: ["ex-time", "ex-ride"]
+- id: "oʊ"
+  symbol: "oʊ"
+  name: "goat diphthong"
+  class: "cluster"
+  difficulty: 0.18
+  confusion_score: 0.36
+  english_examples: ["ex-go", "ex-home"]
+- id: "aʊ"
+  symbol: "aʊ"
+  name: "mouth diphthong"
+  class: "cluster"
+  difficulty: 0.22
+  confusion_score: 0.39
+  english_examples: ["ex-now", "ex-mouth"]
+- id: "ɔɪ"
+  symbol: "ɔɪ"
+  name: "choice diphthong"
+  class: "cluster"
+  difficulty: 0.2
+  confusion_score: 0.31
+  english_examples: ["ex-boy", "ex-choice"]
+- id: "ː"
+  symbol: "ː"
+  name: "length mark"
+  class: "mark"
+  difficulty: 0.24
+  confusion_score: 0.58
+  required: false
+  english_examples: ["ex-blue", "ex-bird"]
+  notes: ["Shows length in many dictionary traditions."]
+- id: "ʃ"
+  symbol: "ʃ"
+  name: "sh sound"
+  class: "consonant"
+  difficulty: 0.22
+  confusion_score: 0.91
+  english_examples: ["ex-ship", "ex-she"]
+- id: "tʃ"
+  symbol: "tʃ"
+  name: "ch affricate"
+  class: "cluster"
+  difficulty: 0.2
+  confusion_score: 0.46
+  english_examples: ["ex-chew", "ex-chip"]
+- id: "dʒ"
+  symbol: "dʒ"
+  name: "j affricate"
+  class: "cluster"
+  difficulty: 0.24
+  confusion_score: 0.51
+  english_examples: ["ex-job", "ex-jam"]
+- id: "ʒ"
+  symbol: "ʒ"
+  name: "zh sound"
+  class: "consonant"
+  difficulty: 0.32
+  confusion_score: 0.93
+  english_examples: ["ex-measure", "ex-vision"]
+- id: "ŋ"
+  symbol: "ŋ"
+  name: "ng sound"
+  class: "consonant"
+  difficulty: 0.2
+  confusion_score: 0.74
+  english_examples: ["ex-sing", "ex-song"]
+- id: "j"
+  symbol: "j"
+  name: "y sound"
+  class: "consonant"
+  difficulty: 0.18
+  confusion_score: 0.87
+  english_examples: ["ex-yes", "ex-yarn"]
+  notes: ["In IPA, j is the English y sound."]
+- id: "θ"
+  symbol: "θ"
+  name: "voiceless th"
+  class: "consonant"
+  difficulty: 0.28
+  confusion_score: 0.94
+  english_examples: ["ex-thin", "ex-bath"]
+- id: "ð"
+  symbol: "ð"
+  name: "voiced th"
+  class: "consonant"
+  difficulty: 0.3
+  confusion_score: 0.94
+  english_examples: ["ex-this", "ex-those"]
+- id: "ɹ"
+  symbol: "ɹ"
+  name: "English r"
+  class: "consonant"
+  difficulty: 0.27
+  confusion_score: 0.86
+  english_examples: ["ex-red", "ex-right"]
+- id: "ˈ"
+  symbol: "ˈ"
+  name: "primary stress"
+  class: "conceptual-mark"
+  difficulty: 0.24
+  confusion_score: 0.66
+  notes: ["Shows the main stressed syllable."]
+- id: "ˌ"
+  symbol: "ˌ"
+  name: "secondary stress"
+  class: "conceptual-mark"
+  difficulty: 0.3
+  confusion_score: 0.61
+  required: false
+  notes: ["Shows a weaker stress before the main stress."]
+- id: "ɾ"
+  symbol: "ɾ"
+  name: "tap or flap"
+  class: "consonant"
+  difficulty: 0.34
+  confusion_score: 0.7
+  required: false
+  english_examples: ["ex-water", "ex-city"]
+- id: "ʔ"
+  symbol: "ʔ"
+  name: "glottal stop"
+  class: "consonant"
+  difficulty: 0.34
+  confusion_score: 0.68
+  required: false
+  english_examples: ["ex-button", "ex-uhoh"]
+- id: "r"
+  symbol: "r"
+  name: "tap or trill r"
+  class: "consonant"
+  difficulty: 0.34
+  confusion_score: 0.63
+  required: false
+  english_examples: ["ex-pero", "ex-perro"]
+- id: "ɲ"
+  symbol: "ɲ"
+  name: "palatal nasal"
+  class: "consonant"
+  difficulty: 0.42
+  confusion_score: 0.74
+  required: false
+  english_examples: ["ex-canyon", "ex-senor"]
+- id: "x"
+  symbol: "x"
+  name: "back fricative"
+  class: "consonant"
+  difficulty: 0.48
+  confusion_score: 0.9
+  required: false
+  loanword_examples: ["ex-bach"]
+- id: "ç"
+  symbol: "ç"
+  name: "front fricative"
+  class: "consonant"
+  difficulty: 0.52
+  confusion_score: 0.82
+  required: false
+  loanword_examples: ["ex-ich"]
+- id: "ʁ"
+  symbol: "ʁ"
+  name: "uvular r"
+  class: "consonant"
+  difficulty: 0.5
+  confusion_score: 0.9
+  required: false
+  loanword_examples: ["ex-rouge", "ex-paris-fr"]
+- id: "y"
+  symbol: "y"
+  name: "front rounded u"
+  class: "vowel"
+  difficulty: 0.54
+  confusion_score: 0.86
+  required: false
+  loanword_examples: ["ex-lune"]
+- id: "ø"
+  symbol: "ø"
+  name: "closed front rounded e"
+  class: "vowel"
+  difficulty: 0.57
+  confusion_score: 0.82
+  required: false
+  loanword_examples: ["ex-deux"]
+- id: "œ"
+  symbol: "œ"
+  name: "open front rounded vowel"
+  class: "vowel"
+  difficulty: 0.59
+  confusion_score: 0.82
+  required: false
+  loanword_examples: ["ex-peur"]
+- id: "̃"
+  symbol: "̃"
+  name: "nasalization mark"
+  class: "mark"
+  difficulty: 0.46
+  confusion_score: 0.77
+  required: false
+  notes: ["The tilde usually means a nasalized vowel."]
+- id: "ɑ̃"
+  symbol: "ɑ̃"
+  name: "nasalized a"
+  class: "cluster"
+  difficulty: 0.58
+  confusion_score: 0.72
+  required: false
+  loanword_examples: ["ex-blanc"]
+- id: "ɛ̃"
+  symbol: "ɛ̃"
+  name: "nasalized e"
+  class: "cluster"
+  difficulty: 0.58
+  confusion_score: 0.72
+  required: false
+  loanword_examples: ["ex-vin"]
+- id: "ɔ̃"
+  symbol: "ɔ̃"
+  name: "nasalized o"
+  class: "cluster"
+  difficulty: 0.58
+  confusion_score: 0.72
+  required: false
+  loanword_examples: ["ex-bon"]
+- id: "ɨ"
+  symbol: "ɨ"
+  name: "barred i"
+  class: "vowel"
+  difficulty: 0.62
+  confusion_score: 0.76
+  required: false
+  loanword_examples: ["ex-ty-russian"]
+- id: "ɯ"
+  symbol: "ɯ"
+  name: "unrounded back u"
+  class: "vowel"
+  difficulty: 0.64
+  confusion_score: 0.8
+  required: false
+  loanword_examples: ["ex-kiz"]
+- id: "ʰ"
+  symbol: "ʰ"
+  name: "aspiration mark"
+  class: "mark"
+  difficulty: 0.41
+  confusion_score: 0.63
+  required: false
+  notes: ["This mark flags an extra breathy release."]
+- id: "ɕ"
+  symbol: "ɕ"
+  name: "alveolo-palatal sh"
+  class: "consonant"
+  difficulty: 0.68
+  confusion_score: 0.88
+  required: false
+  loanword_examples: ["ex-xi"]
+- id: "ʂ"
+  symbol: "ʂ"
+  name: "retroflex sh"
+  class: "consonant"
+  difficulty: 0.7
+  confusion_score: 0.84
+  required: false
+  loanword_examples: ["ex-shi-retroflex"]
+- id: "ts"
+  symbol: "ts"
+  name: "ts affricate"
+  class: "cluster"
+  difficulty: 0.48
+  confusion_score: 0.51
+  required: false
+  loanword_examples: ["ex-tsar"]
+- id: "tɕ"
+  symbol: "tɕ"
+  name: "alveolo-palatal affricate"
+  class: "cluster"
+  difficulty: 0.72
+  confusion_score: 0.79
+  required: false
+  loanword_examples: ["ex-qi"]
+- id: "ʈʂ"
+  symbol: "ʈʂ"
+  name: "retroflex affricate"
+  class: "cluster"
+  difficulty: 0.74
+  confusion_score: 0.76
+  required: false
+  loanword_examples: ["ex-zhang"]
+- id: "ʐ"
+  symbol: "ʐ"
+  name: "retroflex zh"
+  class: "consonant"
+  difficulty: 0.74
+  confusion_score: 0.77
+  required: false
+  loanword_examples: ["ex-rz"]
+- id: "ʲ"
+  symbol: "ʲ"
+  name: "palatalization mark"
+  class: "mark"
+  difficulty: 0.62
+  confusion_score: 0.58
+  required: false
+- id: "̩"
+  symbol: "̩"
+  name: "syllabic mark"
+  class: "mark"
+  difficulty: 0.54
+  confusion_score: 0.61
+  required: false
+- id: "˥"
+  symbol: "˥"
+  name: "high tone"
+  class: "mark"
+  difficulty: 0.7
+  confusion_score: 0.38
+  required: false
+- id: "˧"
+  symbol: "˧"
+  name: "mid tone"
+  class: "mark"
+  difficulty: 0.7
+  confusion_score: 0.34
+  required: false
+- id: "˩"
+  symbol: "˩"
+  name: "low tone"
+  class: "mark"
+  difficulty: 0.7
+  confusion_score: 0.38
+  required: false

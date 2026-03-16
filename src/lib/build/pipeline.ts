@@ -3,6 +3,7 @@ import ts from "typescript";
 
 import { PRE_RENDER_LIMIT } from "../constants";
 import { materializePreviewAudio } from "./audio";
+import { writeLearnIpaCurriculum } from "./learn-ipa";
 import { originHubDefinitions, topicHubDefinitions } from "../hubs";
 import { computeIndexStatus, scoreEntries } from "../index-status";
 import { applyOverride, mergeNormalizedEntries } from "../merge";
@@ -197,6 +198,24 @@ export async function runShardStage(corpus?: Entry[]) {
     await writeJsonFile(path.join(GENERATED_SHARDS_DIR, language, `${shard}.json`), shardFile);
     await writeJsonFile(path.join(DIST_SHARDS_DIR, language, `${shard}.json`), shardFile);
   }
+}
+
+export async function runLearnIpaStage(corpus?: Entry[]) {
+  const entries =
+    corpus ??
+    parseCorpus(
+      await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
+    );
+  const curriculum = await writeLearnIpaCurriculum(entries);
+  await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "curriculum.json"), curriculum);
+  await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "manifest.json"), {
+    generatedAt: curriculum.generatedAt,
+    version: curriculum.version,
+    moduleCount: curriculum.modules.length,
+    stepCount: curriculum.steps.length,
+    symbolCount: curriculum.symbols.length,
+    conceptCount: curriculum.concepts.length
+  });
 }
 
 function countOrigins(entries: Entry[]): Array<{ slug: string; count: number }> {
@@ -482,6 +501,7 @@ export async function runBuild(): Promise<void> {
   const scored = await runScoreStage(related);
   const audioReady = await runAudioStage(scored);
   await runShardStage(audioReady);
+  await runLearnIpaStage(audioReady);
   await runPrerenderStage(audioReady);
   await runSitemapStage(audioReady);
   await runAttributionStage(audioReady);
