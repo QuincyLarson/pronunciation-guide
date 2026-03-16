@@ -28,4 +28,17 @@ describe("word page rendering", () => {
     expect(html).toContain('data-speech-locale=');
     expect(html).toContain("autoplay");
   });
+
+  test("renders candidate pages with noindex robots and blocker text", async () => {
+    const corpus = await buildFixtureCorpus();
+    const omeprazole = corpus.find((entry) => entry.slug === "omeprazole");
+    if (!omeprazole) {
+      throw new Error("Missing omeprazole fixture entry");
+    }
+
+    const html = renderWordPage(omeprazole, buildSiteConfig(), []);
+    expect(html).toContain('meta name="robots" content="noindex,follow"');
+    expect(html).toContain("Current blockers:");
+    expect(html).toContain("low-confidence audio");
+  });
 });

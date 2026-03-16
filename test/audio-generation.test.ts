@@ -14,19 +14,26 @@ import {
   materializePreviewAudio
 } from "../src/lib/build/audio";
 import { buildFixtureCorpus } from "./helpers/fixture-corpus";
-import { entrySchema, type AudioMetadata } from "../src/types/content";
+import { entrySchema, type AudioMetadata, type Entry } from "../src/types/content";
 
 const AUDIO_TEST_SLUG = "audio-pipeline-spec";
+const AUDIO_TEST_SLUGS = [
+  AUDIO_TEST_SLUG,
+  "audio-human-passthrough",
+  "audio-skipped-job"
+] as const;
 
 afterEach(async () => {
-  await rm(path.join(DIST_AUDIO_DIR, "generated", AUDIO_TEST_SLUG), {
-    recursive: true,
-    force: true
-  });
-  await rm(path.join(AUDIO_CACHE_DIR, AUDIO_TEST_SLUG), {
-    recursive: true,
-    force: true
-  });
+  for (const slug of AUDIO_TEST_SLUGS) {
+    await rm(path.join(DIST_AUDIO_DIR, "generated", slug), {
+      recursive: true,
+      force: true
+    });
+    await rm(path.join(AUDIO_CACHE_DIR, slug), {
+      recursive: true,
+      force: true
+    });
+  }
   await rm(path.join(DIST_AUDIO_DIR, "manifest.json"), { force: true });
   await rm(AUDIO_MANIFEST_PATH, { force: true });
 });
@@ -52,6 +59,74 @@ function buildTestAudio(overrides: Partial<AudioMetadata> = {}): AudioMetadata {
     qualityFlags: [],
     ...overrides
   };
+}
+
+function buildTestEntry(
+  slug: string,
+  audioOverrides: Partial<AudioMetadata> = {},
+  extra: Partial<Entry> = {}
+): Entry {
+  return entrySchema.parse({
+    id: `en:${slug}`,
+    slug,
+    display: "Qatar",
+    language: "en",
+    pos: ["proper noun"],
+    glosses: ["country in the Middle East"],
+    shortGloss: "country in the Middle East",
+    origin: {
+      sourceLanguage: "ar",
+      sourceLanguageName: "Arabic",
+      etymologyLabel: "Arabic loanword"
+    },
+    topics: ["news-names"],
+    variants: [
+      {
+        id: "fixture-phonemes",
+        label: "Fixture phonemes",
+        locale: "en-US",
+        ipa: "/kəˈtɑɹ/",
+        respelling: "kuh-TAR",
+        notes: [],
+        audio: buildTestAudio(audioOverrides),
+        provenanceIds: ["fixture-audio"],
+        sortOrder: 0,
+        fieldProvenance: {}
+      }
+    ],
+    related: [],
+    relatedSeedSlugs: [],
+    semanticLinkSlugs: [],
+    confusions: [],
+    confusionNotes: [],
+    provenance: [
+      {
+        id: "fixture-audio",
+        sourceName: "Fixture",
+        sourceUrl: "https://example.com/fixture",
+        sourceLicense: "CC0-1.0",
+        sourceRevision: "test",
+        attributionText: "Fixture audio test",
+        confidence: 0.9,
+        reviewStatus: "auto-imported",
+        fields: ["variants.audio.engineInputs.fixture_phonemes"],
+        notes: []
+      }
+    ],
+    fieldProvenance: {},
+    qualityScore: 75,
+    indexStatus: {
+      mode: "index",
+      sitemapEligible: true,
+      reasons: []
+    },
+    searchRank: 10,
+    badges: ["auto-imported"],
+    bodyHtml: "",
+    licenseNotes: [],
+    reviewers: [],
+    ...extra
+  });
 }
 
 describe("audio generation helpers", () => {
@@ -81,66 +156,7 @@ describe("audio generation helpers", () => {
   });
 
   test("materializes generated audio with a stable cache path and manifest", async () => {
-    const entry = entrySchema.parse({
-      id: `en:${AUDIO_TEST_SLUG}`,
-      slug: AUDIO_TEST_SLUG,
-      display: "Qatar",
-      language: "en",
-      pos: ["proper noun"],
-      glosses: ["country in the Middle East"],
-      shortGloss: "country in the Middle East",
-      origin: {
-        sourceLanguage: "ar",
-        sourceLanguageName: "Arabic",
-        etymologyLabel: "Arabic loanword"
-      },
-      topics: ["news-names"],
-      variants: [
-        {
-          id: "fixture-phonemes",
-          label: "Fixture phonemes",
-          locale: "en-US",
-          ipa: "/kəˈtɑɹ/",
-          respelling: "kuh-TAR",
-          notes: [],
-          audio: buildTestAudio(),
-          provenanceIds: ["fixture-audio"],
-          sortOrder: 0,
-          fieldProvenance: {}
-        }
-      ],
-      related: [],
-      relatedSeedSlugs: [],
-      semanticLinkSlugs: [],
-      confusions: [],
-      confusionNotes: [],
-      provenance: [
-        {
-          id: "fixture-audio",
-          sourceName: "Fixture",
-          sourceUrl: "https://example.com/fixture",
-          sourceLicense: "CC0-1.0",
-          sourceRevision: "test",
-          attributionText: "Fixture audio test",
-          confidence: 0.9,
-          reviewStatus: "auto-imported",
-          fields: ["variants.audio.engineInputs.fixture_phonemes"],
-          notes: []
-        }
-      ],
-      fieldProvenance: {},
-      qualityScore: 75,
-      indexStatus: {
-        mode: "index",
-        sitemapEligible: true,
-        reasons: []
-      },
-      searchRank: 10,
-      badges: ["auto-imported"],
-      bodyHtml: "",
-      licenseNotes: [],
-      reviewers: []
-    });
+    const entry = buildTestEntry(AUDIO_TEST_SLUG);
 
     let generationCount = 0;
     const engine = {
@@ -193,5 +209,48 @@ describe("audio generation helpers", () => {
     const [secondRun] = await materializePreviewAudio([entry], [engine]);
     expect(generationCount).toBe(1);
     expect(secondRun.variants[0].audio.src).toBe(firstVariant.audio.src);
+  });
+
+  test("passes through real human audio without scheduling generation", async () => {
+    const entry = buildTestEntry("audio-human-passthrough", {
+      kind: "human",
+      src: "/audio/real/qatar-human.wav",
+      engine: null,
+      engineInputs: {},
+      qualityFlags: []
+    });
+
+    const [result] = await materializePreviewAudio([entry], []);
+    const manifest = JSON.parse(await readFile(AUDIO_MANIFEST_PATH, "utf8")) as {
+      jobs: Array<{ status: string; outputPath: string | null }>;
+    };
+
+    expect(result.variants[0].audio.src).toBe("/audio/real/qatar-human.wav");
+    expect(result.variants[0].audio.qualityFlags).toContain("human-passthrough");
+    expect(manifest.jobs[0]).toMatchObject({
+      status: "passthrough",
+      outputPath: "/audio/real/qatar-human.wav"
+    });
+  });
+
+  test("marks synthetic placeholder jobs as skipped when no engine can satisfy them", async () => {
+    const entry = buildTestEntry("audio-skipped-job", {
+      engine: "missing-engine",
+      reviewFlags: [],
+      qualityFlags: []
+    });
+
+    const [result] = await materializePreviewAudio([entry], []);
+    const manifest = JSON.parse(await readFile(AUDIO_MANIFEST_PATH, "utf8")) as {
+      jobs: Array<{ status: string; outputPath: string | null }>;
+    };
+
+    expect(result.variants[0].audio.src).toBe("/audio/fixtures/synthetic-sample.wav");
+    expect(result.variants[0].audio.reviewFlags).toContain("generation-unavailable");
+    expect(result.variants[0].audio.qualityFlags).toContain("generation-skipped");
+    expect(manifest.jobs[0]).toMatchObject({
+      status: "skipped",
+      outputPath: null
+    });
   });
 });
