@@ -469,6 +469,10 @@ main.shell {
   background: rgba(23, 32, 24, 0.06);
 }
 
+.learn-pill.is-complete {
+  background: rgba(44, 90, 80, 0.14);
+}
+
 .learn-celebration {
   position: fixed;
   inset: 0;

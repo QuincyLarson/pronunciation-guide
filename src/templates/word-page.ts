@@ -1,4 +1,5 @@
 import { escapeHtml } from "../lib/html";
+import type { LearnIpaWordLink } from "../lib/learn-ipa/lookup";
 import { buildWordDescription, buildWordTitle } from "../lib/meta";
 import { audioUrl, type SiteConfig } from "../lib/site-config";
 import { getWordPath } from "../lib/shards";
@@ -101,6 +102,27 @@ function renderOrigin(entry: Entry): string {
   </section>`;
 }
 
+function renderLearnLinks(links: LearnIpaWordLink[]): string {
+  if (links.length === 0) {
+    return "";
+  }
+
+  return `<section class="panel" data-learn-links>
+    <h2>Learn these symbols</h2>
+    <p class="status-note" data-learn-progress>Follow the exact lessons that explain the IPA symbols in this word.</p>
+    <div class="meta-row">
+      ${links
+        .map(
+          (link) =>
+            `<a class="learn-pill" href="${escapeHtml(link.href)}" data-learn-step-id="${escapeHtml(
+              link.stepId
+            )}"><span class="phonetic">${escapeHtml(link.symbol)}</span> · ${escapeHtml(link.name)}</a>`
+        )
+        .join("")}
+    </div>
+  </section>`;
+}
+
 function renderProvenance(entry: Entry): string {
   return `<section class="panel">
     <h2>Provenance</h2>
@@ -119,7 +141,7 @@ function renderProvenance(entry: Entry): string {
   </section>`;
 }
 
-export function renderWordPage(entry: Entry, config: SiteConfig): string {
+export function renderWordPage(entry: Entry, config: SiteConfig, learnLinks: LearnIpaWordLink[] = []): string {
   const title = buildWordTitle(entry, config.siteTitleSuffix);
   const description = buildWordDescription(entry);
   const contributionUrl = `${config.repoUrl}/issues/new?title=${encodeURIComponent(
@@ -152,6 +174,7 @@ export function renderWordPage(entry: Entry, config: SiteConfig): string {
         ${entry.glosses.map((gloss) => `<li>${escapeHtml(gloss)}</li>`).join("")}
       </ul>
     </section>
+    ${renderLearnLinks(learnLinks)}
     ${renderRelated(entry)}
     ${renderOrigin(entry)}
     ${
@@ -172,7 +195,10 @@ export function renderWordPage(entry: Entry, config: SiteConfig): string {
     description,
     pathname: getWordPath(entry.slug),
     robots: entry.indexStatus.mode === "index" ? "index,follow" : "noindex,follow",
-    scripts: ["/assets/client/audio-controls.js"],
+    scripts: [
+      "/assets/client/audio-controls.js",
+      ...(learnLinks.length > 0 ? ["/assets/client/learn-ipa/word-links.js"] : [])
+    ],
     main
   });
 }

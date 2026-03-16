@@ -855,6 +855,10 @@ async function init(): Promise<void> {
     render();
   });
 
+  if ("serviceWorker" in navigator) {
+    void navigator.serviceWorker.register("/learn-ipa/sw.js", { scope: LEARN_IPA_ROOT_PATH }).catch(() => {});
+  }
+
   render();
 }
 

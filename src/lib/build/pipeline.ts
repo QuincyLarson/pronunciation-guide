@@ -3,9 +3,15 @@ import ts from "typescript";
 
 import { PRE_RENDER_LIMIT } from "../constants";
 import { materializePreviewAudio } from "./audio";
-import { LEARN_IPA_CURRICULUM_PATH, buildLearnIpaCurriculum, writeLearnIpaCurriculum } from "./learn-ipa";
+import {
+  LEARN_IPA_CURRICULUM_PATH,
+  LEARN_IPA_LOOKUP_PATH,
+  buildLearnIpaCurriculum,
+  writeLearnIpaCurriculum
+} from "./learn-ipa";
 import { originHubDefinitions, topicHubDefinitions } from "../hubs";
 import { computeIndexStatus, scoreEntries } from "../index-status";
+import { buildLearnIpaLookup, getLearnIpaLinks } from "../learn-ipa/lookup";
 import { applyOverride, mergeNormalizedEntries } from "../merge";
 import { computeRelatedLinks } from "../related";
 import { buildSiteConfig } from "../site-config";
@@ -214,7 +220,10 @@ export async function runLearnIpaStage(corpus?: Entry[]) {
       await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
     );
   const curriculum = await writeLearnIpaCurriculum(entries);
+  const lookup = buildLearnIpaLookup(curriculum);
+  await writeJsonFile(LEARN_IPA_LOOKUP_PATH, lookup);
   await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "curriculum.json"), curriculum);
+  await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "lookup.json"), lookup);
   await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "manifest.json"), {
     generatedAt: curriculum.generatedAt,
     version: curriculum.version,
@@ -272,7 +281,12 @@ async function buildClientScript(): Promise<void> {
         }
       });
       const relativePath = path.relative(path.join(PROJECT_ROOT, "src"), filePath).replace(/\.ts$/, ".js");
-      await writeTextFile(path.join(DIST_PUBLIC_DIR, "assets", relativePath), transpiled.outputText);
+      const output = transpiled.outputText;
+      await writeTextFile(path.join(DIST_PUBLIC_DIR, "assets", relativePath), output);
+
+      if (relativePath === path.join("client", "learn-ipa", "sw.js")) {
+        await writeTextFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "sw.js"), output);
+      }
     }
   }
 }
@@ -286,6 +300,7 @@ export async function runPrerenderStage(corpus?: Entry[]) {
   const learnCurriculum = await readJsonFile(LEARN_IPA_CURRICULUM_PATH)
     .then((value) => learnCurriculumSchema.parse(value))
     .catch(async () => buildLearnIpaCurriculum(entries));
+  const learnLookup = buildLearnIpaLookup(learnCurriculum);
   const config = buildSiteConfig(process.env);
 
   await ensureDir(DIST_PUBLIC_DIR);
@@ -391,7 +406,11 @@ export async function runPrerenderStage(corpus?: Entry[]) {
     .filter((entry) => entry.indexStatus.sitemapEligible)
     .slice(0, PRE_RENDER_LIMIT);
   for (const entry of preRendered) {
-    await writeRouteHtml(DIST_PUBLIC_DIR, `/w/${entry.slug}/`, renderWordPage(entry, config));
+    await writeRouteHtml(
+      DIST_PUBLIC_DIR,
+      `/w/${entry.slug}/`,
+      renderWordPage(entry, config, getLearnIpaLinks(entry, learnLookup))
+    );
   }
 
   await writeTextFile(
@@ -413,11 +432,26 @@ function renderSitemapIndex(urls: string[]): string {
     .join("\n")}\n</sitemapindex>\n`;
 }
 
-export function buildSitemapArtifacts(
+function buildLearnIpaSitemapUrls(
+  learnCurriculum: Awaited<ReturnType<typeof buildLearnIpaCurriculum>>,
+  siteUrl: string
+): string[] {
+  return [
+    `${siteUrl}/learn-ipa`,
+    `${siteUrl}/learn-ipa/reference`,
+    `${siteUrl}/learn-ipa/about`,
+    ...learnCurriculum.modules.map((module) => `${siteUrl}/learn-ipa/module/${module.slug}`)
+  ];
+}
+
+export async function buildSitemapArtifacts(
   entries: Entry[],
   siteUrl: string
-): Map<string, string> {
+): Promise<Map<string, string>> {
   const eligible = entries.filter((entry) => entry.indexStatus.sitemapEligible);
+  const learnCurriculum = await readJsonFile(LEARN_IPA_CURRICULUM_PATH)
+    .then((value) => learnCurriculumSchema.parse(value))
+    .catch(async () => buildLearnIpaCurriculum(entries));
   const sitemapUrls: string[] = [];
   const files = new Map<string, string>();
 
@@ -457,6 +491,10 @@ export function buildSitemapArtifacts(
     sitemapUrls.push(`${siteUrl}/sitemaps/expanded-1.xml`);
   }
 
+  const learnUrls = buildLearnIpaSitemapUrls(learnCurriculum, siteUrl);
+  files.set("sitemaps/learn-ipa.xml", renderSitemap(learnUrls));
+  sitemapUrls.push(`${siteUrl}/sitemaps/learn-ipa.xml`);
+
   files.set("sitemap.xml", renderSitemapIndex(sitemapUrls));
   return files;
 }
@@ -468,7 +506,7 @@ export async function runSitemapStage(corpus?: Entry[]) {
       await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
     );
   const config = buildSiteConfig(process.env);
-  const files = buildSitemapArtifacts(entries, config.siteUrl);
+  const files = await buildSitemapArtifacts(entries, config.siteUrl);
 
   for (const [relativePath, contents] of files) {
     await writeTextFile(path.join(DIST_PUBLIC_DIR, relativePath), contents);

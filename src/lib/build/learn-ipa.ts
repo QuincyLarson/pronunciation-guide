@@ -29,6 +29,7 @@ const IPA_DATA_DIR = path.join(PROJECT_ROOT, "data", "ipa");
 const IPA_CONTENT_DIR = path.join(PROJECT_ROOT, "content", "ipa");
 export const LEARN_IPA_GENERATED_DIR = path.join(GENERATED_DIR, "ipa");
 export const LEARN_IPA_CURRICULUM_PATH = path.join(LEARN_IPA_GENERATED_DIR, "curriculum.json");
+export const LEARN_IPA_LOOKUP_PATH = path.join(LEARN_IPA_GENERATED_DIR, "lookup.json");
 
 function readYamlFile<T>(filePath: string): T {
   return YAML.parseDocument(readFileSyncUtf8(filePath)).toJS() as T;

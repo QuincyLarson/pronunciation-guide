@@ -1,3 +1,4 @@
+import { getLearnIpaLinks, type LearnIpaLookup } from "../lib/learn-ipa/lookup";
 import { renderNotFoundPage } from "../templates/not-found-page";
 import { renderWordPage } from "../templates/word-page";
 import { buildSiteConfig, type SiteEnvLike } from "../lib/site-config";
@@ -23,6 +24,8 @@ export interface Env extends SiteEnvLike {
   CORPUS_BUCKET?: R2BucketLike;
   CORPUS_SOURCE?: "assets" | "r2";
 }
+
+let learnIpaLookupPromise: Promise<LearnIpaLookup | null> | null = null;
 
 function htmlResponse(html: string, status = 200, cacheControl = "public, max-age=300, s-maxage=86400"): Response {
   return new Response(html, {
@@ -114,6 +117,22 @@ async function loadShard(pathname: string, env: Env, requestUrl: string): Promis
   return match ? entrySchema.parse(match) : null;
 }
 
+async function loadLearnIpaLookup(env: Env, requestUrl: string): Promise<LearnIpaLookup | null> {
+  if (!learnIpaLookupPromise) {
+    learnIpaLookupPromise = (async () => {
+      const assetRequest = new Request(new URL("/learn-ipa/lookup.json", requestUrl).toString());
+      const response = await env.ASSETS.fetch(assetRequest);
+      if (!response.ok) {
+        return null;
+      }
+
+      return (await response.json()) as LearnIpaLookup;
+    })();
+  }
+
+  return learnIpaLookupPromise;
+}
+
 function notFound(env: Env): Response {
   return htmlResponse(renderNotFoundPage(buildSiteConfig(env)), 404, "public, max-age=60, s-maxage=300");
 }
@@ -144,7 +163,8 @@ export default {
         return notFound(env);
       }
 
-      return htmlResponse(renderWordPage(entry, config));
+      const learnLookup = await loadLearnIpaLookup(env, request.url);
+      return htmlResponse(renderWordPage(entry, config, learnLookup ? getLearnIpaLinks(entry, learnLookup) : []));
     }
 
     if (url.pathname.startsWith("/api/lookup/")) {

@@ -41,11 +41,13 @@ src/
   templates/     Plain HTML render functions
   lib/           Shared utilities, build pipeline, scoring, linking
   types/         Zod schemas and shared types
-  client/        Tiny browser JS for audio replay controls
+  client/        Tiny browser JS for audio replay controls and the Learn IPA app
 content/
   overrides/     Human-edited markdown overrides
+  ipa/           Module and concept markdown for the Learn IPA curriculum
 data/
   fixtures/      Local snapshot fixtures used for ingestion
+  ipa/           Symbol inventory, examples, and lesson plan sources
   generated/     Local build outputs during development
 scripts/         Stage entry points for import/normalize/merge/etc.
 public/          Static assets copied into Workers Static Assets output
@@ -93,6 +95,8 @@ Then open [http://127.0.0.1:8787](http://127.0.0.1:8787).
 Useful pages to inspect locally:
 
 - [http://127.0.0.1:8787/](http://127.0.0.1:8787/)
+- [http://127.0.0.1:8787/learn-ipa/](http://127.0.0.1:8787/learn-ipa/)
+- [http://127.0.0.1:8787/learn-ipa/reference/](http://127.0.0.1:8787/learn-ipa/reference/)
 - [http://127.0.0.1:8787/w/qatar](http://127.0.0.1:8787/w/qatar)
 - [http://127.0.0.1:8787/w/qigong](http://127.0.0.1:8787/w/qigong)
 - [http://127.0.0.1:8787/origins/german/](http://127.0.0.1:8787/origins/german/)
@@ -109,6 +113,7 @@ Useful pages to inspect locally:
 - `npm run build:score` computes quality scores and index eligibility
 - `npm run build:audio` materializes spoken preview audio for placeholder fixture variants when local speech synthesis is available
 - `npm run build:shards` emits JSON shard files
+- `npm run build:learn-ipa` generates the Learn IPA curriculum and lookup artifacts
 - `npm run build:prerender` prerenders home, hubs, and top word pages
 - `npm run build:sitemaps` generates sitemap index and child sitemaps
 - `npm run build:attribution` generates the attribution page and machine-readable manifest
@@ -130,9 +135,10 @@ The build is intentionally stage-based so contributors can inspect artifacts bet
 5. Compute related links
 6. Compute quality score and `indexStatus`
 7. Shard the corpus by page language and slug prefix
-8. Prerender the home page, hub pages, and top pages
-9. Generate XML sitemaps from eligible pages only
-10. Generate attribution HTML plus `/attribution/manifest.json`
+8. Generate the Learn IPA curriculum, lookup map, and static course pages
+9. Prerender the home page, hub pages, and top pages
+10. Generate XML sitemaps from eligible pages only
+11. Generate attribution HTML plus `/attribution/manifest.json`
 
 The batch generator writes additional fixture files into `data/fixtures/sources/generated/`. The importer automatically loads every `wiktionary*.json` batch from `data/fixtures/sources/`, so contributors can scale the fixture corpus without changing runtime code.
 
@@ -167,6 +173,16 @@ Pronunciation variants carry:
 - review status
 - confidence
 
+The Learn IPA curriculum is also file-based and validated with Zod. It combines:
+
+- `data/ipa/symbols.yaml`
+- `data/ipa/examples.yaml`
+- `data/ipa/lesson-plan.yaml`
+- `content/ipa/modules/*.md`
+- `content/ipa/concepts/*.md`
+
+The generated outputs live under `data/generated/ipa/` and `dist/public/learn-ipa/`.
+
 ## Markdown overrides
 
 Markdown overrides are for human fixes and curated notes, not for storing the entire corpus.
@@ -195,6 +211,10 @@ Overrides can replace or refine:
 - `/origins/:origin/` origin-language hubs
 - `/topics/` topic hub index
 - `/topics/:topic/` topic hubs
+- `/learn-ipa/` interactive IPA course shell
+- `/learn-ipa/module/:slug/` static module overview pages
+- `/learn-ipa/reference/` symbol catalog and lesson entry points
+- `/learn-ipa/about/` course scope and philosophy
 - `/attribution/` human-readable attribution page
 - `/attribution/manifest.json` machine-readable attribution manifest
 - `/api/lookup/:slug` tiny JSON lookup endpoint
@@ -226,6 +246,8 @@ The sample project still includes tiny fallback WAV placeholders under `public/a
 If local speech synthesis is not available, the project falls back to the fixture placeholders.
 
 In production, the same URL structure can point at R2-backed assets via `PUBLIC_AUDIO_BASE_URL`.
+
+The Learn IPA course reuses the same example audio where available, falls back to generated speech text when needed, and installs a small service worker under `/learn-ipa/sw.js` so the shell and lesson data stay available offline after first load.
 
 ## Cloudflare deployment
 
@@ -265,6 +287,12 @@ After `npm run build`, the important outputs are:
 
 - `dist/public/w/...` prerendered top word pages
 - `dist/public/data/shards/...` runtime shard files
+- `dist/public/learn-ipa/index.html` interactive course shell
+- `dist/public/learn-ipa/curriculum.json` generated lesson graph
+- `dist/public/learn-ipa/lookup.json` compact deep-link map for word pages and Worker tail renders
+- `dist/public/learn-ipa/reference/index.html`
+- `dist/public/learn-ipa/module/...` indexable module pages
+- `dist/public/learn-ipa/sw.js` offline service worker
 - `dist/public/origins/...` hub pages
 - `dist/public/topics/...` hub pages
 - `dist/public/sitemaps/...` child sitemaps
@@ -281,6 +309,9 @@ The test suite covers:
 - override merge logic
 - related-link generation
 - index eligibility rules
+- Learn IPA curriculum generation
+- Learn IPA progress/scheduler logic
+- Learn IPA page rendering
 - word page rendering
 - sitemap generation
 
