@@ -172,7 +172,7 @@ export function renderWordPage(entry: Entry, config: SiteConfig): string {
     description,
     pathname: getWordPath(entry.slug),
     robots: entry.indexStatus.mode === "index" ? "index,follow" : "noindex,follow",
-    includeAudioScript: true,
+    scripts: ["/assets/client/audio-controls.js"],
     main
   });
 }

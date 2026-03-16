@@ -16,6 +16,7 @@ export function renderHomePage(
     <h1>Hear difficult words before you say them out loud.</h1>
     <p class="hero-gloss">${escapeHtml(config.siteDescription)}</p>
     <div class="hero-actions">
+      <a class="button-link" href="/learn-ipa/">Learn to read IPA</a>
       <a class="button-link" href="/browse/">Browse all ${totalEntries} pages</a>
       <a class="button-link subtle" href="/topics/">Browse topic hubs</a>
       <a class="button-link" href="/origins/">Browse origin hubs</a>

@@ -3,7 +3,7 @@ import ts from "typescript";
 
 import { PRE_RENDER_LIMIT } from "../constants";
 import { materializePreviewAudio } from "./audio";
-import { writeLearnIpaCurriculum } from "./learn-ipa";
+import { LEARN_IPA_CURRICULUM_PATH, buildLearnIpaCurriculum, writeLearnIpaCurriculum } from "./learn-ipa";
 import { originHubDefinitions, topicHubDefinitions } from "../hubs";
 import { computeIndexStatus, scoreEntries } from "../index-status";
 import { applyOverride, mergeNormalizedEntries } from "../merge";
@@ -18,10 +18,15 @@ import {
   shardFileSchema,
   type Entry
 } from "../../types/content";
+import { learnCurriculumSchema } from "../../types/learn-ipa";
 import { renderAttributionPage, type AttributionGroup } from "../../templates/attribution-page";
 import { renderBrowsePage } from "../../templates/browse-page";
 import { renderHomePage } from "../../templates/home-page";
 import { renderHubPage } from "../../templates/hub-page";
+import { renderLearnIpaAboutPage } from "../../templates/learn-ipa-about-page";
+import { renderLearnIpaModulePage } from "../../templates/learn-ipa-module-page";
+import { renderLearnIpaPage } from "../../templates/learn-ipa-page";
+import { renderLearnIpaReferencePage } from "../../templates/learn-ipa-reference-page";
 import { renderNotFoundPage } from "../../templates/not-found-page";
 import { renderWordPage } from "../../templates/word-page";
 import {
@@ -34,12 +39,14 @@ import {
   LINKED_CORPUS_PATH,
   MERGED_CORPUS_PATH,
   NORMALIZED_SOURCES_PATH,
+  PROJECT_ROOT,
   PUBLIC_DIR,
   SCORED_CORPUS_PATH,
   SITE_MANIFEST_PATH
 } from "./paths";
 import {
   cleanBuildOutputs,
+  collectFiles,
   copyPublicAssets,
   ensureDir,
   readJsonFile,
@@ -248,14 +255,26 @@ function countTopics(entries: Entry[]): Array<{ slug: string; count: number }> {
 }
 
 async function buildClientScript(): Promise<void> {
-  const source = await readTextFile("src/client/audio-controls.ts");
-  const transpiled = ts.transpileModule(source, {
-    compilerOptions: {
-      target: ts.ScriptTarget.ES2022,
-      module: ts.ModuleKind.ES2022
+  const browserSafeRoots = [
+    path.join(PROJECT_ROOT, "src", "client"),
+    path.join(PROJECT_ROOT, "src", "lib", "learn-ipa")
+  ];
+
+  for (const root of browserSafeRoots) {
+    const files = await collectFiles(root, ".ts");
+
+    for (const filePath of files) {
+      const source = await readTextFile(filePath);
+      const transpiled = ts.transpileModule(source, {
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2022,
+          module: ts.ModuleKind.ES2022
+        }
+      });
+      const relativePath = path.relative(path.join(PROJECT_ROOT, "src"), filePath).replace(/\.ts$/, ".js");
+      await writeTextFile(path.join(DIST_PUBLIC_DIR, "assets", relativePath), transpiled.outputText);
     }
-  });
-  await writeTextFile(path.join(DIST_PUBLIC_DIR, "assets", "audio.js"), transpiled.outputText);
+  }
 }
 
 export async function runPrerenderStage(corpus?: Entry[]) {
@@ -264,6 +283,9 @@ export async function runPrerenderStage(corpus?: Entry[]) {
     parseCorpus(
       await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
     );
+  const learnCurriculum = await readJsonFile(LEARN_IPA_CURRICULUM_PATH)
+    .then((value) => learnCurriculumSchema.parse(value))
+    .catch(async () => buildLearnIpaCurriculum(entries));
   const config = buildSiteConfig(process.env);
 
   await ensureDir(DIST_PUBLIC_DIR);
@@ -276,6 +298,22 @@ export async function runPrerenderStage(corpus?: Entry[]) {
 
   await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, origins, topics, entries.length, config));
   await writeRouteHtml(DIST_PUBLIC_DIR, "/browse/", renderBrowsePage(sortEntries(entries), config));
+  await writeRouteHtml(DIST_PUBLIC_DIR, "/learn-ipa/", renderLearnIpaPage(learnCurriculum, config));
+  await writeRouteHtml(
+    DIST_PUBLIC_DIR,
+    "/learn-ipa/reference/",
+    renderLearnIpaReferencePage(learnCurriculum, config)
+  );
+  await writeRouteHtml(DIST_PUBLIC_DIR, "/learn-ipa/about/", renderLearnIpaAboutPage(learnCurriculum, config));
+
+  for (const module of learnCurriculum.modules) {
+    await writeRouteHtml(
+      DIST_PUBLIC_DIR,
+      `/learn-ipa/module/${module.slug}/`,
+      renderLearnIpaModulePage(learnCurriculum, module, config)
+    );
+  }
+
   await writeRouteHtml(
     DIST_PUBLIC_DIR,
     "/origins/",

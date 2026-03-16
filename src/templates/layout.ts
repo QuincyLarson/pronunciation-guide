@@ -7,12 +7,13 @@ interface LayoutProps {
   pathname: string;
   main: string;
   robots?: string;
-  includeAudioScript?: boolean;
+  scripts?: string[];
 }
 
 export function renderLayout(config: SiteConfig, props: LayoutProps): string {
   const canonicalUrl = absoluteUrl(config, props.pathname);
   const robots = props.robots ?? "index,follow";
+  const scripts = props.scripts ?? [];
 
   return `<!doctype html>
 <html lang="en">
@@ -25,13 +26,14 @@ export function renderLayout(config: SiteConfig, props: LayoutProps): string {
     <link rel="canonical" href="${escapeHtml(canonicalUrl)}">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/assets/site.css">
-    ${props.includeAudioScript ? '<script type="module" src="/assets/audio.js" defer></script>' : ""}
+    ${scripts.map((src) => `<script type="module" src="${escapeHtml(src)}" defer></script>`).join("")}
   </head>
   <body>
     <header class="site-header">
       <div class="shell">
         <a class="brand" href="/">${escapeHtml(config.siteName)}</a>
         <nav class="site-nav" aria-label="Primary">
+          <a href="/learn-ipa/">Learn IPA</a>
           <a href="/browse/">Browse</a>
           <a href="/origins/">Origins</a>
           <a href="/topics/">Topics</a>
