@@ -1,5 +1,6 @@
 import { buildLearnIpaCurriculum } from "../src/lib/build/learn-ipa";
 import { buildLearnIpaLookup, getLearnIpaLinks } from "../src/lib/learn-ipa/lookup";
+import { entrySchema } from "../src/types/content";
 import { renderWordPage } from "../src/templates/word-page";
 import { buildSiteConfig } from "../src/lib/site-config";
 import { buildFixtureCorpus } from "./helpers/fixture-corpus";
@@ -40,5 +41,45 @@ describe("word page rendering", () => {
     expect(html).toContain('meta name="robots" content="noindex,follow"');
     expect(html).toContain("Current blockers:");
     expect(html).toContain("low-confidence audio");
+  });
+
+  test("maps r-colored vowels back to explicit learn-IPA lessons", async () => {
+    const curriculum = await buildLearnIpaCurriculum(await buildFixtureCorpus());
+    const lookup = buildLearnIpaLookup(curriculum);
+    const entry = entrySchema.parse({
+      id: "en:word",
+      slug: "word",
+      display: "word",
+      language: "en",
+      origin: {},
+      variants: [
+        {
+          id: "ga",
+          label: "General American",
+          locale: "en-US",
+          ipa: "/wɝd/",
+          respelling: "wurd",
+          audio: {
+            kind: "synthetic",
+            src: "/audio/test.wav",
+            reviewStatus: "reviewed",
+            confidence: 1
+          }
+        }
+      ],
+      indexStatus: {
+        mode: "index",
+        sitemapEligible: true
+      }
+    });
+
+    expect(getLearnIpaLinks(entry, lookup)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          symbol: "ɝ",
+          stepId: "unit-05b-s2"
+        })
+      ])
+    );
   });
 });

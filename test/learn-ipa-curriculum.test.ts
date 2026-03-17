@@ -6,7 +6,7 @@ import { learnCurriculumSchema } from "../src/types/learn-ipa";
 import { buildFixtureCorpus } from "./helpers/fixture-corpus";
 
 describe("learn IPA curriculum", () => {
-  test("builds a valid 144-step curriculum from file-based content", async () => {
+  test("builds a valid 150-step curriculum from file-based content", async () => {
     const curriculum = await buildLearnIpaCurriculum(await buildFixtureCorpus());
     const parsed = learnCurriculumSchema.parse(curriculum);
     const stepIds = new Set(parsed.steps.map((step) => step.id));
@@ -14,10 +14,12 @@ describe("learn IPA curriculum", () => {
     const exampleIds = new Set(parsed.examples.map((example) => example.id));
 
     expect(parsed.modules).toHaveLength(11);
-    expect(parsed.concepts).toHaveLength(14);
-    expect(parsed.steps).toHaveLength(144);
-    expect(parsed.reviewCards).toHaveLength(120);
+    expect(parsed.concepts).toHaveLength(15);
+    expect(parsed.steps).toHaveLength(150);
+    expect(parsed.reviewCards).toHaveLength(125);
     expect(parsed.symbolToStep["ə"]).toBe("unit-02-s2");
+    expect(parsed.symbolToStep["ɚ"]).toBe("unit-05b-s1");
+    expect(parsed.symbolToStep["ɝ"]).toBe("unit-05b-s2");
     expect(parsed.symbolToStep["ʃ"]).toBe("unit-08-s1");
 
     for (const module of parsed.modules) {
@@ -53,6 +55,16 @@ describe("learn IPA curriculum", () => {
     for (const card of parsed.reviewCards) {
       expect(card.relatedStepId ? stepIds.has(card.relatedStepId) : true).toBe(true);
     }
+
+    expect(
+      parsed.reviewCards.find((card) => card.id === "card:unit-01:symbol:æ")?.relatedStepId
+    ).toBe("unit-01-s1");
+    expect(
+      parsed.reviewCards.find((card) => card.id === "card:unit-01:symbol:ɛ")?.relatedStepId
+    ).toBe("unit-01-s2");
+    expect(
+      parsed.reviewCards.find((card) => card.id === "card:unit-01:symbol:ɪ")?.relatedStepId
+    ).toBe("unit-01-s3");
 
     expect(parsed.relatedWordLinks["ə"]?.length ?? 0).toBeGreaterThan(0);
     expect(parsed.relatedWordLinks["ʃ"]?.length ?? 0).toBeGreaterThan(0);

@@ -94,7 +94,7 @@ function buildExampleRuntime(example: unknown, corpusBySlug: Map<string, Entry>)
 function createReviewCards(unit: ReturnType<typeof unitPlanSchema.parse>) {
   const cards = [];
 
-  for (const teach of unit.teach) {
+  for (const [index, teach] of unit.teach.entries()) {
     cards.push(
       reviewCardSchema.parse({
         id: `card:${unit.id}:${teach.type}:${teach.id}`,
@@ -106,7 +106,7 @@ function createReviewCards(unit: ReturnType<typeof unitPlanSchema.parse>) {
         symbolId: teach.type === "symbol" ? teach.id : null,
         conceptId: teach.type === "concept" ? teach.id : null,
         exampleId: null,
-        relatedStepId: `${unit.id}-s1`
+        relatedStepId: `${unit.id}-s${index + 1}`
       })
     );
   }

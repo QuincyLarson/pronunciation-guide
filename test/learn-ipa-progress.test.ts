@@ -5,7 +5,8 @@ import {
   createEmptyLearnIpaState,
   ensureLearnIpaState,
   getReviewCardsForStep,
-  markStepCompleted
+  markStepCompleted,
+  parseStoredLearnIpaState
 } from "../src/lib/learn-ipa/progress";
 import { buildLearnIpaCurriculum } from "../src/lib/build/learn-ipa";
 import { buildFixtureCorpus } from "./helpers/fixture-corpus";
@@ -31,6 +32,23 @@ describe("learn IPA progress", () => {
 
     expect(state.completedStepIds).toEqual(firstModule.stepIds);
     expect(state.unlockedModuleIds).toContain(secondModule?.id);
+  });
+
+  test("invalid stored progress falls back to a safe empty state", () => {
+    const state = parseStoredLearnIpaState("{not valid json");
+
+    expect(state).toEqual(createEmptyLearnIpaState());
+  });
+
+  test("completing a teach step immediately queues only that step's related review card", async () => {
+    const curriculum = await buildLearnIpaCurriculum(await buildFixtureCorpus());
+    let state = ensureLearnIpaState(createEmptyLearnIpaState(), curriculum);
+
+    state = markStepCompleted(curriculum, state, "unit-01-s1", new Date("2026-03-15T12:00:00Z"));
+
+    expect(state.reviewQueue).toContain("card:unit-01:symbol:æ");
+    expect(state.reviewQueue).not.toContain("card:unit-01:symbol:ɛ");
+    expect(state.reviewQueue).not.toContain("card:unit-01:symbol:ɪ");
   });
 
   test("review outcomes create spaced future due dates and stable review batches", async () => {

@@ -1,13 +1,6 @@
-import { LEARN_IPA_STORAGE_KEY, migrateLearnIpaState } from "../../lib/learn-ipa/progress.js";
+import { LEARN_IPA_STORAGE_KEY, parseStoredLearnIpaState } from "../../lib/learn-ipa/progress.js";
 
-const state = (() => {
-  try {
-    const raw = window.localStorage.getItem(LEARN_IPA_STORAGE_KEY);
-    return migrateLearnIpaState(raw ? JSON.parse(raw) : null);
-  } catch {
-    return migrateLearnIpaState(null);
-  }
-})();
+const state = parseStoredLearnIpaState(window.localStorage.getItem(LEARN_IPA_STORAGE_KEY));
 
 for (const section of document.querySelectorAll<HTMLElement>("[data-learn-links]")) {
   const progressNode = section.querySelector<HTMLElement>("[data-learn-progress]");

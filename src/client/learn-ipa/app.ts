@@ -6,6 +6,7 @@ import {
   getFirstStepIdForModule,
   getModuleProgress,
   getNextStepId,
+  parseStoredLearnIpaState,
   getReviewCardsForStep,
   introduceReviewCards,
   markStepCompleted,
@@ -94,8 +95,7 @@ function saveProgress(): void {
 }
 
 function loadProgress(): void {
-  const raw = window.localStorage.getItem(LEARN_IPA_STORAGE_KEY);
-  progressState = migrateLearnIpaState(raw ? JSON.parse(raw) : null);
+  progressState = parseStoredLearnIpaState(window.localStorage.getItem(LEARN_IPA_STORAGE_KEY));
   if (curriculum) {
     progressState = ensureLearnIpaState(progressState, curriculum);
   }

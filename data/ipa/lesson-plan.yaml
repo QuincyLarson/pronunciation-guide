@@ -58,6 +58,18 @@
   practice_examples: [ex-lot-uk, ex-nurse, ex-bird, ex-learn, ex-word]
   bonus_examples: [ex-lot-uk, ex-nurse, ex-bird, ex-learn, ex-word]
   review_focus: ["ɒ", "ɜ", "accent-labels"]
+- id: unit-05b
+  module_id: mappings-and-diphthongs
+  slug: r-colored-vowels
+  title: American r-colored vowels
+  summary: Read ɚ and ɝ directly so American dictionary notation stops feeling like a side system.
+  teach:
+    - { type: symbol, id: "ɚ" }
+    - { type: symbol, id: "ɝ" }
+    - { type: concept, id: r-colored-vowels }
+  practice_examples: [ex-father, ex-water, ex-computer, ex-bird, ex-word, ex-learn]
+  bonus_examples: [ex-father, ex-water, ex-computer, ex-bird, ex-word, ex-learn]
+  review_focus: ["ɚ", "ɝ", "r-colored-vowels"]
 - id: unit-06
   module_id: mappings-and-diphthongs
   slug: diphthongs-one

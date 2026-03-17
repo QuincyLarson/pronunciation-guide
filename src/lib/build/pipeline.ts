@@ -99,6 +99,21 @@ function groupBy<T>(values: T[], getKey: (value: T) => string): Map<string, T[]>
   return grouped;
 }
 
+export async function loadFirstAvailableCorpus(stagePaths: string[]): Promise<Entry[]> {
+  const failures: string[] = [];
+
+  for (const stagePath of stagePaths) {
+    try {
+      return parseCorpus(await readJsonFile(stagePath));
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      failures.push(`${path.relative(PROJECT_ROOT, stagePath)}: ${reason}`);
+    }
+  }
+
+  throw new Error(`Could not load a readable corpus stage. Tried ${failures.join(" | ")}`);
+}
+
 export async function runImportStage() {
   const imported = await importSources();
   await writeJsonFile(IMPORTED_SOURCES_PATH, imported);
@@ -227,9 +242,12 @@ export async function runShardStage(corpus?: Entry[]) {
 export async function runLearnIpaStage(corpus?: Entry[]) {
   const entries =
     corpus ??
-    parseCorpus(
-      await readJsonFile(AUDIO_READY_CORPUS_PATH).catch(async () => readJsonFile(SCORED_CORPUS_PATH))
-    );
+    (await loadFirstAvailableCorpus([
+      AUDIO_READY_CORPUS_PATH,
+      SCORED_CORPUS_PATH,
+      LINKED_CORPUS_PATH,
+      MERGED_CORPUS_PATH
+    ]));
   const curriculum = await writeLearnIpaCurriculum(entries);
   const lookup = buildLearnIpaLookup(curriculum);
   await writeJsonFile(LEARN_IPA_LOOKUP_PATH, lookup);

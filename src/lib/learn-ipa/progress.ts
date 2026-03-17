@@ -161,6 +161,18 @@ export function migrateLearnIpaState(value: unknown): LearnIpaState {
   };
 }
 
+export function parseStoredLearnIpaState(raw: string | null): LearnIpaState {
+  if (!raw) {
+    return migrateLearnIpaState(null);
+  }
+
+  try {
+    return migrateLearnIpaState(JSON.parse(raw));
+  } catch {
+    return migrateLearnIpaState(null);
+  }
+}
+
 export function ensureLearnIpaState(
   state: LearnIpaState,
   curriculum: LearnCurriculum
@@ -379,6 +391,18 @@ export function getReviewCardsForStep(
   return cardIds.map((cardId) => byId.get(cardId)).filter((card): card is ReviewCard => !!card);
 }
 
+function getReviewCardIdsForCompletedStep(curriculum: LearnCurriculum, step: LearnStep): string[] {
+  const relatedCardIds = curriculum.reviewCards
+    .filter((card) => card.relatedStepId === step.id)
+    .map((card) => card.id);
+
+  if (step.type !== "review-round") {
+    return unique(relatedCardIds);
+  }
+
+  return unique([...relatedCardIds, ...step.reviewCardIds]);
+}
+
 export function markStepCompleted(
   curriculum: LearnCurriculum,
   state: LearnIpaState,
@@ -393,8 +417,9 @@ export function markStepCompleted(
   next.currentStepId = getNextStepId(curriculum, { ...next, completedStepIds }, stepId);
   next.streak = updateStreak(next.streak, now);
 
-  if (step?.type === "review-round") {
-    const afterIntroduce = introduceReviewCards(next, step.reviewCardIds, now);
+  if (step) {
+    const reviewCardIds = getReviewCardIdsForCompletedStep(curriculum, step);
+    const afterIntroduce = introduceReviewCards(next, reviewCardIds, now);
     afterIntroduce.currentStepId = next.currentStepId;
     afterIntroduce.completedStepIds = completedStepIds;
     next.symbolStats = afterIntroduce.symbolStats;
