@@ -31,6 +31,9 @@ interface StepSession {
   listenSelection: string | null;
   reviewIndex: number;
   reviewReveal: boolean;
+  recordingState: "idle" | "recording";
+  recordingUrl: string | null;
+  recordingError: string | null;
 }
 
 const audioPlayer = new Audio();
@@ -43,6 +46,9 @@ let session: StepSession = createStepSession(null);
 let hasGesture = false;
 let lastAutoplayStepId: string | null = null;
 let speechUtterance: SpeechSynthesisUtterance | null = null;
+let mediaRecorder: MediaRecorder | null = null;
+let recordingStream: MediaStream | null = null;
+let recordingChunks: BlobPart[] = [];
 
 function escapeHtml(value: string): string {
   return value
@@ -60,7 +66,10 @@ function createStepSession(stepId: string | null): StepSession {
     revealedExampleIds: [],
     listenSelection: null,
     reviewIndex: 0,
-    reviewReveal: false
+    reviewReveal: false,
+    recordingState: "idle",
+    recordingUrl: null,
+    recordingError: null
   };
 }
 
@@ -120,8 +129,42 @@ function getActiveStep(): LearnStep | null {
   return curriculum.steps.find((step) => step.id === route.stepId) ?? null;
 }
 
+function revokeRecordingUrl(url: string | null): void {
+  if (url) {
+    URL.revokeObjectURL(url);
+  }
+}
+
+function stopRecordingStream(): void {
+  for (const track of recordingStream?.getTracks() ?? []) {
+    track.stop();
+  }
+
+  recordingStream = null;
+}
+
+function discardMicPractice(): void {
+  revokeRecordingUrl(session.recordingUrl);
+  session.recordingUrl = null;
+  session.recordingError = null;
+  session.recordingState = "idle";
+  recordingChunks = [];
+
+  if (mediaRecorder) {
+    mediaRecorder.ondataavailable = null;
+    mediaRecorder.onstop = null;
+    if (mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+    }
+    mediaRecorder = null;
+  }
+
+  stopRecordingStream();
+}
+
 function ensureSession(stepId: string | null): void {
   if (session.stepId !== stepId) {
+    discardMicPractice();
     session = createStepSession(stepId);
   }
 }
@@ -163,6 +206,90 @@ async function playExample(example: LessonExample, rate = progressState.settings
   speechUtterance.lang = audio.accent || accent;
   speechUtterance.rate = rate === 0.5 ? 0.8 : 1;
   window.speechSynthesis.speak(speechUtterance);
+}
+
+function canUseMicPractice(): boolean {
+  return (
+    "MediaRecorder" in window &&
+    "mediaDevices" in navigator &&
+    !!navigator.mediaDevices &&
+    typeof navigator.mediaDevices.getUserMedia === "function"
+  );
+}
+
+async function startMicPractice(): Promise<void> {
+  if (!canUseMicPractice()) {
+    session.recordingError = "Mic recording is not available in this browser.";
+    render();
+    return;
+  }
+
+  discardMicPractice();
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recorder = new MediaRecorder(stream);
+    const activeStepId = session.stepId;
+
+    recordingStream = stream;
+    mediaRecorder = recorder;
+    recordingChunks = [];
+    session.recordingState = "recording";
+    session.recordingError = null;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        recordingChunks.push(event.data);
+      }
+    };
+
+    recorder.onstop = () => {
+      const clip =
+        recordingChunks.length > 0
+          ? URL.createObjectURL(new Blob(recordingChunks, { type: recorder.mimeType || "audio/webm" }))
+          : null;
+
+      recordingChunks = [];
+      mediaRecorder = null;
+      stopRecordingStream();
+
+      if (session.stepId !== activeStepId) {
+        revokeRecordingUrl(clip);
+        return;
+      }
+
+      session.recordingState = "idle";
+      if (clip) {
+        revokeRecordingUrl(session.recordingUrl);
+        session.recordingUrl = clip;
+        session.recordingError = null;
+      } else {
+        session.recordingError = "No audio was captured. Try again.";
+      }
+
+      render();
+    };
+
+    recorder.start();
+    render();
+  } catch (error) {
+    mediaRecorder = null;
+    stopRecordingStream();
+    session.recordingState = "idle";
+    session.recordingError =
+      error instanceof DOMException && error.name === "NotAllowedError"
+        ? "Mic permission was denied."
+        : "Mic capture is unavailable right now.";
+    render();
+  }
+}
+
+function stopMicPractice(): void {
+  if (!mediaRecorder || mediaRecorder.state === "inactive") {
+    return;
+  }
+
+  mediaRecorder.stop();
 }
 
 function markInteracted(): void {
@@ -213,6 +340,15 @@ function renderSettings(): string {
       <label class="learn-checkbox">
         <input type="checkbox" data-action="toggle-motion" ${progressState.settings.reducedMotion ? "checked" : ""}>
         Reduce celebratory motion
+      </label>
+      <label>
+        Mic practice
+        <select data-action="set-mic-mode">
+          <option value="off" ${progressState.settings.micMode === "off" ? "selected" : ""}>Off</option>
+          <option value="record-only" ${
+            progressState.settings.micMode !== "off" ? "selected" : ""
+          }>Record only</option>
+        </select>
       </label>
     </div>
   </details>`;
@@ -528,10 +664,89 @@ function renderReviewStep(current: LearnCurriculum, step: LearnStep): string {
   </section>`;
 }
 
+function getMicPracticeExample(current: LearnCurriculum, step: LearnStep): LessonExample | null {
+  const maps = getMaps(current);
+
+  if ("exampleIds" in step) {
+    return maps.examples.get(step.exampleIds[0] ?? "") ?? null;
+  }
+
+  if (step.type === "listen-match") {
+    return maps.examples.get(step.promptExampleId) ?? null;
+  }
+
+  if (step.type === "review-round") {
+    const cards = getReviewCardsForStep(current, introduceReviewCards(progressState, step.reviewCardIds), step);
+    const activeExampleId = cards[session.reviewIndex]?.exampleId ?? step.fallbackExampleIds[0] ?? null;
+    return activeExampleId ? maps.examples.get(activeExampleId) ?? null : null;
+  }
+
+  if (step.type === "mic-check") {
+    return maps.examples.get(step.exampleId) ?? null;
+  }
+
+  return null;
+}
+
+function renderMicPracticePanel(example: LessonExample | null): string {
+  if (!example || progressState.settings.micMode === "off") {
+    return "";
+  }
+
+  const supported = canUseMicPractice();
+  const unavailableMessage =
+    !supported ? `<p class="status-note">Mic capture is not supported in this browser.</p>` : "";
+  const experimentalNote =
+    progressState.settings.micMode === "experimental-score"
+      ? `<p class="status-note">Experimental scoring is not enabled in this build. Manual compare-only mode is still available.</p>`
+      : "";
+
+  return `<section class="panel learn-step-panel">
+    <p class="eyebrow">Mic practice</p>
+    <h3>Say ${escapeHtml(example.display)}</h3>
+    <p class="hero-gloss">Record one attempt, then compare your playback with the lesson audio. No automatic score.</p>
+    ${experimentalNote}
+    ${unavailableMessage}
+    <div class="hero-actions">
+      ${
+        supported
+          ? session.recordingState === "recording"
+            ? `<button type="button" class="button-link" data-action="stop-recording">Stop recording</button>`
+            : `<button type="button" class="button-link" data-action="start-recording">Record yourself</button>`
+          : `<button type="button" class="button-link subtle" disabled>Mic unavailable</button>`
+      }
+      ${
+        session.recordingUrl
+          ? `<button type="button" class="button-link subtle" data-action="clear-recording">Discard clip</button>`
+          : ""
+      }
+    </div>
+    ${
+      session.recordingState === "recording"
+        ? `<p class="learn-feedback">Recording. Say it once, then stop when you are ready.</p>`
+        : ""
+    }
+    ${
+      session.recordingError
+        ? `<p class="learn-feedback is-incorrect">${escapeHtml(session.recordingError)}</p>`
+        : ""
+    }
+    ${
+      session.recordingUrl
+        ? `<div class="learn-review-card">
+            <p class="eyebrow">Your playback</p>
+            <audio controls preload="metadata" src="${escapeHtml(session.recordingUrl)}"></audio>
+          </div>`
+        : ""
+    }
+  </section>`;
+}
+
 function renderStepView(current: LearnCurriculum, step: LearnStep): string {
   const summary = progressSummary();
   const module = current.modules.find((candidate) => candidate.id === step.moduleId);
   const moduleProgress = module ? getModuleProgress(current, progressState, module.id) : { completed: 0, total: 0, ratio: 0 };
+  const micPractice = renderMicPracticePanel(getMicPracticeExample(current, step));
 
   const body =
     step.type === "teach-symbol" || step.type === "teach-concept"
@@ -560,6 +775,7 @@ function renderStepView(current: LearnCurriculum, step: LearnStep): string {
       <a class="button-link subtle" href="/learn-ipa/reference/">Reference</a>
     </div>
     ${body}
+    ${micPractice}
     ${renderSettings()}
     <div class="hero-actions">
       <button type="button" class="button-link" data-action="complete-step">Continue</button>
@@ -746,6 +962,24 @@ async function handleClick(event: Event): Promise<void> {
     return;
   }
 
+  if (action === "start-recording") {
+    await startMicPractice();
+    return;
+  }
+
+  if (action === "stop-recording") {
+    stopMicPractice();
+    return;
+  }
+
+  if (action === "clear-recording") {
+    revokeRecordingUrl(session.recordingUrl);
+    session.recordingUrl = null;
+    session.recordingError = null;
+    render();
+    return;
+  }
+
   if (action === "reveal-example") {
     const exampleId = actionElement.dataset.exampleId;
     if (exampleId && !session.revealedExampleIds.includes(exampleId)) {
@@ -815,6 +1049,10 @@ function handleChange(event: Event): void {
 
   if (action === "toggle-motion" && target instanceof HTMLInputElement) {
     progressState.settings.reducedMotion = target.checked;
+  }
+
+  if (action === "set-mic-mode" && (target.value === "off" || target.value === "record-only")) {
+    progressState.settings.micMode = target.value;
   }
 
   saveProgress();
