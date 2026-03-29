@@ -9,6 +9,7 @@
     - { type: symbol, id: "ɪ" }
   practice_examples: [ex-cat, ex-bed, ex-sit, ex-men, ex-pin]
   bonus_examples: [ex-cat, ex-bed, ex-sit, ex-men, ex-pin]
+  drill_examples: [ex-cat, ex-bag, ex-hand, ex-bed, ex-leg, ex-best, ex-desk, ex-sit, ex-big, ex-milk, ex-men, ex-pin]
   review_focus: ["æ", "ɛ", "ɪ"]
 - id: unit-02
   module_id: vowel-basics
@@ -21,6 +22,7 @@
     - { type: concept, id: reduced-vowels }
   practice_examples: [ex-sun, ex-cup, ex-about, ex-sofa, ex-taken]
   bonus_examples: [ex-sun, ex-cup, ex-about, ex-sofa, ex-taken]
+  drill_examples: [ex-sun, ex-cup, ex-luck, ex-bus, ex-about, ex-sofa, ex-taken, ex-oven, ex-cousin, ex-away, ex-alone]
   review_focus: ["ʌ", "ə", "reduced-vowels"]
 - id: unit-03
   module_id: high-and-back-vowels
@@ -33,6 +35,7 @@
     - { type: symbol, id: "ʊ" }
   practice_examples: [ex-see, ex-food, ex-book, ex-good, ex-blue]
   bonus_examples: [ex-see, ex-food, ex-book, ex-good, ex-blue]
+  drill_examples: [ex-see, ex-green, ex-sleep, ex-food, ex-moon, ex-boot, ex-book, ex-look, ex-cook, ex-good, ex-blue, ex-pull]
   review_focus: ["i", "u", "ʊ"]
 - id: unit-04
   module_id: high-and-back-vowels
@@ -45,6 +48,7 @@
     - { type: concept, id: broad-transcription }
   practice_examples: [ex-father, ex-spa, ex-law, ex-thought, ex-caught]
   bonus_examples: [ex-father, ex-spa, ex-law, ex-thought, ex-caught]
+  drill_examples: [ex-father, ex-palm, ex-calm, ex-spa, ex-law, ex-call, ex-thought, ex-caught, ex-talk, ex-fall]
   review_focus: ["ɑ", "ɔ", "broad-transcription"]
 - id: unit-05
   module_id: mappings-and-diphthongs
@@ -57,6 +61,7 @@
     - { type: concept, id: accent-labels }
   practice_examples: [ex-lot-uk, ex-nurse, ex-bird, ex-learn, ex-word]
   bonus_examples: [ex-lot-uk, ex-nurse, ex-bird, ex-learn, ex-word]
+  drill_examples: [ex-lot-uk, ex-fox-uk, ex-clock-uk, ex-nurse, ex-first, ex-bird, ex-turn, ex-learn, ex-word, ex-work, ex-world]
   review_focus: ["ɒ", "ɜ", "accent-labels"]
 - id: unit-05b
   module_id: mappings-and-diphthongs
@@ -69,6 +74,7 @@
     - { type: concept, id: r-colored-vowels }
   practice_examples: [ex-father, ex-water, ex-computer, ex-bird, ex-word, ex-learn]
   bonus_examples: [ex-father, ex-water, ex-computer, ex-bird, ex-word, ex-learn]
+  drill_examples: [ex-father, ex-water, ex-computer, ex-winner, ex-teacher, ex-never, ex-letter, ex-nurse, ex-bird, ex-word, ex-learn]
   review_focus: ["ɚ", "ɝ", "r-colored-vowels"]
 - id: unit-06
   module_id: mappings-and-diphthongs
@@ -81,6 +87,7 @@
     - { type: symbol, id: "oʊ" }
   practice_examples: [ex-say, ex-day, ex-time, ex-ride, ex-go, ex-home]
   bonus_examples: [ex-say, ex-time, ex-go, ex-home, ex-ride, ex-day]
+  drill_examples: [ex-say, ex-late, ex-day, ex-game, ex-time, ex-five, ex-ride, ex-light, ex-go, ex-show, ex-home, ex-road]
   review_focus: ["eɪ", "aɪ", "oʊ"]
 - id: unit-07
   module_id: more-diphthongs-and-core-consonants
@@ -93,6 +100,7 @@
     - { type: symbol, id: "ː" }
   practice_examples: [ex-now, ex-mouth, ex-boy, ex-choice, ex-law, ex-blue]
   bonus_examples: [ex-now, ex-mouth, ex-boy, ex-choice, ex-law, ex-blue]
+  drill_examples: [ex-now, ex-house, ex-town, ex-mouth, ex-sound, ex-boy, ex-toy, ex-choice, ex-voice, ex-point]
   review_focus: ["aʊ", "ɔɪ", "ː"]
 - id: unit-08
   module_id: more-diphthongs-and-core-consonants
@@ -105,6 +113,7 @@
     - { type: symbol, id: "dʒ" }
   practice_examples: [ex-ship, ex-she, ex-chew, ex-chip, ex-job, ex-jam]
   bonus_examples: [ex-ship, ex-chew, ex-chip, ex-job, ex-jam, ex-she]
+  drill_examples: [ex-ship, ex-shoe, ex-fish, ex-she, ex-chew, ex-cheese, ex-chip, ex-job, ex-joke, ex-jam, ex-page, ex-watch]
   review_focus: ["ʃ", "tʃ", "dʒ"]
 - id: unit-09
   module_id: more-consonants-and-th-r
@@ -117,6 +126,7 @@
     - { type: symbol, id: "j" }
   practice_examples: [ex-measure, ex-vision, ex-sing, ex-song, ex-yes, ex-yarn]
   bonus_examples: [ex-measure, ex-sing, ex-song, ex-yes, ex-yarn, ex-vision]
+  drill_examples: [ex-measure, ex-usual, ex-vision, ex-sing, ex-king, ex-song, ex-ring, ex-yes, ex-you, ex-yarn, ex-yellow, ex-young]
   review_focus: ["ʒ", "ŋ", "j"]
 - id: unit-10
   module_id: more-consonants-and-th-r
@@ -129,6 +139,7 @@
     - { type: symbol, id: "ɹ" }
   practice_examples: [ex-thin, ex-bath, ex-this, ex-those, ex-red, ex-right]
   bonus_examples: [ex-thin, ex-this, ex-those, ex-red, ex-right, ex-bath]
+  drill_examples: [ex-thin, ex-three, ex-think, ex-thumb, ex-bath, ex-this, ex-that, ex-those, ex-other, ex-weather, ex-red, ex-right, ex-rain]
   review_focus: ["θ", "ð", "ɹ"]
 - id: unit-11
   module_id: stress-and-american-realizations
@@ -141,6 +152,7 @@
     - { type: concept, id: stress-and-syllables }
   practice_examples: [ex-banana, ex-computer, ex-linguistics, ex-photograph, ex-about]
   bonus_examples: [ex-banana, ex-computer, ex-linguistics, ex-photograph, ex-about]
+  drill_examples: [ex-banana, ex-elephant, ex-computer, ex-tomorrow, ex-linguistics, ex-photograph, ex-important, ex-avocado, ex-information, ex-about]
   review_focus: ["ˈ", "ˌ", "stress-and-syllables"]
 - id: unit-12
   module_id: stress-and-american-realizations
@@ -153,6 +165,7 @@
     - { type: concept, id: american-realizations }
   practice_examples: [ex-water, ex-city, ex-button, ex-uhoh, ex-computer]
   bonus_examples: [ex-water, ex-city, ex-button, ex-uhoh, ex-computer]
+  drill_examples: [ex-water, ex-ladder, ex-better, ex-city, ex-little, ex-button, ex-kitten, ex-uhoh, ex-mountain, ex-computer]
   review_focus: ["ɾ", "ʔ", "american-realizations"]
 - id: unit-13
   module_id: taps-trills-and-throat-sounds
@@ -165,6 +178,7 @@
     - { type: concept, id: tap-vs-trill }
   practice_examples: [ex-pero, ex-perro, ex-canyon, ex-senor, ex-jalapeno]
   bonus_examples: [ex-pero, ex-perro, ex-canyon, ex-senor, ex-jalapeno]
+  drill_examples: [ex-pero, ex-perro, ex-canyon, ex-senor, ex-jalapeno, ex-pinata]
   review_focus: ["r", "ɲ", "tap-vs-trill"]
 - id: unit-14
   module_id: taps-trills-and-throat-sounds
@@ -177,6 +191,7 @@
     - { type: symbol, id: "ʁ" }
   practice_examples: [ex-bach, ex-ich, ex-rouge, ex-paris-fr, ex-sprachbund]
   bonus_examples: [ex-bach, ex-ich, ex-rouge, ex-paris-fr, ex-sprachbund]
+  drill_examples: [ex-bach, ex-ich, ex-rouge, ex-paris-fr, ex-sprachbund, ex-jalapeno]
   review_focus: ["x", "ç", "ʁ"]
   capstone_word_slugs: [sprachbund, schadenfreude, zeitgeist]
 - id: unit-15
@@ -202,6 +217,7 @@
     - { type: concept, id: nasalization }
   practice_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre]
   bonus_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre]
+  drill_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre, ex-rouge]
   review_focus: ["̃", "ɑ̃", "nasalization"]
 - id: unit-17
   module_id: high-value-close-vowels-and-sibilants
@@ -287,6 +303,7 @@
     - { type: concept, id: review-capstone }
   practice_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata]
   bonus_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno]
+  drill_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata]
   review_focus: ["origin-pack-bridges", "native-vs-anglicized"]
   capstone_word_slugs: [xi-jinping, qigong, beijing, jalapeno]
 - id: unit-24
@@ -300,5 +317,6 @@
     - { type: concept, id: review-capstone }
   practice_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping]
   bonus_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude]
+  drill_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping, ex-zeitgeist]
   review_focus: ["fluency-over-perfection", "decoding-transfer"]
   capstone_word_slugs: [sprachbund, schadenfreude, qigong, xi-jinping, jalapeno]

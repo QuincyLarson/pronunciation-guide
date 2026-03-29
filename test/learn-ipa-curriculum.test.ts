@@ -17,6 +17,7 @@ describe("learn IPA curriculum", () => {
     expect(parsed.concepts).toHaveLength(15);
     expect(parsed.steps).toHaveLength(150);
     expect(parsed.reviewCards).toHaveLength(125);
+    expect(parsed.examples.length).toBeGreaterThan(140);
     expect(parsed.symbolToStep["ə"]).toBe("unit-02-s2");
     expect(parsed.symbolToStep["ɚ"]).toBe("unit-05b-s1");
     expect(parsed.symbolToStep["ɝ"]).toBe("unit-05b-s2");
@@ -68,6 +69,24 @@ describe("learn IPA curriculum", () => {
 
     expect(parsed.relatedWordLinks["ə"]?.length ?? 0).toBeGreaterThan(0);
     expect(parsed.relatedWordLinks["ʃ"]?.length ?? 0).toBeGreaterThan(0);
+
+    const unit01Bonus = parsed.steps.find((step) => step.id === "unit-01-s5");
+    const unit10Bonus = parsed.steps.find((step) => step.id === "unit-10-s5");
+
+    expect(unit01Bonus?.type).toBe("bonus-round");
+    expect(unit10Bonus?.type).toBe("bonus-round");
+
+    if (unit01Bonus?.type === "bonus-round") {
+      expect(unit01Bonus.exampleIds.length).toBeGreaterThanOrEqual(10);
+      expect(unit01Bonus.exampleIds).toContain("ex-bag");
+      expect(unit01Bonus.exampleIds).toContain("ex-milk");
+    }
+
+    if (unit10Bonus?.type === "bonus-round") {
+      expect(unit10Bonus.exampleIds.length).toBeGreaterThanOrEqual(12);
+      expect(unit10Bonus.exampleIds).toContain("ex-three");
+      expect(unit10Bonus.exampleIds).toContain("ex-weather");
+    }
   });
 
   test("tokenizes IPA using the longest known symbols first", () => {

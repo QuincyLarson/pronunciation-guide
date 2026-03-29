@@ -29,6 +29,7 @@ interface StepSession {
   interacted: boolean;
   revealedExampleIds: string[];
   listenSelection: string | null;
+  drillIndex: number;
   reviewIndex: number;
   reviewReveal: boolean;
   recordingState: "idle" | "recording";
@@ -65,6 +66,7 @@ function createStepSession(stepId: string | null): StepSession {
     interacted: false,
     revealedExampleIds: [],
     listenSelection: null,
+    drillIndex: 0,
     reviewIndex: 0,
     reviewReveal: false,
     recordingState: "idle",
@@ -75,10 +77,12 @@ function createStepSession(stepId: string | null): StepSession {
 
 function readRoute(): RouteState {
   const url = new URL(window.location.href);
+  const pathView = url.pathname === "/learn-ipa/progress/" ? "progress" : "overview";
+
   return {
     stepId: url.searchParams.get("step"),
     moduleId: url.searchParams.get("module"),
-    view: url.searchParams.get("view") === "progress" ? "progress" : "overview"
+    view: url.searchParams.get("view") === "progress" ? "progress" : pathView
   };
 }
 
@@ -509,8 +513,36 @@ function renderDecodeStep(current: LearnCurriculum, step: LearnStep): string {
   const accent = progressState.settings.accent;
   const examples = step.exampleIds.map((exampleId) => maps.examples.get(exampleId)).filter(Boolean) as LessonExample[];
 
+  if (step.type === "bonus-round") {
+    const activeIndex = examples.length > 0 ? session.drillIndex % examples.length : 0;
+    const activeExample = examples[activeIndex] ?? null;
+
+    return `<section class="panel learn-step-panel">
+      <p class="eyebrow">Drill mode</p>
+      <h2>${escapeHtml(step.title)}</h2>
+      <p class="hero-gloss">${escapeHtml(step.objective)}</p>
+      <p class="status-note">${examples.length > 0 ? `Word ${activeIndex + 1} of ${examples.length}` : "No drill words ready yet."}</p>
+      ${
+        activeExample
+          ? `<div class="learn-example-grid">${renderExampleCard(activeExample, accent)}</div>`
+          : ""
+      }
+      ${
+        examples.length > 1
+          ? `<div class="hero-actions">
+              <button type="button" class="button-link subtle" data-action="next-drill-example">Next word</button>
+            </div>`
+          : ""
+      }
+      <details class="learn-hint">
+        <summary>Need a hint?</summary>
+        <p>Say what you think the word is before revealing it. Then keep advancing through the drill set while the pattern is still fresh.</p>
+      </details>
+    </section>`;
+  }
+
   return `<section class="panel learn-step-panel">
-    <p class="eyebrow">${step.type === "bonus-round" ? "Bonus round" : "Decode word"}</p>
+    <p class="eyebrow">Decode word</p>
     <h2>${escapeHtml(step.title)}</h2>
     <p class="hero-gloss">${escapeHtml(step.objective)}</p>
     <div class="learn-example-grid">
@@ -666,6 +698,12 @@ function renderReviewStep(current: LearnCurriculum, step: LearnStep): string {
 
 function getMicPracticeExample(current: LearnCurriculum, step: LearnStep): LessonExample | null {
   const maps = getMaps(current);
+
+  if (step.type === "bonus-round") {
+    const exampleId =
+      step.exampleIds.length > 0 ? step.exampleIds[session.drillIndex % step.exampleIds.length] ?? step.exampleIds[0] : null;
+    return exampleId ? maps.examples.get(exampleId) ?? null : null;
+  }
 
   if ("exampleIds" in step) {
     return maps.examples.get(step.exampleIds[0] ?? "") ?? null;
@@ -998,6 +1036,12 @@ async function handleClick(event: Event): Promise<void> {
     return;
   }
 
+  if (action === "next-drill-example") {
+    session.drillIndex += 1;
+    render();
+    return;
+  }
+
   if (action === "reveal-review") {
     session.reviewReveal = true;
     render();
@@ -1076,6 +1120,11 @@ async function init(): Promise<void> {
   curriculum = (await response.json()) as LearnCurriculum;
   loadProgress();
   route = readRoute();
+
+  const initialView = root.dataset.initialView;
+  if (!new URL(window.location.href).searchParams.get("view") && initialView === "progress" && route.view !== "progress") {
+    route.view = "progress";
+  }
 
   if (route.stepId && !curriculum.steps.some((step) => step.id === route.stepId)) {
     route.stepId = progressState.currentStepId;

@@ -65,6 +65,7 @@ export const unitPlanSchema = z.object({
   teach: z.array(teachItemSourceSchema).length(3),
   practice_examples: z.array(z.string()).min(3),
   bonus_examples: z.array(z.string()).min(4),
+  drill_examples: z.array(z.string()).default([]),
   review_focus: z.array(z.string()).default([]),
   capstone_word_slugs: z.array(z.string()).default([])
 });

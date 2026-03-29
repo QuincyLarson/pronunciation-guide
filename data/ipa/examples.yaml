@@ -43,6 +43,69 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: a small pointed fastener
+- id: ex-bag
+  word: bag
+  display: bag
+  ipa: { en-US: "bæɡ", en-GB: "bæɡ" }
+  focus_symbols: ["æ"]
+  familiarity: 0.94
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a container for carrying things
+- id: ex-hand
+  word: hand
+  display: hand
+  ipa: { en-US: "hænd", en-GB: "hænd" }
+  focus_symbols: ["æ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the body part at the end of the arm
+- id: ex-leg
+  word: leg
+  display: leg
+  ipa: { en-US: "lɛɡ", en-GB: "lɛɡ" }
+  focus_symbols: ["ɛ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a limb used for standing and walking
+- id: ex-best
+  word: best
+  display: best
+  ipa: { en-US: "bɛst", en-GB: "bɛst" }
+  focus_symbols: ["ɛ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the highest in quality
+- id: ex-big
+  word: big
+  display: big
+  ipa: { en-US: "bɪɡ", en-GB: "bɪɡ" }
+  focus_symbols: ["ɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: large in size
+- id: ex-milk
+  word: milk
+  display: milk
+  ipa: { en-US: "mɪlk", en-GB: "mɪlk" }
+  focus_symbols: ["ɪ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a common white drink from cows
+- id: ex-desk
+  word: desk
+  display: desk
+  ipa: { en-US: "dɛsk", en-GB: "dɛsk" }
+  focus_symbols: ["ɛ"]
+  familiarity: 0.94
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a table for writing or working
 - id: ex-sun
   word: sun
   display: sun
@@ -88,6 +151,60 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: already occupied or captured
+- id: ex-luck
+  word: luck
+  display: luck
+  ipa: { en-US: "lʌk", en-GB: "lʌk" }
+  focus_symbols: ["ʌ"]
+  familiarity: 0.91
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: success that seems to happen by chance
+- id: ex-bus
+  word: bus
+  display: bus
+  ipa: { en-US: "bʌs", en-GB: "bʌs" }
+  focus_symbols: ["ʌ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a large road vehicle for passengers
+- id: ex-oven
+  word: oven
+  display: oven
+  ipa: { en-US: "ˈʌvən", en-GB: "ˈʌvən" }
+  focus_symbols: ["ʌ", "ə", "ˈ"]
+  familiarity: 0.84
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a heated chamber for baking or roasting
+- id: ex-cousin
+  word: cousin
+  display: cousin
+  ipa: { en-US: "ˈkʌzən", en-GB: "ˈkʌzən" }
+  focus_symbols: ["ʌ", "ə", "ˈ"]
+  familiarity: 0.86
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a child of your aunt or uncle
+- id: ex-away
+  word: away
+  display: away
+  ipa: { en-US: "əˈweɪ", en-GB: "əˈweɪ" }
+  focus_symbols: ["ə", "ˈ", "eɪ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: at a distance from here
+- id: ex-alone
+  word: alone
+  display: alone
+  ipa: { en-US: "əˈloʊn", en-GB: "əˈləʊn" }
+  focus_symbols: ["ə", "ˈ", "oʊ"]
+  familiarity: 0.93
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: without anyone else
 - id: ex-see
   word: see
   display: see
@@ -133,6 +250,69 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: the color blue
+- id: ex-green
+  word: green
+  display: green
+  ipa: { en-US: "ɡrin", en-GB: "ɡriːn" }
+  focus_symbols: ["i", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the color green
+- id: ex-sleep
+  word: sleep
+  display: sleep
+  ipa: { en-US: "slip", en-GB: "sliːp" }
+  focus_symbols: ["i", "ː"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to rest while unconscious
+- id: ex-moon
+  word: moon
+  display: moon
+  ipa: { en-US: "mun", en-GB: "muːn" }
+  focus_symbols: ["u", "ː"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the natural satellite of Earth
+- id: ex-boot
+  word: boot
+  display: boot
+  ipa: { en-US: "but", en-GB: "buːt" }
+  focus_symbols: ["u", "ː"]
+  familiarity: 0.88
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a sturdy shoe that covers the ankle
+- id: ex-look
+  word: look
+  display: look
+  ipa: { en-US: "lʊk", en-GB: "lʊk" }
+  focus_symbols: ["ʊ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to direct your eyes toward something
+- id: ex-cook
+  word: cook
+  display: cook
+  ipa: { en-US: "kʊk", en-GB: "kʊk" }
+  focus_symbols: ["ʊ"]
+  familiarity: 0.93
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to prepare food with heat
+- id: ex-pull
+  word: pull
+  display: pull
+  ipa: { en-US: "pʊl", en-GB: "pʊl" }
+  focus_symbols: ["ʊ"]
+  familiarity: 0.92
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to draw something toward yourself
 - id: ex-father
   word: father
   display: father
@@ -178,6 +358,51 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: seized or captured
+- id: ex-palm
+  word: palm
+  display: palm
+  ipa: { en-US: "pɑm", en-GB: "pɑːm" }
+  focus_symbols: ["ɑ", "ː"]
+  familiarity: 0.84
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the inner surface of the hand
+- id: ex-calm
+  word: calm
+  display: calm
+  ipa: { en-US: "kɑm", en-GB: "kɑːm" }
+  focus_symbols: ["ɑ", "ː"]
+  familiarity: 0.88
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: peaceful and not excited
+- id: ex-call
+  word: call
+  display: call
+  ipa: { en-US: "kɔl", en-GB: "kɔːl" }
+  focus_symbols: ["ɔ", "ː"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to speak or shout to someone
+- id: ex-talk
+  word: talk
+  display: talk
+  ipa: { en-US: "tɔk", en-GB: "tɔːk" }
+  focus_symbols: ["ɔ", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to speak with someone
+- id: ex-fall
+  word: fall
+  display: fall
+  ipa: { en-US: "fɔl", en-GB: "fɔːl" }
+  focus_symbols: ["ɔ", "ː"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to move downward suddenly
 - id: ex-lot-uk
   word: lot
   display: lot (UK)
@@ -223,6 +448,60 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: a spoken or written unit of language
+- id: ex-first
+  word: first
+  display: first
+  ipa: { en-US: "fɝst", en-GB: "fɜːst" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: coming before all others
+- id: ex-turn
+  word: turn
+  display: turn
+  ipa: { en-US: "tɝn", en-GB: "tɜːn" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to rotate or change direction
+- id: ex-work
+  word: work
+  display: work
+  ipa: { en-US: "wɝk", en-GB: "wɜːk" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: effort or a job
+- id: ex-world
+  word: world
+  display: world
+  ipa: { en-US: "wɝld", en-GB: "wɜːld" }
+  focus_symbols: ["ɝ", "ɜ", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the earth and everyone on it
+- id: ex-fox-uk
+  word: fox
+  display: fox (UK)
+  ipa: { en-GB: "fɒks" }
+  focus_symbols: ["ɒ"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a small wild canine
+- id: ex-clock-uk
+  word: clock
+  display: clock (UK)
+  ipa: { en-GB: "klɒk" }
+  focus_symbols: ["ɒ"]
+  familiarity: 0.94
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a device that shows the time
 - id: ex-say
   word: say
   display: say
@@ -277,6 +556,96 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: the place where one lives
+- id: ex-winner
+  word: winner
+  display: winner
+  ipa: { en-US: "ˈwɪnɚ", en-GB: "ˈwɪnə" }
+  focus_symbols: ["ɪ", "ɚ", "ˈ"]
+  familiarity: 0.89
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a person who wins
+- id: ex-teacher
+  word: teacher
+  display: teacher
+  ipa: { en-US: "ˈtitʃɚ", en-GB: "ˈtiːtʃə" }
+  focus_symbols: ["i", "ː", "tʃ", "ɚ", "ˈ"]
+  familiarity: 0.93
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a person who teaches
+- id: ex-never
+  word: never
+  display: never
+  ipa: { en-US: "ˈnɛvɚ", en-GB: "ˈnɛvə" }
+  focus_symbols: ["ɛ", "ɚ", "ˈ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: at no time
+- id: ex-letter
+  word: letter
+  display: letter
+  ipa: { en-US: "ˈlɛtɚ", en-GB: "ˈlɛtə" }
+  focus_symbols: ["ɛ", "ɚ", "ˈ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a written message or alphabet character
+- id: ex-late
+  word: late
+  display: late
+  ipa: { en-US: "leɪt", en-GB: "leɪt" }
+  focus_symbols: ["eɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: after the expected time
+- id: ex-game
+  word: game
+  display: game
+  ipa: { en-US: "ɡeɪm", en-GB: "ɡeɪm" }
+  focus_symbols: ["eɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a structured form of play
+- id: ex-five
+  word: five
+  display: five
+  ipa: { en-US: "faɪv", en-GB: "faɪv" }
+  focus_symbols: ["aɪ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the number five
+- id: ex-light
+  word: light
+  display: light
+  ipa: { en-US: "laɪt", en-GB: "laɪt" }
+  focus_symbols: ["aɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: brightness or illumination
+- id: ex-show
+  word: show
+  display: show
+  ipa: { en-US: "ʃoʊ", en-GB: "ʃəʊ" }
+  focus_symbols: ["ʃ", "oʊ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to let someone see something
+- id: ex-road
+  word: road
+  display: road
+  ipa: { en-US: "ɹoʊd", en-GB: "ɹəʊd" }
+  focus_symbols: ["ɹ", "oʊ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a route for travel
 - id: ex-now
   word: now
   display: now
@@ -313,6 +682,60 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: a selection
+- id: ex-house
+  word: house
+  display: house
+  ipa: { en-US: "haʊs", en-GB: "haʊs" }
+  focus_symbols: ["aʊ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a building where people live
+- id: ex-town
+  word: town
+  display: town
+  ipa: { en-US: "taʊn", en-GB: "taʊn" }
+  focus_symbols: ["aʊ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a populated place smaller than a city
+- id: ex-sound
+  word: sound
+  display: sound
+  ipa: { en-US: "saʊnd", en-GB: "saʊnd" }
+  focus_symbols: ["aʊ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: something you hear
+- id: ex-toy
+  word: toy
+  display: toy
+  ipa: { en-US: "tɔɪ", en-GB: "tɔɪ" }
+  focus_symbols: ["ɔɪ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: an object for children to play with
+- id: ex-voice
+  word: voice
+  display: voice
+  ipa: { en-US: "vɔɪs", en-GB: "vɔɪs" }
+  focus_symbols: ["ɔɪ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the sound made when speaking or singing
+- id: ex-point
+  word: point
+  display: point
+  ipa: { en-US: "pɔɪnt", en-GB: "pɔɪnt" }
+  focus_symbols: ["ɔɪ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a sharp end or a specific idea
 - id: ex-ship
   word: ship
   display: ship
@@ -367,6 +790,60 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: fruit preserved with sugar
+- id: ex-shoe
+  word: shoe
+  display: shoe
+  ipa: { en-US: "ʃu", en-GB: "ʃuː" }
+  focus_symbols: ["ʃ", "u", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: something worn on the foot
+- id: ex-fish
+  word: fish
+  display: fish
+  ipa: { en-US: "fɪʃ", en-GB: "fɪʃ" }
+  focus_symbols: ["ɪ", "ʃ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: an animal that lives in water
+- id: ex-cheese
+  word: cheese
+  display: cheese
+  ipa: { en-US: "tʃiz", en-GB: "tʃiːz" }
+  focus_symbols: ["tʃ", "i", "ː"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a food made from milk
+- id: ex-joke
+  word: joke
+  display: joke
+  ipa: { en-US: "dʒoʊk", en-GB: "dʒəʊk" }
+  focus_symbols: ["dʒ", "oʊ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: something said to make people laugh
+- id: ex-page
+  word: page
+  display: page
+  ipa: { en-US: "peɪdʒ", en-GB: "peɪdʒ" }
+  focus_symbols: ["eɪ", "dʒ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: one side of a sheet in a book
+- id: ex-watch
+  word: watch
+  display: watch
+  ipa: { en-US: "wɑtʃ", en-GB: "wɒtʃ" }
+  focus_symbols: ["tʃ", "ɑ", "ɒ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to look at something carefully
 - id: ex-measure
   word: measure
   display: measure
@@ -421,6 +898,60 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: spun thread
+- id: ex-usual
+  word: usual
+  display: usual
+  ipa: { en-US: "ˈjuʒuəl", en-GB: "ˈjuːʒuəl" }
+  focus_symbols: ["j", "u", "ː", "ʒ", "ə", "ˈ"]
+  familiarity: 0.88
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: normal or expected
+- id: ex-king
+  word: king
+  display: king
+  ipa: { en-US: "kɪŋ", en-GB: "kɪŋ" }
+  focus_symbols: ["ɪ", "ŋ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a male ruler
+- id: ex-ring
+  word: ring
+  display: ring
+  ipa: { en-US: "ɹɪŋ", en-GB: "ɹɪŋ" }
+  focus_symbols: ["ɹ", "ɪ", "ŋ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a circular band worn on the finger
+- id: ex-you
+  word: you
+  display: you
+  ipa: { en-US: "ju", en-GB: "juː" }
+  focus_symbols: ["j", "u", "ː"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the person being addressed
+- id: ex-yellow
+  word: yellow
+  display: yellow
+  ipa: { en-US: "ˈjɛloʊ", en-GB: "ˈjɛləʊ" }
+  focus_symbols: ["j", "ɛ", "oʊ", "ˈ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the color yellow
+- id: ex-young
+  word: young
+  display: young
+  ipa: { en-US: "jʌŋ", en-GB: "jʌŋ" }
+  focus_symbols: ["j", "ʌ", "ŋ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: not old
 - id: ex-thin
   word: thin
   display: thin
@@ -475,6 +1006,69 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: correct or on the right side
+- id: ex-three
+  word: three
+  display: three
+  ipa: { en-US: "θɹi", en-GB: "θriː" }
+  focus_symbols: ["θ", "ɹ", "i", "ː"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the number three
+- id: ex-think
+  word: think
+  display: think
+  ipa: { en-US: "θɪŋk", en-GB: "θɪŋk" }
+  focus_symbols: ["θ", "ɪ", "ŋ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: to use the mind
+- id: ex-thumb
+  word: thumb
+  display: thumb
+  ipa: { en-US: "θʌm", en-GB: "θʌm" }
+  focus_symbols: ["θ", "ʌ"]
+  familiarity: 0.92
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the short thick finger on the hand
+- id: ex-that
+  word: that
+  display: that
+  ipa: { en-US: "ðæt", en-GB: "ðæt" }
+  focus_symbols: ["ð", "æ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the thing farther from the speaker
+- id: ex-other
+  word: other
+  display: other
+  ipa: { en-US: "ˈʌðɚ", en-GB: "ˈʌðə" }
+  focus_symbols: ["ʌ", "ð", "ɚ", "ˈ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: different from the first one
+- id: ex-weather
+  word: weather
+  display: weather
+  ipa: { en-US: "ˈwɛðɚ", en-GB: "ˈwɛðə" }
+  focus_symbols: ["ɛ", "ð", "ɚ", "ˈ"]
+  familiarity: 0.97
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the condition of the air outside
+- id: ex-rain
+  word: rain
+  display: rain
+  ipa: { en-US: "ɹeɪn", en-GB: "ɹeɪn" }
+  focus_symbols: ["ɹ", "eɪ"]
+  familiarity: 0.98
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: water that falls from clouds
 - id: ex-banana
   word: banana
   display: banana
@@ -511,6 +1105,51 @@
   word_type: common-word
   origin_language: gr
   meaning_gloss: a picture made with a camera
+- id: ex-elephant
+  word: elephant
+  display: elephant
+  ipa: { en-US: "ˈɛləfənt", en-GB: "ˈɛləfənt" }
+  focus_symbols: ["ˈ", "ɛ", "ə"]
+  familiarity: 0.94
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a very large animal with a trunk
+- id: ex-tomorrow
+  word: tomorrow
+  display: tomorrow
+  ipa: { en-US: "təˈmɑɹoʊ", en-GB: "təˈmɒɹəʊ" }
+  focus_symbols: ["ə", "ˈ", "ɑ", "ɒ", "ɹ", "oʊ"]
+  familiarity: 0.96
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: the day after today
+- id: ex-important
+  word: important
+  display: important
+  ipa: { en-US: "ɪmˈpɔɹtənt", en-GB: "ɪmˈpɔːtənt" }
+  focus_symbols: ["ɪ", "ˈ", "ɔ", "ɹ", "ə", "ː"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: having great value or significance
+- id: ex-avocado
+  word: avocado
+  display: avocado
+  ipa: { en-US: "ˌævəˈkɑdoʊ", en-GB: "ˌævəˈkɑːdəʊ" }
+  focus_symbols: ["ˌ", "æ", "ə", "ˈ", "ɑ", "oʊ", "ː"]
+  familiarity: 0.89
+  word_type: common-word
+  origin_language: es
+  meaning_gloss: a green fruit with a large pit
+- id: ex-information
+  word: information
+  display: information
+  ipa: { en-US: "ˌɪnfɚˈmeɪʃən", en-GB: "ˌɪnfəˈmeɪʃən" }
+  focus_symbols: ["ˌ", "ɪ", "ɚ", "ə", "ˈ", "eɪ", "ʃ"]
+  familiarity: 0.95
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: facts or knowledge about something
 - id: ex-water
   word: water
   display: water
@@ -547,6 +1186,51 @@
   word_type: common-word
   origin_language: en
   meaning_gloss: an exclamation of trouble
+- id: ex-ladder
+  word: ladder
+  display: ladder
+  ipa: { en-US: "ˈlæɾɚ", en-GB: "ˈlædə" }
+  focus_symbols: ["ˈ", "æ", "ɾ", "ɚ"]
+  familiarity: 0.88
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a climbing frame with rungs
+- id: ex-better
+  word: better
+  display: better
+  ipa: { en-US: "ˈbɛɾɚ", en-GB: "ˈbɛtə" }
+  focus_symbols: ["ˈ", "ɛ", "ɾ", "ɚ"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: of higher quality
+- id: ex-kitten
+  word: kitten
+  display: kitten
+  ipa: { en-US: "ˈkɪʔn̩", en-GB: "ˈkɪtən" }
+  focus_symbols: ["ˈ", "ɪ", "ʔ", "̩", "ə"]
+  familiarity: 0.9
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a young cat
+- id: ex-mountain
+  word: mountain
+  display: mountain
+  ipa: { en-US: "ˈmaʊʔn̩", en-GB: "ˈmaʊntən" }
+  focus_symbols: ["ˈ", "aʊ", "ʔ", "̩", "ə"]
+  familiarity: 0.94
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: a very tall natural elevation
+- id: ex-little
+  word: little
+  display: little
+  ipa: { en-US: "ˈlɪɾəl", en-GB: "ˈlɪtəl" }
+  focus_symbols: ["ˈ", "ɪ", "ɾ", "ə"]
+  familiarity: 0.99
+  word_type: common-word
+  origin_language: en
+  meaning_gloss: small in size
 - id: ex-pero
   word: pero
   display: pero

@@ -91,6 +91,10 @@ function buildExampleRuntime(example: unknown, corpusBySlug: Map<string, Entry>)
   });
 }
 
+function uniqueValues<T>(values: T[]): T[] {
+  return [...new Set(values)];
+}
+
 function createReviewCards(unit: ReturnType<typeof unitPlanSchema.parse>) {
   const cards = [];
 
@@ -195,9 +199,13 @@ function buildUnitSteps(unit: UnitPlan, unitIndex: number, exampleById: Map<stri
     moduleId: unit.module_id,
     unitId: unit.id,
     title: `${unit.title} bonus round`,
-    objective: "Read several words in sequence and let the pattern settle in.",
+    objective: "Drill the pattern across a wider word set until the reading feels more automatic.",
     type: "bonus-round" as const,
-    exampleIds: unit.bonus_examples.slice(0, 6)
+    exampleIds: uniqueValues([
+      ...(unit.drill_examples.length > 0 ? unit.drill_examples : unit.bonus_examples),
+      ...unit.bonus_examples,
+      ...unit.practice_examples
+    ]).filter((exampleId) => exampleById.has(exampleId))
   };
 
   const reviewStep = {
@@ -257,7 +265,7 @@ function validateCurriculumReferences(
       assertMissing("module", unit.module_id, "content/ipa/modules");
     }
 
-    for (const exampleId of [...unit.practice_examples, ...unit.bonus_examples]) {
+    for (const exampleId of [...unit.practice_examples, ...unit.bonus_examples, ...unit.drill_examples]) {
       if (!exampleIds.has(exampleId)) {
         assertMissing("example", exampleId, "data/ipa/examples.yaml");
       }
