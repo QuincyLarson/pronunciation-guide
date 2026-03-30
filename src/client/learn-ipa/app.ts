@@ -14,7 +14,14 @@ import {
   recordStepAttempt
 } from "../../lib/learn-ipa/progress.js";
 import { LEARN_IPA_ROOT_PATH, getLearnIpaAppPath, getLearnIpaModulePath } from "../../lib/learn-ipa/routes.js";
-import type { LearnCurriculum, LearnStep, LessonExample, ReviewCard, ReviewOutcome } from "../../types/learn-ipa";
+import type {
+  LearnCurriculum,
+  LearnIpaDrillLexicon,
+  LearnStep,
+  LessonExample,
+  ReviewCard,
+  ReviewOutcome
+} from "../../types/learn-ipa";
 
 type ViewMode = "overview" | "progress";
 
@@ -40,6 +47,7 @@ interface StepSession {
 const audioPlayer = new Audio();
 
 let curriculum: LearnCurriculum | null = null;
+let drillLexicon: LearnIpaDrillLexicon | null = null;
 let progressState = migrateLearnIpaState(null);
 let route: RouteState = readRoute();
 let root: HTMLElement | null = null;
@@ -50,6 +58,9 @@ let speechUtterance: SpeechSynthesisUtterance | null = null;
 let mediaRecorder: MediaRecorder | null = null;
 let recordingStream: MediaStream | null = null;
 let recordingChunks: BlobPart[] = [];
+let drillLexiconPromise: Promise<void> | null = null;
+let drillLexiconError: string | null = null;
+let drillExampleMap = new Map<string, LessonExample>();
 
 function escapeHtml(value: string): string {
   return value
@@ -117,12 +128,78 @@ function loadProgress(): void {
 function getMaps(current: LearnCurriculum) {
   return {
     examples: new Map(current.examples.map((example) => [example.id, example])),
+    drillExamples: drillExampleMap,
     steps: new Map(current.steps.map((step) => [step.id, step])),
     modules: new Map(current.modules.map((module) => [module.id, module])),
     concepts: new Map(current.concepts.map((concept) => [concept.id, concept])),
     symbols: new Map(current.symbols.map((symbol) => [symbol.id, symbol])),
     reviewCards: new Map(current.reviewCards.map((card) => [card.id, card]))
   };
+}
+
+function getDrillLexiconSrc(): string {
+  return root?.dataset.drillSrc ?? "/learn-ipa/drill-examples.json";
+}
+
+async function ensureDrillLexicon(): Promise<void> {
+  if (drillLexicon || drillLexiconPromise) {
+    return drillLexiconPromise ?? Promise.resolve();
+  }
+
+  drillLexiconError = null;
+  drillLexiconPromise = fetch(getDrillLexiconSrc())
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const payload = (await response.json()) as Partial<LearnIpaDrillLexicon>;
+      const examples = Array.isArray(payload.examples) ? payload.examples : [];
+      drillLexicon = {
+        generatedAt: typeof payload.generatedAt === "string" ? payload.generatedAt : new Date().toISOString(),
+        version: typeof payload.version === "number" ? payload.version : 1,
+        examples
+      };
+      drillExampleMap = new Map(examples.map((example) => [example.id, example]));
+      drillLexiconError = null;
+    })
+    .catch((error) => {
+      drillLexiconError =
+        error instanceof Error ? error.message : "The expanded drill set could not be loaded right now.";
+    })
+    .finally(() => {
+      drillLexiconPromise = null;
+      render();
+    });
+
+  return drillLexiconPromise;
+}
+
+function getExampleFromMaps(
+  maps: ReturnType<typeof getMaps>,
+  exampleId: string
+): LessonExample | null {
+  return maps.examples.get(exampleId) ?? maps.drillExamples.get(exampleId) ?? null;
+}
+
+function getExampleById(current: LearnCurriculum, exampleId: string): LessonExample | null {
+  return getExampleFromMaps(getMaps(current), exampleId);
+}
+
+function getExamplesById(current: LearnCurriculum, exampleIds: string[]): LessonExample[] {
+  const maps = getMaps(current);
+  return exampleIds
+    .map((exampleId) => getExampleFromMaps(maps, exampleId))
+    .filter((example): example is LessonExample => !!example);
+}
+
+function getBonusRoundExamples(current: LearnCurriculum, step: Extract<LearnStep, { type: "bonus-round" }>): LessonExample[] {
+  if (step.drillExampleIds.length > 0 && !drillLexicon && !drillLexiconPromise) {
+    void ensureDrillLexicon();
+  }
+
+  const drillExamples = step.drillExampleIds.length > 0 ? getExamplesById(current, step.drillExampleIds) : [];
+  return drillExamples.length > 0 ? drillExamples : getExamplesById(current, step.exampleIds);
 }
 
 function getActiveStep(): LearnStep | null {
@@ -464,7 +541,7 @@ function renderTeachStep(current: LearnCurriculum, step: LearnStep): string {
 
   if (step.type === "teach-symbol") {
     const symbol = maps.symbols.get(step.symbolId);
-    const examples = step.exampleIds.map((exampleId) => maps.examples.get(exampleId)).filter(Boolean) as LessonExample[];
+    const examples = getExamplesById(current, step.exampleIds);
 
     return `<section class="panel learn-step-panel">
       <div class="learn-step-hero">
@@ -488,7 +565,7 @@ function renderTeachStep(current: LearnCurriculum, step: LearnStep): string {
 
   if (step.type === "teach-concept") {
     const concept = maps.concepts.get(step.conceptId);
-    const examples = step.exampleIds.map((exampleId) => maps.examples.get(exampleId)).filter(Boolean) as LessonExample[];
+    const examples = getExamplesById(current, step.exampleIds);
 
     return `<section class="panel learn-step-panel">
       <p class="eyebrow">Teach concept</p>
@@ -509,19 +586,26 @@ function renderDecodeStep(current: LearnCurriculum, step: LearnStep): string {
     return "";
   }
 
-  const maps = getMaps(current);
   const accent = progressState.settings.accent;
-  const examples = step.exampleIds.map((exampleId) => maps.examples.get(exampleId)).filter(Boolean) as LessonExample[];
+  const examples =
+    step.type === "bonus-round" ? getBonusRoundExamples(current, step) : getExamplesById(current, step.exampleIds);
 
   if (step.type === "bonus-round") {
     const activeIndex = examples.length > 0 ? session.drillIndex % examples.length : 0;
     const activeExample = examples[activeIndex] ?? null;
+    const loadingExpandedSet = step.drillExampleIds.length > 0 && !drillLexicon && !drillLexiconError;
+    const loadingMessage = loadingExpandedSet
+      ? `<p class="status-note">Loading the expanded drill set. Starter words are ready now.</p>`
+      : drillLexiconError && step.drillExampleIds.length > 0
+        ? `<p class="status-note">Expanded drill set unavailable right now. Using starter words instead.</p>`
+        : "";
 
     return `<section class="panel learn-step-panel">
       <p class="eyebrow">Drill mode</p>
       <h2>${escapeHtml(step.title)}</h2>
       <p class="hero-gloss">${escapeHtml(step.objective)}</p>
       <p class="status-note">${examples.length > 0 ? `Word ${activeIndex + 1} of ${examples.length}` : "No drill words ready yet."}</p>
+      ${loadingMessage}
       ${
         activeExample
           ? `<div class="learn-example-grid">${renderExampleCard(activeExample, accent)}</div>`
@@ -562,8 +646,8 @@ function renderListenMatchStep(current: LearnCurriculum, step: LearnStep): strin
 
   const maps = getMaps(current);
   const accent = progressState.settings.accent;
-  const promptExample = maps.examples.get(step.promptExampleId);
-  const selectedExample = session.listenSelection ? maps.examples.get(session.listenSelection) : null;
+  const promptExample = getExampleById(current, step.promptExampleId);
+  const selectedExample = session.listenSelection ? getExampleById(current, session.listenSelection) : null;
 
   return `<section class="panel learn-step-panel">
     <p class="eyebrow">Listen and match</p>
@@ -578,7 +662,7 @@ function renderListenMatchStep(current: LearnCurriculum, step: LearnStep): strin
     </div>
     <div class="learn-choice-grid">
       ${step.choiceExampleIds
-        .map((exampleId) => maps.examples.get(exampleId))
+        .map((exampleId) => getExampleById(current, exampleId))
         .filter((example): example is LessonExample => !!example)
         .map(
           (example) => `<button type="button" class="learn-choice${
@@ -638,7 +722,7 @@ function renderReviewCard(current: LearnCurriculum, card: ReviewCard): string {
   }
 
   if (card.kind === "example" && card.exampleId) {
-    const example = maps.examples.get(card.exampleId);
+    const example = getExampleById(current, card.exampleId);
     return `<div class="learn-review-card">
       <p class="eyebrow">Review example</p>
       <h3 class="learn-example-ipa">${escapeHtml(example ? getExampleIpa(example, accent) : card.prompt)}</h3>
@@ -697,30 +781,27 @@ function renderReviewStep(current: LearnCurriculum, step: LearnStep): string {
 }
 
 function getMicPracticeExample(current: LearnCurriculum, step: LearnStep): LessonExample | null {
-  const maps = getMaps(current);
-
   if (step.type === "bonus-round") {
-    const exampleId =
-      step.exampleIds.length > 0 ? step.exampleIds[session.drillIndex % step.exampleIds.length] ?? step.exampleIds[0] : null;
-    return exampleId ? maps.examples.get(exampleId) ?? null : null;
+    const examples = getBonusRoundExamples(current, step);
+    return examples.length > 0 ? examples[session.drillIndex % examples.length] ?? examples[0] ?? null : null;
   }
 
   if ("exampleIds" in step) {
-    return maps.examples.get(step.exampleIds[0] ?? "") ?? null;
+    return getExampleById(current, step.exampleIds[0] ?? "");
   }
 
   if (step.type === "listen-match") {
-    return maps.examples.get(step.promptExampleId) ?? null;
+    return getExampleById(current, step.promptExampleId);
   }
 
   if (step.type === "review-round") {
     const cards = getReviewCardsForStep(current, introduceReviewCards(progressState, step.reviewCardIds), step);
     const activeExampleId = cards[session.reviewIndex]?.exampleId ?? step.fallbackExampleIds[0] ?? null;
-    return activeExampleId ? maps.examples.get(activeExampleId) ?? null : null;
+    return activeExampleId ? getExampleById(current, activeExampleId) : null;
   }
 
   if (step.type === "mic-check") {
-    return maps.examples.get(step.exampleId) ?? null;
+    return getExampleById(current, step.exampleId);
   }
 
   return null;
@@ -831,21 +912,17 @@ function maybeAutoplayStep(step: LearnStep): void {
     return;
   }
 
-  const maps = getMaps(curriculum);
-  const firstExampleId =
-    "exampleIds" in step
-      ? step.exampleIds[0] ?? null
-      : step.type === "listen-match"
-        ? step.promptExampleId
-        : step.type === "mic-check"
-          ? step.exampleId
-          : null;
+  const example =
+    step.type === "bonus-round"
+      ? getBonusRoundExamples(curriculum, step)[0] ?? null
+      : "exampleIds" in step
+        ? getExampleById(curriculum, step.exampleIds[0] ?? "")
+        : step.type === "listen-match"
+          ? getExampleById(curriculum, step.promptExampleId)
+          : step.type === "mic-check"
+            ? getExampleById(curriculum, step.exampleId)
+            : null;
 
-  if (!firstExampleId) {
-    return;
-  }
-
-  const example = maps.examples.get(firstExampleId);
   if (!example) {
     return;
   }
@@ -993,7 +1070,7 @@ async function handleClick(event: Event): Promise<void> {
     if (!exampleId) {
       return;
     }
-    const example = getMaps(curriculum).examples.get(exampleId);
+    const example = getExampleById(curriculum, exampleId);
     if (example) {
       await playExample(example);
     }

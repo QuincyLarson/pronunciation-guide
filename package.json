@@ -18,6 +18,7 @@
     "build:graduate": "tsx scripts/graduate-index-candidates.ts",
     "build:audio": "tsx scripts/generate-audio.ts",
     "build:shards": "tsx scripts/shard-corpus.ts",
+    "build:learn-ipa:sources": "tsx scripts/sync-learn-ipa-sources.ts",
     "build:learn-ipa": "tsx scripts/generate-learn-ipa.ts",
     "build:prerender": "tsx scripts/prerender.ts",
     "build:sitemaps": "tsx scripts/generate-sitemaps.ts",

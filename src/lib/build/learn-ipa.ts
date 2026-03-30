@@ -6,6 +6,7 @@ import YAML from "yaml";
 import { markdownToHtml } from "../merge";
 import { slugify } from "../slug";
 import { uniqueIpaSymbols } from "../learn-ipa/tokenize";
+import { buildLearnIpaDrillAssignments } from "./learn-ipa-drills";
 import {
   conceptFrontmatterSchema,
   conceptRuntimeSchema,
@@ -19,7 +20,8 @@ import {
   unitPlanSchema,
   type LessonExample,
   type UnitPlan,
-  type LearnCurriculum
+  type LearnCurriculum,
+  type LearnIpaDrillLexicon
 } from "../../types/learn-ipa";
 import type { Entry } from "../../types/content";
 import { collectFiles, readTextFile, writeJsonFile } from "./io";
@@ -205,7 +207,8 @@ function buildUnitSteps(unit: UnitPlan, unitIndex: number, exampleById: Map<stri
       ...(unit.drill_examples.length > 0 ? unit.drill_examples : unit.bonus_examples),
       ...unit.bonus_examples,
       ...unit.practice_examples
-    ]).filter((exampleId) => exampleById.has(exampleId))
+    ]).filter((exampleId) => exampleById.has(exampleId)),
+    drillExampleIds: [] as string[]
   };
 
   const reviewStep = {
@@ -283,7 +286,10 @@ function validateCurriculumReferences(
   }
 }
 
-export async function buildLearnIpaCurriculum(entries: Entry[]): Promise<LearnCurriculum> {
+export async function buildLearnIpaCurriculum(
+  entries: Entry[],
+  drillLexicon?: LearnIpaDrillLexicon | null
+): Promise<LearnCurriculum> {
   const corpusBySlug = new Map(entries.map((entry) => [entry.slug, entry]));
   const symbolSources = symbolSourceSchema.array().parse(
     readYamlFile<unknown>(path.join(IPA_DATA_DIR, "symbols.yaml"))
@@ -310,7 +316,14 @@ export async function buildLearnIpaCurriculum(entries: Entry[]): Promise<LearnCu
   const exampleById = new Map(examples.map((example) => [example.id, example]));
   const steps = unitPlans.flatMap((unit, index) => buildUnitSteps(unit, index + 1, exampleById));
   const reviewCards = unitPlans.flatMap((unit) => createReviewCards(unit));
+  const drillAssignments = buildLearnIpaDrillAssignments(drillLexicon?.examples ?? []);
   const symbolToStep: Record<string, string> = {};
+
+  for (const step of steps) {
+    if (step.type === "bonus-round") {
+      step.drillExampleIds = drillAssignments.get(step.unitId) ?? [];
+    }
+  }
 
   for (const step of steps) {
     if (step.type === "teach-symbol" && !symbolToStep[step.symbolId]) {
@@ -401,8 +414,11 @@ export async function buildLearnIpaCurriculum(entries: Entry[]): Promise<LearnCu
   return curriculum;
 }
 
-export async function writeLearnIpaCurriculum(entries: Entry[]): Promise<LearnCurriculum> {
-  const curriculum = await buildLearnIpaCurriculum(entries);
+export async function writeLearnIpaCurriculum(
+  entries: Entry[],
+  drillLexicon?: LearnIpaDrillLexicon | null
+): Promise<LearnCurriculum> {
+  const curriculum = await buildLearnIpaCurriculum(entries, drillLexicon);
   await writeJsonFile(LEARN_IPA_CURRICULUM_PATH, curriculum);
   return curriculum;
 }

@@ -5,14 +5,14 @@ import type { LearnCurriculum } from "../types/learn-ipa";
 import { renderLayout } from "./layout";
 import { renderLearnIpaModuleCards, renderLearnIpaQuickLinks } from "./learn-ipa-shared";
 
-export function renderLearnIpaPage(curriculum: LearnCurriculum, config: SiteConfig): string {
+export function renderLearnIpaPage(curriculum: LearnCurriculum, config: SiteConfig, options?: { progressView?: boolean }): string {
   const main = `<section class="hero hero-home hero-learn">
     <p class="eyebrow">Interactive IPA course</p>
-    <h1>Learn to read the IPA that actually appears on pronunciation pages.</h1>
-    <p class="hero-gloss">A short, practice-heavy course for English speakers who want to decode dictionary-style IPA, names, and loanwords without turning this into a linguistics degree.</p>
+    <h1>Read practical IPA fast.</h1>
+    <p class="hero-gloss">Short lessons, frequent review, and real examples from the pronunciation directory.</p>
     <div class="hero-actions">
-      <a class="button-link" href="${escapeHtml(getLearnIpaAppPath())}">Start learning</a>
-      <a class="button-link subtle" href="${escapeHtml(LEARN_IPA_REFERENCE_PATH)}">Browse the symbol reference</a>
+      <a class="button-link" href="${escapeHtml(getLearnIpaAppPath())}">Start</a>
+      <a class="button-link subtle" href="${escapeHtml(LEARN_IPA_REFERENCE_PATH)}">Reference</a>
     </div>
     <div class="meta-row">
       <span>${curriculum.modules.length} modules</span>
@@ -22,7 +22,7 @@ export function renderLearnIpaPage(curriculum: LearnCurriculum, config: SiteConf
     </div>
   </section>
   <section class="panel">
-    <div id="learn-ipa-app" data-curriculum-src="/learn-ipa/curriculum.json" data-storage-key="pronunciation-guide.learn-ipa">
+    <div id="learn-ipa-app" data-curriculum-src="/learn-ipa/curriculum.json" data-drill-src="/learn-ipa/drill-examples.json" data-storage-key="pronunciation-guide.learn-ipa" data-initial-view="${options?.progressView ? "progress" : "overview"}">
       <p class="status-note">Loading the interactive course shell.</p>
     </div>
     <noscript>
@@ -33,20 +33,17 @@ export function renderLearnIpaPage(curriculum: LearnCurriculum, config: SiteConf
   </section>
   <section class="panel split-panels">
     <div>
-      <h2>What this teaches</h2>
+      <h2>What you get</h2>
       <ul class="gloss-list">
-        <li>Broad English dictionary transcription, not ultra-narrow phonetics.</li>
-        <li>Short practical lessons with examples, audio, and mixed review.</li>
-        <li>High-value loanword and name patterns from German, French, Spanish, Chinese, and Japanese contexts.</li>
+        <li>Core symbols first.</li>
+        <li>Fast teach → practice → review loops.</li>
+        <li>Deep drill sets backed by trusted pronunciation dictionaries.</li>
       </ul>
     </div>
     <div>
-      <h2>Useful side doors</h2>
-      <ul class="hub-list">
-        <li><a href="${escapeHtml(LEARN_IPA_REFERENCE_PATH)}">Reference</a><span>symbol catalog</span></li>
-        <li><a href="${escapeHtml(LEARN_IPA_ABOUT_PATH)}">About</a><span>scope and omissions</span></li>
-        <li><a href="/browse/">Directory</a><span>jump back into word pages</span></li>
-      </ul>
+      <h2>Quick links</h2>
+      ${renderLearnIpaQuickLinks()}
+      <p class="status-note"><a href="${escapeHtml(LEARN_IPA_ABOUT_PATH)}">About the course</a></p>
     </div>
   </section>
   <section class="panel">
@@ -54,18 +51,15 @@ export function renderLearnIpaPage(curriculum: LearnCurriculum, config: SiteConf
     <p class="status-note">Each module stays short and practical. Start in order, or open an overview before you commit.</p>
     ${renderLearnIpaModuleCards(curriculum)}
   </section>
-  <section class="panel">
-    <h2>Why this lives inside the directory</h2>
-    <p>The course is not a side project. It uses the same corpus, audio, and example types as the pronunciation directory, so the skills transfer directly into the real word pages you are already using.</p>
-    ${renderLearnIpaQuickLinks()}
-  </section>`;
+`;
 
   return renderLayout(config, {
     title: `Learn IPA | ${config.siteName}`,
     description:
       "Learn to read practical IPA through a short interactive course built from the pronunciation directory corpus.",
-    pathname: "/learn-ipa/",
+    pathname: options?.progressView ? "/learn-ipa/progress/" : "/learn-ipa/",
     scripts: ["/assets/client/learn-ipa/app.js"],
+    robots: options?.progressView ? "noindex,follow" : "index,follow",
     main
   });
 }

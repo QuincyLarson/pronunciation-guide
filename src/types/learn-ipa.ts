@@ -192,7 +192,8 @@ export const bonusRoundStepSchema = z.object({
   title: z.string(),
   objective: z.string(),
   type: z.literal("bonus-round"),
-  exampleIds: z.array(z.string()).min(4)
+  exampleIds: z.array(z.string()).min(4),
+  drillExampleIds: z.array(z.string()).default([])
 });
 
 export const reviewRoundStepSchema = z.object({
@@ -249,6 +250,12 @@ export const learnCurriculumSchema = z.object({
   relatedWordLinks: z.record(z.string(), z.array(z.string()))
 });
 
+export const learnIpaDrillLexiconSchema = z.object({
+  generatedAt: z.string(),
+  version: z.number().int(),
+  examples: z.array(lessonExampleSchema)
+});
+
 export const learnIpaStateSchema = z.object({
   version: z.number().int(),
   currentStepId: z.string().nullable(),
@@ -298,5 +305,6 @@ export type LessonExample = z.infer<typeof lessonExampleSchema>;
 export type LearnStep = z.infer<typeof learnStepSchema>;
 export type ReviewCard = z.infer<typeof reviewCardSchema>;
 export type LearnCurriculum = z.infer<typeof learnCurriculumSchema>;
+export type LearnIpaDrillLexicon = z.infer<typeof learnIpaDrillLexiconSchema>;
 export type LearnIpaState = z.infer<typeof learnIpaStateSchema>;
 export type ReviewOutcome = z.infer<typeof reviewOutcomeSchema>;

@@ -7,6 +7,7 @@ export const FIXTURE_DIR = path.join(root, "data", "fixtures", "sources");
 export const FIXTURE_GENERATED_DIR = path.join(FIXTURE_DIR, "generated");
 export const OVERRIDES_DIR = path.join(root, "content", "overrides");
 export const GENERATED_DIR = path.join(root, "data", "generated");
+export const LEARN_IPA_SOURCES_DIR = path.join(GENERATED_DIR, "learn-ipa-sources");
 export const STAGES_DIR = path.join(GENERATED_DIR, "stages");
 export const GENERATED_SHARDS_DIR = path.join(GENERATED_DIR, "shards");
 export const AUDIO_CACHE_DIR = path.join(GENERATED_DIR, "audio-cache");

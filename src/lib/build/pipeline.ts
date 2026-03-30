@@ -11,6 +11,10 @@ import {
   writeLearnIpaCurriculum
 } from "./learn-ipa";
 import {
+  LEARN_IPA_DRILL_LEXICON_PATH,
+  writeLearnIpaDrillLexicon
+} from "./learn-ipa-drills";
+import {
   buildOriginHubStates,
   buildTopicHubStates,
   originHubDefinitions,
@@ -30,7 +34,7 @@ import {
   shardFileSchema,
   type Entry
 } from "../../types/content";
-import { learnCurriculumSchema } from "../../types/learn-ipa";
+import { learnCurriculumSchema, learnIpaDrillLexiconSchema } from "../../types/learn-ipa";
 import { renderAttributionPage, type AttributionGroup } from "../../templates/attribution-page";
 import { renderBrowsePage } from "../../templates/browse-page";
 import { renderHomePage } from "../../templates/home-page";
@@ -248,10 +252,12 @@ export async function runLearnIpaStage(corpus?: Entry[]) {
       LINKED_CORPUS_PATH,
       MERGED_CORPUS_PATH
     ]));
-  const curriculum = await writeLearnIpaCurriculum(entries);
+  const drillLexicon = await writeLearnIpaDrillLexicon(entries);
+  const curriculum = await writeLearnIpaCurriculum(entries, drillLexicon);
   const lookup = buildLearnIpaLookup(curriculum);
   await writeJsonFile(LEARN_IPA_LOOKUP_PATH, lookup);
   await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "curriculum.json"), curriculum);
+  await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "drill-examples.json"), drillLexicon);
   await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "lookup.json"), lookup);
   await writeJsonFile(path.join(DIST_PUBLIC_DIR, "learn-ipa", "manifest.json"), {
     generatedAt: curriculum.generatedAt,
@@ -259,7 +265,8 @@ export async function runLearnIpaStage(corpus?: Entry[]) {
     moduleCount: curriculum.modules.length,
     stepCount: curriculum.steps.length,
     symbolCount: curriculum.symbols.length,
-    conceptCount: curriculum.concepts.length
+    conceptCount: curriculum.concepts.length,
+    drillExampleCount: drillLexicon.examples.length
   });
 }
 
@@ -316,7 +323,14 @@ export async function runPrerenderStage(corpus?: Entry[]) {
     );
   const learnCurriculum = await readJsonFile(LEARN_IPA_CURRICULUM_PATH)
     .then((value) => learnCurriculumSchema.parse(value))
-    .catch(async () => buildLearnIpaCurriculum(entries));
+    .catch(async () =>
+      buildLearnIpaCurriculum(
+        entries,
+        await readJsonFile(LEARN_IPA_DRILL_LEXICON_PATH)
+          .then((value) => learnIpaDrillLexiconSchema.parse(value))
+          .catch(() => null)
+      )
+    );
   const learnLookup = buildLearnIpaLookup(learnCurriculum);
   const config = buildSiteConfig(process.env);
   const graduationRules = await loadGraduationRules();
@@ -340,6 +354,11 @@ export async function runPrerenderStage(corpus?: Entry[]) {
   await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, origins, topics, entries.length, config));
   await writeRouteHtml(DIST_PUBLIC_DIR, "/browse/", renderBrowsePage(sortEntries(entries), config));
   await writeRouteHtml(DIST_PUBLIC_DIR, "/learn-ipa/", renderLearnIpaPage(learnCurriculum, config));
+  await writeRouteHtml(
+    DIST_PUBLIC_DIR,
+    "/learn-ipa/progress/",
+    renderLearnIpaPage(learnCurriculum, config, { progressView: true })
+  );
   await writeRouteHtml(
     DIST_PUBLIC_DIR,
     "/learn-ipa/reference/",
