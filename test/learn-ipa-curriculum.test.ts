@@ -6,7 +6,7 @@ import { learnCurriculumSchema } from "../src/types/learn-ipa";
 import { buildFixtureCorpus } from "./helpers/fixture-corpus";
 
 describe("learn IPA curriculum", () => {
-  test("builds a valid 150-step curriculum from file-based content", async () => {
+  test("builds a valid expanded curriculum from file-based content", async () => {
     const curriculum = await buildLearnIpaCurriculum(await buildFixtureCorpus());
     const parsed = learnCurriculumSchema.parse(curriculum);
     const stepIds = new Set(parsed.steps.map((step) => step.id));
@@ -14,14 +14,16 @@ describe("learn IPA curriculum", () => {
     const exampleIds = new Set(parsed.examples.map((example) => example.id));
 
     expect(parsed.modules).toHaveLength(11);
-    expect(parsed.concepts).toHaveLength(15);
-    expect(parsed.steps).toHaveLength(150);
-    expect(parsed.reviewCards).toHaveLength(125);
-    expect(parsed.examples.length).toBeGreaterThan(140);
+    expect(parsed.concepts).toHaveLength(16);
+    expect(parsed.steps).toHaveLength(156);
+    expect(parsed.reviewCards).toHaveLength(130);
+    expect(parsed.examples.length).toBeGreaterThan(180);
     expect(parsed.symbolToStep["ə"]).toBe("unit-02-s2");
     expect(parsed.symbolToStep["ɚ"]).toBe("unit-05b-s1");
     expect(parsed.symbolToStep["ɝ"]).toBe("unit-05b-s2");
     expect(parsed.symbolToStep["ʃ"]).toBe("unit-08-s1");
+    expect(parsed.symbolToStep["ɛ̃"]).toBe("unit-16b-s1");
+    expect(parsed.symbolToStep["ɔ̃"]).toBe("unit-16b-s2");
 
     for (const module of parsed.modules) {
       expect(module.stepIds.length).toBeGreaterThan(0);
@@ -72,9 +74,13 @@ describe("learn IPA curriculum", () => {
 
     const unit01Bonus = parsed.steps.find((step) => step.id === "unit-01-s5");
     const unit10Bonus = parsed.steps.find((step) => step.id === "unit-10-s5");
+    const unit16bBonus = parsed.steps.find((step) => step.id === "unit-16b-s5");
+    const unit21Bonus = parsed.steps.find((step) => step.id === "unit-21-s5");
 
     expect(unit01Bonus?.type).toBe("bonus-round");
     expect(unit10Bonus?.type).toBe("bonus-round");
+    expect(unit16bBonus?.type).toBe("bonus-round");
+    expect(unit21Bonus?.type).toBe("bonus-round");
 
     if (unit01Bonus?.type === "bonus-round") {
       expect(unit01Bonus.exampleIds.length).toBeGreaterThanOrEqual(10);
@@ -86,6 +92,16 @@ describe("learn IPA curriculum", () => {
       expect(unit10Bonus.exampleIds.length).toBeGreaterThanOrEqual(12);
       expect(unit10Bonus.exampleIds).toContain("ex-three");
       expect(unit10Bonus.exampleIds).toContain("ex-weather");
+    }
+
+    if (unit16bBonus?.type === "bonus-round") {
+      expect(unit16bBonus.exampleIds).toContain("ex-matin");
+      expect(unit16bBonus.exampleIds).toContain("ex-nom");
+    }
+
+    if (unit21Bonus?.type === "bonus-round") {
+      expect(unit21Bonus.exampleIds).toContain("ex-tone-high");
+      expect(unit21Bonus.exampleIds).toContain("ex-tone-low");
     }
   });
 

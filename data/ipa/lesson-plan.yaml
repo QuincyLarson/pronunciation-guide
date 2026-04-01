@@ -203,8 +203,9 @@
     - { type: symbol, id: "y" }
     - { type: symbol, id: "ø" }
     - { type: symbol, id: "œ" }
-  practice_examples: [ex-lune, ex-deux, ex-peur, ex-rouge]
-  bonus_examples: [ex-lune, ex-deux, ex-peur, ex-rouge]
+  practice_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-peur]
+  bonus_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-peur, ex-soeur]
+  drill_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-peur, ex-soeur, ex-rouge]
   review_focus: ["y", "ø", "œ"]
 - id: unit-16
   module_id: rounded-and-nasal-vowels
@@ -215,10 +216,23 @@
     - { type: symbol, id: "̃" }
     - { type: symbol, id: "ɑ̃" }
     - { type: concept, id: nasalization }
-  practice_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre]
-  bonus_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre]
-  drill_examples: [ex-bon, ex-vin, ex-blanc, ex-croissant, ex-genre, ex-rouge]
+  practice_examples: [ex-blanc, ex-croissant, ex-genre, ex-bon, ex-vin]
+  bonus_examples: [ex-blanc, ex-croissant, ex-genre, ex-bon, ex-vin]
+  drill_examples: [ex-blanc, ex-croissant, ex-genre, ex-bon, ex-vin, ex-nom, ex-matin]
   review_focus: ["̃", "ɑ̃", "nasalization"]
+- id: unit-16b
+  module_id: rounded-and-nasal-vowels
+  slug: french-nasal-family
+  title: French nasal vowel family
+  summary: Separate ɛ̃ and ɔ̃ so French-style nasal vowels stop collapsing into one blur.
+  teach:
+    - { type: symbol, id: "ɛ̃" }
+    - { type: symbol, id: "ɔ̃" }
+    - { type: concept, id: nasal-vowel-family }
+  practice_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-croissant]
+  bonus_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-croissant, ex-genre]
+  drill_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-blanc, ex-croissant, ex-genre]
+  review_focus: ["ɛ̃", "ɔ̃", "nasal-vowel-family"]
 - id: unit-17
   module_id: high-value-close-vowels-and-sibilants
   slug: high-value-close-vowels
@@ -228,8 +242,9 @@
     - { type: symbol, id: "ɨ" }
     - { type: symbol, id: "ɯ" }
     - { type: symbol, id: "ʰ" }
-  practice_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-tsunami]
-  bonus_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-tsunami]
+  practice_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-tsunami]
+  bonus_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-tsunami]
+  drill_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-tsunami, ex-xi-jinping, ex-qigong]
   review_focus: ["ɨ", "ɯ", "ʰ"]
 - id: unit-18
   module_id: high-value-close-vowels-and-sibilants
@@ -240,8 +255,9 @@
     - { type: symbol, id: "ɕ" }
     - { type: symbol, id: "ʂ" }
     - { type: symbol, id: "ts" }
-  practice_examples: [ex-xi, ex-shi-retroflex, ex-tsar, ex-qigong, ex-beijing]
-  bonus_examples: [ex-xi, ex-shi-retroflex, ex-tsar, ex-qigong, ex-beijing]
+  practice_examples: [ex-xi, ex-xiao, ex-shi-retroflex, ex-tsar, ex-shanghai]
+  bonus_examples: [ex-xi, ex-xiao, ex-shi-retroflex, ex-tsar, ex-shanghai, ex-tsunami]
+  drill_examples: [ex-xi, ex-xiao, ex-shi-retroflex, ex-shanghai, ex-tsar, ex-tsunami, ex-qigong, ex-beijing, ex-zeitgeist]
   review_focus: ["ɕ", "ʂ", "ts"]
 - id: unit-19
   module_id: advanced-sibilants-and-small-marks
@@ -252,8 +268,9 @@
     - { type: symbol, id: "tɕ" }
     - { type: symbol, id: "ʈʂ" }
     - { type: symbol, id: "ʐ" }
-  practice_examples: [ex-qi, ex-xi-jinping, ex-zhang, ex-rz]
-  bonus_examples: [ex-qi, ex-xi-jinping, ex-zhang, ex-rz]
+  practice_examples: [ex-qi, ex-qin, ex-zhang, ex-zhou, ex-ren]
+  bonus_examples: [ex-qi, ex-qin, ex-zhang, ex-zhou, ex-ren, ex-xi-jinping]
+  drill_examples: [ex-qi, ex-qin, ex-zhang, ex-zhou, ex-ren, ex-rz, ex-xi-jinping, ex-beijing]
   review_focus: ["tɕ", "ʈʂ", "ʐ"]
 - id: unit-20
   module_id: advanced-sibilants-and-small-marks
@@ -264,8 +281,9 @@
     - { type: symbol, id: "ʲ" }
     - { type: symbol, id: "̩" }
     - { type: concept, id: practical-marks }
-  practice_examples: [ex-button, ex-sprachbund, ex-city, ex-jalapeno]
-  bonus_examples: [ex-button, ex-sprachbund, ex-city, ex-jalapeno]
+  practice_examples: [ex-nyet, ex-button, ex-bottle, ex-kitten, ex-sprachbund]
+  bonus_examples: [ex-nyet, ex-button, ex-bottle, ex-kitten, ex-sprachbund, ex-jalapeno]
+  drill_examples: [ex-nyet, ex-button, ex-bottle, ex-kitten, ex-sprachbund, ex-jalapeno]
   review_focus: ["ʲ", "̩", "practical-marks"]
 - id: unit-21
   module_id: capstones-and-gauntlet
@@ -276,8 +294,9 @@
     - { type: symbol, id: "˥" }
     - { type: symbol, id: "˧" }
     - { type: symbol, id: "˩" }
-  practice_examples: [ex-xi, ex-qi, ex-beijing, ex-xi-jinping]
-  bonus_examples: [ex-xi, ex-qi, ex-beijing, ex-xi-jinping]
+  practice_examples: [ex-tone-high, ex-tone-mid, ex-tone-low, ex-xi, ex-beijing]
+  bonus_examples: [ex-tone-high, ex-tone-mid, ex-tone-low, ex-xi, ex-beijing, ex-qi]
+  drill_examples: [ex-tone-high, ex-tone-mid, ex-tone-low, ex-xi, ex-qi, ex-beijing, ex-xi-jinping]
   review_focus: ["˥", "˧", "˩"]
 - id: unit-22
   module_id: capstones-and-gauntlet
