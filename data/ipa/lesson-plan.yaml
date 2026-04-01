@@ -204,8 +204,8 @@
     - { type: symbol, id: "ø" }
     - { type: symbol, id: "œ" }
   practice_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-peur]
-  bonus_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-peur, ex-soeur]
-  drill_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-peur, ex-soeur, ex-rouge]
+  bonus_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-bleu, ex-peur, ex-soeur]
+  drill_examples: [ex-lune, ex-tu, ex-deux, ex-peu, ex-bleu, ex-peur, ex-soeur, ex-rouge]
   review_focus: ["y", "ø", "œ"]
 - id: unit-16
   module_id: rounded-and-nasal-vowels
@@ -230,8 +230,8 @@
     - { type: symbol, id: "ɔ̃" }
     - { type: concept, id: nasal-vowel-family }
   practice_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-croissant]
-  bonus_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-croissant, ex-genre]
-  drill_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-blanc, ex-croissant, ex-genre]
+  bonus_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-bonjour, ex-croissant, ex-genre]
+  drill_examples: [ex-vin, ex-matin, ex-bon, ex-nom, ex-bonjour, ex-blanc, ex-croissant, ex-genre]
   review_focus: ["ɛ̃", "ɔ̃", "nasal-vowel-family"]
 - id: unit-17
   module_id: high-value-close-vowels-and-sibilants
@@ -243,8 +243,8 @@
     - { type: symbol, id: "ɯ" }
     - { type: symbol, id: "ʰ" }
   practice_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-tsunami]
-  bonus_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-tsunami]
-  drill_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-tsunami, ex-xi-jinping, ex-qigong]
+  bonus_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-qing, ex-tsunami]
+  drill_examples: [ex-ty-russian, ex-kiz, ex-qi, ex-qin, ex-qing, ex-tsunami, ex-xi-jinping, ex-qigong]
   review_focus: ["ɨ", "ɯ", "ʰ"]
 - id: unit-18
   module_id: high-value-close-vowels-and-sibilants
@@ -268,9 +268,9 @@
     - { type: symbol, id: "tɕ" }
     - { type: symbol, id: "ʈʂ" }
     - { type: symbol, id: "ʐ" }
-  practice_examples: [ex-qi, ex-qin, ex-zhang, ex-zhou, ex-ren]
-  bonus_examples: [ex-qi, ex-qin, ex-zhang, ex-zhou, ex-ren, ex-xi-jinping]
-  drill_examples: [ex-qi, ex-qin, ex-zhang, ex-zhou, ex-ren, ex-rz, ex-xi-jinping, ex-beijing]
+  practice_examples: [ex-qi, ex-qing, ex-zhang, ex-zhao, ex-ren]
+  bonus_examples: [ex-qi, ex-qing, ex-zhang, ex-zhao, ex-ren, ex-zhou, ex-xi-jinping]
+  drill_examples: [ex-qi, ex-qing, ex-zhang, ex-zhao, ex-ren, ex-zhou, ex-rz, ex-xi-jinping, ex-beijing]
   review_focus: ["tɕ", "ʈʂ", "ʐ"]
 - id: unit-20
   module_id: advanced-sibilants-and-small-marks
@@ -285,6 +285,19 @@
   bonus_examples: [ex-nyet, ex-button, ex-bottle, ex-kitten, ex-sprachbund, ex-jalapeno]
   drill_examples: [ex-nyet, ex-button, ex-bottle, ex-kitten, ex-sprachbund, ex-jalapeno]
   review_focus: ["ʲ", "̩", "practical-marks"]
+- id: unit-20b
+  module_id: advanced-sibilants-and-small-marks
+  slug: romanized-spelling-traps
+  title: Romanized spelling traps
+  summary: Build the habit of trusting IPA chunks over familiar-looking Latin spelling in names and loanwords.
+  teach:
+    - { type: concept, id: romanization-traps }
+    - { type: concept, id: chunk-decoding }
+    - { type: concept, id: sound-over-spelling }
+  practice_examples: [ex-qi, ex-xi, ex-zhao, ex-tsunami, ex-manana]
+  bonus_examples: [ex-qi, ex-xi, ex-zhao, ex-tsunami, ex-manana, ex-karaoke]
+  drill_examples: [ex-qi, ex-qing, ex-xi, ex-xue, ex-zhao, ex-tsunami, ex-karaoke, ex-manana, ex-jalapeno, ex-beijing]
+  review_focus: ["romanization-traps", "chunk-decoding", "sound-over-spelling"]
 - id: unit-21
   module_id: capstones-and-gauntlet
   slug: tone-lite
@@ -307,8 +320,9 @@
     - { type: concept, id: native-vs-anglicized }
     - { type: concept, id: loanword-variants }
     - { type: concept, id: review-capstone }
-  practice_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre]
-  bonus_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre]
+  practice_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre, ex-bonjour]
+  bonus_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre, ex-bonjour, ex-bleu]
+  drill_examples: [ex-sprachbund, ex-schadenfreude, ex-zeitgeist, ex-bach, ex-croissant, ex-genre, ex-bonjour, ex-bleu]
   review_focus: ["native-vs-anglicized", "loanword-variants"]
   capstone_word_slugs: [sprachbund, schadenfreude, zeitgeist]
 - id: unit-23
@@ -320,9 +334,9 @@
     - { type: concept, id: origin-pack-bridges }
     - { type: concept, id: native-vs-anglicized }
     - { type: concept, id: review-capstone }
-  practice_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata]
-  bonus_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno]
-  drill_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata]
+  practice_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata, ex-manana]
+  bonus_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-zhao]
+  drill_examples: [ex-xi-jinping, ex-qigong, ex-beijing, ex-karaoke, ex-tsunami, ex-jalapeno, ex-pinata, ex-manana, ex-zhao, ex-qing]
   review_focus: ["origin-pack-bridges", "native-vs-anglicized"]
   capstone_word_slugs: [xi-jinping, qigong, beijing, jalapeno]
 - id: unit-24
@@ -334,8 +348,8 @@
     - { type: concept, id: fluency-over-perfection }
     - { type: concept, id: decoding-transfer }
     - { type: concept, id: review-capstone }
-  practice_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping]
-  bonus_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude]
-  drill_examples: [ex-about, ex-water, ex-bach, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping, ex-zeitgeist]
+  practice_examples: [ex-about, ex-water, ex-bach, ex-bonjour, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping]
+  bonus_examples: [ex-about, ex-water, ex-bach, ex-bonjour, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-manana]
+  drill_examples: [ex-about, ex-water, ex-bach, ex-bonjour, ex-qigong, ex-jalapeno, ex-schadenfreude, ex-xi-jinping, ex-zeitgeist, ex-manana]
   review_focus: ["fluency-over-perfection", "decoding-transfer"]
   capstone_word_slugs: [sprachbund, schadenfreude, qigong, xi-jinping, jalapeno]

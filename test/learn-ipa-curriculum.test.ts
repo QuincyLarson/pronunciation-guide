@@ -14,10 +14,10 @@ describe("learn IPA curriculum", () => {
     const exampleIds = new Set(parsed.examples.map((example) => example.id));
 
     expect(parsed.modules).toHaveLength(11);
-    expect(parsed.concepts).toHaveLength(16);
-    expect(parsed.steps).toHaveLength(156);
-    expect(parsed.reviewCards).toHaveLength(130);
-    expect(parsed.examples.length).toBeGreaterThan(180);
+    expect(parsed.concepts).toHaveLength(19);
+    expect(parsed.steps).toHaveLength(162);
+    expect(parsed.reviewCards).toHaveLength(135);
+    expect(parsed.examples.length).toBeGreaterThan(190);
     expect(parsed.symbolToStep["ə"]).toBe("unit-02-s2");
     expect(parsed.symbolToStep["ɚ"]).toBe("unit-05b-s1");
     expect(parsed.symbolToStep["ɝ"]).toBe("unit-05b-s2");
@@ -75,11 +75,13 @@ describe("learn IPA curriculum", () => {
     const unit01Bonus = parsed.steps.find((step) => step.id === "unit-01-s5");
     const unit10Bonus = parsed.steps.find((step) => step.id === "unit-10-s5");
     const unit16bBonus = parsed.steps.find((step) => step.id === "unit-16b-s5");
+    const unit20bBonus = parsed.steps.find((step) => step.id === "unit-20b-s5");
     const unit21Bonus = parsed.steps.find((step) => step.id === "unit-21-s5");
 
     expect(unit01Bonus?.type).toBe("bonus-round");
     expect(unit10Bonus?.type).toBe("bonus-round");
     expect(unit16bBonus?.type).toBe("bonus-round");
+    expect(unit20bBonus?.type).toBe("bonus-round");
     expect(unit21Bonus?.type).toBe("bonus-round");
 
     if (unit01Bonus?.type === "bonus-round") {
@@ -97,6 +99,12 @@ describe("learn IPA curriculum", () => {
     if (unit16bBonus?.type === "bonus-round") {
       expect(unit16bBonus.exampleIds).toContain("ex-matin");
       expect(unit16bBonus.exampleIds).toContain("ex-nom");
+      expect(unit16bBonus.exampleIds).toContain("ex-bonjour");
+    }
+
+    if (unit20bBonus?.type === "bonus-round") {
+      expect(unit20bBonus.exampleIds).toContain("ex-zhao");
+      expect(unit20bBonus.exampleIds).toContain("ex-manana");
     }
 
     if (unit21Bonus?.type === "bonus-round") {

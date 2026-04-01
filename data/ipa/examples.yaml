@@ -1352,6 +1352,15 @@
   word_type: concept-example
   origin_language: fr
   meaning_gloss: French word for little or few
+- id: ex-bleu
+  word: bleu
+  display: bleu
+  ipa: { en-US: "blø", en-GB: "blø" }
+  focus_symbols: ["ø"]
+  familiarity: 0.18
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for blue
 - id: ex-peur
   word: peur
   display: peur
@@ -1397,6 +1406,15 @@
   word_type: concept-example
   origin_language: fr
   meaning_gloss: French word for name
+- id: ex-bonjour
+  word: bonjour
+  display: bonjour
+  ipa: { en-US: "bɔ̃ʒuʁ", en-GB: "bɔ̃ʒuʁ" }
+  focus_symbols: ["ɔ̃", "̃", "ʒ", "ʁ"]
+  familiarity: 0.46
+  word_type: concept-example
+  origin_language: fr
+  meaning_gloss: French word for hello
 - id: ex-matin
   word: matin
   display: matin
@@ -1452,6 +1470,15 @@
   word_type: proper-noun
   origin_language: zh
   meaning_gloss: a high-value Pinyin syllable and surname
+- id: ex-qing
+  word: qing
+  display: Qing
+  ipa: { en-US: "tɕʰiŋ", en-GB: "tɕʰiŋ" }
+  focus_symbols: ["tɕ", "ʰ", "i", "ŋ"]
+  familiarity: 0.24
+  word_type: proper-noun
+  origin_language: zh
+  meaning_gloss: a common Pinyin syllable and dynasty name
 - id: ex-xi
   word: xi
   display: Xi
@@ -1468,6 +1495,15 @@
   ipa: { en-US: "ɕjaʊ", en-GB: "ɕjaʊ" }
   focus_symbols: ["ɕ", "j", "aʊ"]
   familiarity: 0.22
+  word_type: proper-noun
+  origin_language: zh
+  meaning_gloss: a common Pinyin syllable and surname spelling
+- id: ex-xue
+  word: xue
+  display: Xue
+  ipa: { en-US: "ɕyɛ", en-GB: "ɕyɛ" }
+  focus_symbols: ["ɕ", "y", "ɛ"]
+  familiarity: 0.18
   word_type: proper-noun
   origin_language: zh
   meaning_gloss: a common Pinyin syllable and surname spelling
@@ -1516,6 +1552,15 @@
   word_type: proper-noun
   origin_language: zh
   meaning_gloss: a common Chinese surname and place-name syllable
+- id: ex-zhao
+  word: zhao
+  display: Zhao
+  ipa: { en-US: "ʈʂaʊ", en-GB: "ʈʂaʊ" }
+  focus_symbols: ["ʈʂ", "aʊ"]
+  familiarity: 0.32
+  word_type: proper-noun
+  origin_language: zh
+  meaning_gloss: a common Chinese surname spelling
 - id: ex-rz
   word: rz
   display: rz
@@ -1628,6 +1673,15 @@
   word_type: loanword
   origin_language: es
   meaning_gloss: a decorated container broken at celebrations
+- id: ex-manana
+  word: manana
+  display: mañana
+  ipa: { en-US: "məˈnjɑnə", es: "maˈɲana" }
+  focus_symbols: ["ɲ", "j", "ˈ"]
+  familiarity: 0.74
+  word_type: loanword
+  origin_language: es
+  meaning_gloss: Spanish word for tomorrow and a familiar borrowing about doing things later
 - id: ex-nyet
   word: nyet
   display: nyet
