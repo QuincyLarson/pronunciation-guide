@@ -2,11 +2,11 @@ export const DEFAULT_LANGUAGE = "en";
 export const DEFAULT_SITE_URL = "https://example.com";
 export const DEFAULT_AUDIO_BASE_URL = "";
 export const DEFAULT_REPO_URL = "https://github.com/QuincyLarson/pronunciation-guide";
-export const SITE_NAME = "Hard Words";
-export const SITE_TAGLINE = "Hear difficult words, names, and loanwords pronounced clearly.";
+export const SITE_NAME = "Learn IPA";
+export const SITE_TAGLINE = "Short IPA lessons with real pronunciation pages for practice.";
 export const SITE_DESCRIPTION =
-  "An ultra-fast pronunciation directory with variant labels, audio playback, provenance, and contributor-friendly overrides.";
-export const SITE_TITLE_SUFFIX = "Hard Words";
+  "A curriculum-first IPA learning experience with review, drills, and supporting pronunciation pages for real words.";
+export const SITE_TITLE_SUFFIX = "Learn IPA";
 export const MAX_RELATED_LINKS = 6;
 export const MIN_RELATED_LINKS_FOR_INDEXING = 2;
 export const PRE_RENDER_LIMIT = 12;

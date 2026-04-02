@@ -21,7 +21,7 @@ describe("word page rendering", () => {
     expect(html).toContain('meta name="robots" content="index,follow"');
     expect(html).toContain("/w/doha");
     expect(html).toContain("Pronunciation variants");
-    expect(html).toContain("Learn these symbols");
+    expect(html).toContain("Study the symbols in this word");
     expect(html).toContain("/learn-ipa/?step=");
     expect(html).toContain('data-autoplay="true"');
     expect(html).toContain('preload="auto"');

@@ -351,7 +351,7 @@ export async function runPrerenderStage(corpus?: Entry[]) {
   const origins = countOrigins(entries, graduationRules.metadataThresholds.minIndexableEntriesPerHub);
   const topics = countTopics(entries, graduationRules.metadataThresholds.minIndexableEntriesPerHub);
 
-  await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, origins, topics, entries.length, config));
+  await writeRouteHtml(DIST_PUBLIC_DIR, "/", renderHomePage(featured, entries.length, learnCurriculum, config));
   await writeRouteHtml(DIST_PUBLIC_DIR, "/browse/", renderBrowsePage(sortEntries(entries), config));
   await writeRouteHtml(DIST_PUBLIC_DIR, "/learn-ipa/", renderLearnIpaPage(learnCurriculum, config));
   await writeRouteHtml(

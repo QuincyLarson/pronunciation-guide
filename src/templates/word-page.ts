@@ -1,4 +1,5 @@
 import { escapeHtml } from "../lib/html";
+import { getLearnIpaAppPath } from "../lib/learn-ipa/routes";
 import type { LearnIpaWordLink } from "../lib/learn-ipa/lookup";
 import { buildWordDescription, buildWordTitle } from "../lib/meta";
 import { audioUrl, type SiteConfig } from "../lib/site-config";
@@ -74,7 +75,7 @@ function renderRelated(entry: Entry): string {
   }
 
   return `<section class="panel">
-    <h2>Related terms</h2>
+    <h2>More word pages</h2>
     <ul class="link-list">
       ${entry.related
         .map(
@@ -86,30 +87,14 @@ function renderRelated(entry: Entry): string {
   </section>`;
 }
 
-function renderOrigin(entry: Entry): string {
-  if (!entry.origin.sourceLanguageName && !entry.origin.etymologyLabel) {
-    return "";
-  }
-
-  const parts = [
-    entry.origin.sourceLanguageName ? `Origin: ${entry.origin.sourceLanguageName}` : "",
-    entry.origin.etymologyLabel ?? ""
-  ].filter(Boolean);
-
-  return `<section class="panel">
-    <h2>Origin</h2>
-    <p>${escapeHtml(parts.join(" · "))}</p>
-  </section>`;
-}
-
 function renderLearnLinks(links: LearnIpaWordLink[]): string {
   if (links.length === 0) {
     return "";
   }
 
   return `<section class="panel" data-learn-links>
-    <h2>Learn these symbols</h2>
-    <p class="status-note" data-learn-progress>Follow the exact lessons that explain the IPA symbols in this word.</p>
+    <h2>Study the symbols in this word</h2>
+    <p class="status-note" data-learn-progress>Jump straight to the lesson steps that explain this IPA.</p>
     <div class="meta-row">
       ${links
         .map(
@@ -123,37 +108,98 @@ function renderLearnLinks(links: LearnIpaWordLink[]): string {
   </section>`;
 }
 
-function renderProvenance(entry: Entry): string {
-  return `<section class="panel">
-    <h2>Provenance</h2>
-    <ul class="provenance-list">
-      ${entry.provenance
-        .map(
-          (source) =>
-            `<li>
-              <a href="${escapeHtml(source.sourceUrl)}">${escapeHtml(source.sourceName)}</a>
-              <span>${escapeHtml(source.sourceLicense)}</span>
-              <span>${escapeHtml(source.reviewStatus)}</span>
-            </li>`
-        )
-        .join("")}
-    </ul>
+function renderProvenanceList(entry: Entry): string {
+  return `<ul class="provenance-list">
+    ${entry.provenance
+      .map(
+        (source) =>
+          `<li>
+            <a href="${escapeHtml(source.sourceUrl)}">${escapeHtml(source.sourceName)}</a>
+            <span>${escapeHtml(source.sourceLicense)}</span>
+            <span>${escapeHtml(source.reviewStatus)}</span>
+          </li>`
+      )
+      .join("")}
+  </ul>`;
+}
+
+function renderWordContext(entry: Entry): string {
+  const originParts = [
+    entry.origin.sourceLanguageName ? `Origin: ${entry.origin.sourceLanguageName}` : "",
+    entry.origin.etymologyLabel ?? ""
+  ].filter(Boolean);
+
+  return `<section class="panel split-panels">
+    <div>
+      <h2>Meaning</h2>
+      <ul class="gloss-list compact-list">
+        ${entry.glosses.map((gloss) => `<li>${escapeHtml(gloss)}</li>`).join("")}
+      </ul>
+    </div>
+    <div>
+      <h2>Quick context</h2>
+      ${
+        originParts.length > 0
+          ? `<p>${escapeHtml(originParts.join(" · "))}</p>`
+          : `<p class="status-note">This page is here mainly to support IPA practice and quick playback.</p>`
+      }
+    </div>
   </section>`;
+}
+
+function renderWordDetails(entry: Entry, contributionUrl: string): string {
+  if (entry.confusionNotes.length === 0 && !entry.bodyHtml && entry.provenance.length === 0) {
+    return "";
+  }
+
+  return `<details class="panel panel-detail">
+    <summary>Notes and sources</summary>
+    <div class="details-stack">
+      ${
+        entry.confusionNotes.length > 0
+          ? `<section><h3>Common confusion</h3><p>${escapeHtml(entry.confusionNotes.join(" "))}</p></section>`
+          : ""
+      }
+      ${entry.bodyHtml ? `<section class="prose"><h3>Notes</h3>${entry.bodyHtml}</section>` : ""}
+      ${
+        entry.provenance.length > 0
+          ? `<section><h3>Sources</h3>${renderProvenanceList(entry)}</section>`
+          : ""
+      }
+      <section>
+        <h3>Improve this page</h3>
+        <p><a href="${escapeHtml(contributionUrl)}">Suggest an audio, source, or wording improvement on GitHub</a></p>
+      </section>
+    </div>
+  </details>`;
 }
 
 export function renderWordPage(entry: Entry, config: SiteConfig, learnLinks: LearnIpaWordLink[] = []): string {
   const title = buildWordTitle(entry, config.siteTitleSuffix);
   const description = buildWordDescription(entry);
+  const leadVariant = entry.variants[0] ?? null;
+  const leadIpa = leadVariant?.ipa ? leadVariant.ipa.replace(/^\/|\/$/g, "") : null;
+  const firstLearnLink = learnLinks[0] ?? null;
   const contributionUrl = `${config.repoUrl}/issues/new?title=${encodeURIComponent(
     `Pronunciation correction: ${entry.display}`
   )}`;
   const candidateReasons = entry.indexStatus.reasons.slice(0, 2).join("; ");
   const main = `<article class="word-page">
-    <section class="hero">
-      <p class="eyebrow">Pronunciation directory</p>
+    <section class="hero hero-word">
+      <p class="eyebrow">Word page</p>
       <h1>${escapeHtml(entry.display)}</h1>
       <p class="hero-gloss">${escapeHtml(entry.shortGloss ?? entry.glosses[0] ?? "Pronunciation guide")}</p>
+      <div class="hero-actions">
+        ${
+          firstLearnLink
+            ? `<a class="button-link" href="${escapeHtml(firstLearnLink.href)}">Open matching lesson</a>`
+            : `<a class="button-link" href="${escapeHtml(getLearnIpaAppPath())}">Open curriculum</a>`
+        }
+        <a class="button-link subtle" href="/browse/">More word pages</a>
+      </div>
       <div class="meta-row">
+        ${leadIpa ? `<span class="word-ipa-chip">/${escapeHtml(leadIpa)}/</span>` : ""}
+        ${leadVariant ? `<span>${escapeHtml(leadVariant.label)}</span>` : ""}
         ${entry.pos.map((part) => `<span>${escapeHtml(part)}</span>`).join("")}
         ${entry.topics.map((topic) => `<span>${escapeHtml(topic)}</span>`).join("")}
       </div>
@@ -163,32 +209,16 @@ export function renderWordPage(entry: Entry, config: SiteConfig, learnLinks: Lea
           : ""
       }
     </section>
+    ${renderLearnLinks(learnLinks)}
     <section class="panel">
       <h2>Pronunciation variants</h2>
       <div class="variant-stack">
         ${entry.variants.map((variant, index) => renderVariant(variant, entry, config, index)).join("")}
       </div>
     </section>
-    <section class="panel">
-      <h2>Gloss</h2>
-      <ul class="gloss-list">
-        ${entry.glosses.map((gloss) => `<li>${escapeHtml(gloss)}</li>`).join("")}
-      </ul>
-    </section>
-    ${renderLearnLinks(learnLinks)}
+    ${renderWordContext(entry)}
     ${renderRelated(entry)}
-    ${renderOrigin(entry)}
-    ${
-      entry.confusionNotes.length > 0
-        ? `<section class="panel"><h2>Common confusion</h2><p>${escapeHtml(entry.confusionNotes.join(" "))}</p></section>`
-        : ""
-    }
-    ${entry.bodyHtml ? `<section class="panel prose"><h2>Notes</h2>${entry.bodyHtml}</section>` : ""}
-    ${renderProvenance(entry)}
-    <section class="panel">
-      <h2>Contribute</h2>
-      <p><a href="${escapeHtml(contributionUrl)}">Suggest an audio, source, or wording improvement on GitHub</a></p>
-    </section>
+    ${renderWordDetails(entry, contributionUrl)}
   </article>`;
 
   return renderLayout(config, {

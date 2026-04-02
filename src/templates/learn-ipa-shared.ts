@@ -16,23 +16,25 @@ export function getLearnIpaSymbolAnchorId(symbolId: string): string {
 }
 
 export function renderLearnIpaModuleCards(curriculum: LearnCurriculum): string {
-  return `<div class="learn-module-grid">
+  return `<div class="learn-module-list">
     ${curriculum.modules
-      .map((module) => {
+      .map((module, index) => {
         const startStepId = findModuleStartStepId(module);
-        return `<article class="learn-module-card">
-          <p class="eyebrow">Module</p>
-          <h3><a href="${escapeHtml(getLearnIpaModulePath(module.slug))}">${escapeHtml(module.title)}</a></h3>
-          <p>${escapeHtml(module.summary)}</p>
-          <div class="meta-row">
-            <span>${module.unitIds.length} units</span>
-            <span>${module.stepIds.length} steps</span>
-            <span>${module.symbolIds.length} symbols</span>
+        return `<article class="learn-module-card learn-module-row">
+          <div class="learn-module-index">Module ${String(index + 1).padStart(2, "0")}</div>
+          <div class="learn-module-copy">
+            <h3><a href="${escapeHtml(getLearnIpaModulePath(module.slug))}">${escapeHtml(module.title)}</a></h3>
+            <p>${escapeHtml(module.summary)}</p>
+            <div class="meta-row">
+              <span>${module.unitIds.length} units</span>
+              <span>${module.stepIds.length} steps</span>
+              <span>${module.symbolIds.length} symbols</span>
+            </div>
           </div>
-          <div class="hero-actions">
+          <div class="learn-module-actions">
             ${
               startStepId
-                ? `<a class="button-link" href="${escapeHtml(getLearnIpaAppPath({ stepId: startStepId, moduleId: module.id }))}">Start module</a>`
+                ? `<a class="button-link" href="${escapeHtml(getLearnIpaAppPath({ stepId: startStepId, moduleId: module.id }))}">Start</a>`
                 : ""
             }
             <a class="button-link subtle" href="${escapeHtml(getLearnIpaModulePath(module.slug))}">Overview</a>
@@ -45,9 +47,10 @@ export function renderLearnIpaModuleCards(curriculum: LearnCurriculum): string {
 
 export function renderLearnIpaQuickLinks(): string {
   return `<div class="hero-actions">
-    <a class="button-link" href="${escapeHtml(getLearnIpaAppPath())}">Open the course</a>
+    <a class="button-link" href="${escapeHtml(getLearnIpaAppPath())}">Open curriculum</a>
     <a class="button-link subtle" href="${escapeHtml(LEARN_IPA_REFERENCE_PATH)}">Reference</a>
-    <a class="button-link subtle" href="${escapeHtml(LEARN_IPA_ABOUT_PATH)}">About the course</a>
+    <a class="button-link subtle" href="/browse/">Word pages</a>
+    <a class="button-link subtle" href="${escapeHtml(LEARN_IPA_ABOUT_PATH)}">About</a>
   </div>`;
 }
 

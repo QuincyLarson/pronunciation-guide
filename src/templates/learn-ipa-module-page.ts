@@ -11,8 +11,8 @@ export function renderLearnIpaModulePage(
   config: SiteConfig
 ): string {
   const startStepId = module.stepIds[0] ?? null;
-  const main = `<section class="hero">
-    <p class="eyebrow">Learn IPA module</p>
+  const main = `<section class="hero hero-learn">
+    <p class="eyebrow">Curriculum module</p>
     <h1>${escapeHtml(module.title)}</h1>
     <p class="hero-gloss">${escapeHtml(module.summary)}</p>
     <div class="hero-actions">
@@ -20,27 +20,30 @@ export function renderLearnIpaModulePage(
         startStepId
           ? `<a class="button-link" href="${escapeHtml(
               getLearnIpaAppPath({ stepId: startStepId, moduleId: module.id })
-            )}">Start this module</a>`
+            )}">Start module</a>`
           : ""
       }
+      <a class="button-link subtle" href="${escapeHtml(getLearnIpaAppPath())}">Back to curriculum</a>
       <a class="button-link subtle" href="${escapeHtml(LEARN_IPA_REFERENCE_PATH)}">Reference symbols</a>
     </div>
     <div class="meta-row">
       <span>${module.unitIds.length} units</span>
       <span>${module.stepIds.length} steps</span>
-      <span>${module.symbolIds.length} symbol lessons</span>
+      <span>${module.symbolIds.length} symbols</span>
     </div>
   </section>
   <section class="panel prose">
     ${module.bodyHtml}
   </section>
-  <section class="panel">
-    <h2>Symbols introduced in this module</h2>
-    ${renderLearnIpaSymbolPills(curriculum, module.symbolIds)}
-  </section>
-  <section class="panel">
-    <h2>Concepts introduced in this module</h2>
-    ${renderLearnIpaConceptPills(curriculum, module.conceptIds)}
+  <section class="panel split-panels">
+    <div>
+      <h2>Symbols</h2>
+      ${renderLearnIpaSymbolPills(curriculum, module.symbolIds)}
+    </div>
+    <div>
+      <h2>Concepts</h2>
+      ${renderLearnIpaConceptPills(curriculum, module.conceptIds)}
+    </div>
   </section>`;
 
   return renderLayout(config, {

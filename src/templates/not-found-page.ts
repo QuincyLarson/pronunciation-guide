@@ -10,8 +10,11 @@ export function renderNotFoundPage(config: SiteConfig): string {
     main: `<section class="hero">
       <p class="eyebrow">404</p>
       <h1>Page not found</h1>
-      <p class="hero-gloss">Try an origin hub, a topic hub, or one of the featured pronunciation pages instead.</p>
-      <p><a class="button-link" href="/">Go back home</a></p>
+      <p class="hero-gloss">Try the curriculum, the reference, or another word page.</p>
+      <div class="hero-actions">
+        <a class="button-link" href="/learn-ipa/">Open curriculum</a>
+        <a class="button-link subtle" href="/browse/">Word pages</a>
+      </div>
     </section>`
   });
 }

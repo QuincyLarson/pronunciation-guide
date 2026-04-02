@@ -18,8 +18,8 @@ describe("learn IPA page rendering", () => {
     expect(landing).toContain("/assets/client/learn-ipa/app.js");
     expect(landing).toContain("/learn-ipa/curriculum.json");
     expect(landing).toContain('/learn-ipa/drill-examples.json');
-    expect(landing).toContain("Read practical IPA fast.");
-    expect(landing).toContain("/learn-ipa/module/vowel-basics/");
+    expect(landing).toContain("<h1>Curriculum</h1>");
+    expect(landing).toContain("/browse/");
 
     expect(reference).toContain("IPA Reference");
     expect(reference).toContain("/learn-ipa/?step=unit-02-s2");

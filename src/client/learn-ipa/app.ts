@@ -398,7 +398,7 @@ function renderProgressBar(ratio: number): string {
 
 function renderSettings(): string {
   return `<details class="learn-settings">
-    <summary>Learning settings</summary>
+    <summary>Preferences</summary>
     <div class="learn-settings-grid">
       <label>
         Accent
@@ -436,9 +436,9 @@ function renderSettings(): string {
 }
 
 function renderModuleCards(current: LearnCurriculum): string {
-  return `<div class="learn-module-grid">
+  return `<div class="learn-module-list">
     ${current.modules
-      .map((module) => {
+      .map((module, index) => {
         const summary = getModuleProgress(current, progressState, module.id);
         const unlocked =
           progressState.unlockedModuleIds.includes(module.id) ||
@@ -446,23 +446,25 @@ function renderModuleCards(current: LearnCurriculum): string {
           progressState.completedStepIds.length === current.steps.length;
         const startStepId = getFirstStepIdForModule(current, module.id);
 
-        return `<article class="learn-module-card">
-          <p class="eyebrow">Module</p>
-          <h3><a href="${escapeHtml(getLearnIpaModulePath(module.slug))}">${escapeHtml(module.title)}</a></h3>
-          <p>${escapeHtml(module.summary)}</p>
-          ${renderProgressBar(summary.ratio)}
-          <div class="meta-row">
-            <span>${summary.completed}/${summary.total} steps</span>
-            <span>${module.symbolIds.length} symbols</span>
-            <span>${unlocked ? "Unlocked" : "Locked"}</span>
+        return `<article class="learn-module-card learn-module-row">
+          <div class="learn-module-index">Module ${String(index + 1).padStart(2, "0")}</div>
+          <div class="learn-module-copy">
+            <h3><a href="${escapeHtml(getLearnIpaModulePath(module.slug))}">${escapeHtml(module.title)}</a></h3>
+            <p>${escapeHtml(module.summary)}</p>
+            ${renderProgressBar(summary.ratio)}
+            <div class="meta-row">
+              <span>${summary.completed}/${summary.total} steps</span>
+              <span>${module.symbolIds.length} symbols</span>
+              <span>${unlocked ? "Unlocked" : "Locked"}</span>
+            </div>
           </div>
-          <div class="hero-actions">
+          <div class="learn-module-actions">
             ${
               unlocked && startStepId
                 ? `<button type="button" class="button-link" data-action="open-module" data-module-id="${escapeHtml(module.id)}" data-step-id="${escapeHtml(startStepId)}">${
-                    summary.completed > 0 ? "Resume module" : "Start module"
+                    summary.completed > 0 ? "Resume" : "Start"
                   }</button>`
-                : `<button type="button" class="button-link subtle" disabled>Unlock by progressing</button>`
+                : `<button type="button" class="button-link subtle" disabled>Locked</button>`
             }
             <a class="button-link subtle" href="${escapeHtml(getLearnIpaModulePath(module.slug))}">Overview</a>
           </div>
@@ -480,35 +482,39 @@ function renderOverview(current: LearnCurriculum): string {
   return `<section class="learn-shell">
     <section class="learn-shell-header">
       <div>
-        <p class="eyebrow">Interactive IPA course</p>
-        <h2>${route.view === "progress" ? "Progress" : "Pick up where you left off"}</h2>
-        <p class="status-note">Local progress only. No account required.</p>
+        <p class="eyebrow">Learn IPA</p>
+        <h2>${route.view === "progress" ? "Progress" : "Curriculum map"}</h2>
+        <p class="status-note">Saved in this browser.</p>
+        <div class="hero-actions">
+          ${
+            resumeStepId
+              ? `<button type="button" class="button-link" data-action="resume-course" data-step-id="${escapeHtml(resumeStepId)}">Continue</button>`
+              : `<button type="button" class="button-link" data-action="restart-course">Review from the start</button>`
+          }
+          <a class="button-link subtle" href="/learn-ipa/reference/">Reference</a>
+          <a class="button-link subtle" href="/browse/">Word pages</a>
+        </div>
       </div>
       <div class="learn-summary-card">
         <strong>${summary.completed}/${summary.total}</strong>
-        <span>steps completed</span>
+        <span>steps done</span>
         <span>${dueCount} review card${dueCount === 1 ? "" : "s"} due</span>
         <span>${progressState.streak.currentDays} day streak</span>
       </div>
     </section>
     ${renderProgressBar(summary.ratio)}
     <section class="panel">
-      <h3>Resume</h3>
-      <p>${resumeStepId ? `Your next lesson is <code>${escapeHtml(resumeStepId)}</code>.` : "You have completed the current track."}</p>
-      <div class="hero-actions">
-        ${
-          resumeStepId
-            ? `<button type="button" class="button-link" data-action="resume-course" data-step-id="${escapeHtml(resumeStepId)}">Continue learning</button>`
-            : `<button type="button" class="button-link" data-action="restart-course">Review from the start</button>`
-        }
-        <a class="button-link subtle" href="/learn-ipa/reference/">Reference</a>
+      <div class="panel-heading">
+        <div>
+          <h3>Modules</h3>
+          <p class="status-note">Start at the top. Work down. Review hard.</p>
+        </div>
+        <span class="panel-badge">${current.modules.length} modules</span>
       </div>
-    </section>
-    ${renderSettings()}
-    <section class="panel">
-      <h3>Modules</h3>
-      <p class="status-note">The course stays sequential on purpose: small wins first, international patterns later.</p>
       ${renderModuleCards(current)}
+    </section>
+    <section class="panel panel-compact">
+      ${renderSettings()}
     </section>
   </section>`;
 }
@@ -916,18 +922,21 @@ function renderStepView(current: LearnCurriculum, step: LearnStep): string {
       </div>
     </section>
     ${renderProgressBar(summary.ratio)}
-    <div class="meta-row">
+    <div class="learn-step-toolbar">
       <button type="button" class="button-link subtle" data-action="show-overview">Back to course map</button>
       <a class="button-link subtle" href="/learn-ipa/reference/">Reference</a>
+      <a class="button-link subtle" href="/browse/">Word pages</a>
     </div>
     ${body}
     ${micPractice}
-    ${renderSettings()}
+    <section class="panel panel-compact">
+      ${renderSettings()}
+    </section>
     <div class="hero-actions">
-      <button type="button" class="button-link" data-action="complete-step">Continue</button>
+      <button type="button" class="button-link" data-action="complete-step">Next</button>
       ${
         progressState.currentStepId && progressState.currentStepId !== step.id
-          ? `<button type="button" class="button-link subtle" data-action="resume-course" data-step-id="${escapeHtml(progressState.currentStepId)}">Jump to saved step</button>`
+          ? `<button type="button" class="button-link subtle" data-action="resume-course" data-step-id="${escapeHtml(progressState.currentStepId)}">Saved step</button>`
           : ""
       }
     </div>

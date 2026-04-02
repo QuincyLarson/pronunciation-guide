@@ -23,24 +23,29 @@ function groupEntries(entries: Entry[]): Array<{ letter: string; entries: Entry[
 export function renderBrowsePage(entries: Entry[], config: SiteConfig): string {
   const groups = groupEntries(entries);
   const main = `<section class="hero hero-home">
-    <p class="eyebrow">Browse the directory</p>
+    <p class="eyebrow">Word pages</p>
     <h1>Browse all ${entries.length} pronunciation pages.</h1>
-    <p class="hero-gloss">The homepage stays intentionally small. This index exposes the full corpus so you can jump straight to any generated or curated entry.</p>
+    <p class="hero-gloss">Use these as real IPA practice after the curriculum introduces the symbols.</p>
     <div class="hero-actions">
-      <a class="button-link" href="/topics/">Browse topic hubs</a>
-      <a class="button-link subtle" href="/origins/">Browse origin hubs</a>
+      <a class="button-link" href="/learn-ipa/">Open curriculum</a>
+      <a class="button-link subtle" href="/learn-ipa/reference/">Reference</a>
     </div>
+    <form class="search-form" data-site-search-form role="search" aria-label="Search pronunciation entries">
+      <label class="sr-only" for="browse-word-search">Search words</label>
+      <input id="browse-word-search" type="search" name="q" data-browse-search placeholder="Filter this page or jump to a word">
+      <button type="submit" class="button-link">Open word page</button>
+    </form>
   </section>
   <section class="panel browse-sections">
     ${groups
       .map(
-        (group) => `<section class="browse-group">
+        (group) => `<section class="browse-group" data-browse-group>
           <h2>${escapeHtml(group.letter)}</h2>
           <ul class="entry-grid">
             ${group.entries
               .map(
                 (entry) =>
-                  `<li><a href="${escapeHtml(getWordPath(entry.slug))}">${escapeHtml(entry.display)}</a><p>${escapeHtml(
+                  `<li data-browse-entry data-search-text="${escapeHtml(`${entry.display} ${entry.shortGloss ?? entry.glosses[0] ?? ""}`)}"><a href="${escapeHtml(getWordPath(entry.slug))}">${escapeHtml(entry.display)}</a><p>${escapeHtml(
                     entry.shortGloss ?? entry.glosses[0] ?? ""
                   )}</p></li>`
               )

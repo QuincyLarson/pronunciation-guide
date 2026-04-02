@@ -14,12 +14,13 @@ export function renderLearnIpaReferencePage(curriculum: LearnCurriculum, config:
     groups.set(symbol.class, current);
   }
 
-  const main = `<section class="hero">
+  const main = `<section class="hero hero-learn">
     <p class="eyebrow">IPA reference</p>
-    <h1>Reference the symbols before or after the lesson flow.</h1>
-    <p class="hero-gloss">This page is meant to be useful on its own. Every symbol here links back into the course where it is first taught.</p>
+    <h1>Reference</h1>
+    <p class="hero-gloss">Use this when you need a quick symbol lookup. Every entry links back to the lesson that first teaches it.</p>
     <div class="hero-actions">
-      <a class="button-link" href="${escapeHtml(LEARN_IPA_ROOT_PATH)}">Open the interactive course</a>
+      <a class="button-link" href="${escapeHtml(LEARN_IPA_ROOT_PATH)}">Open curriculum</a>
+      <a class="button-link subtle" href="/browse/">Word pages</a>
     </div>
   </section>
   ${[...groups.entries()]
