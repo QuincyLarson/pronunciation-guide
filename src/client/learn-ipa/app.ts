@@ -743,8 +743,30 @@ function renderReviewStep(current: LearnCurriculum, step: LearnStep): string {
     return "";
   }
 
-  const cards = getReviewCardsForStep(current, introduceReviewCards(progressState, step.reviewCardIds), step);
-  const card = cards[session.reviewIndex] ?? null;
+  const reviewState = introduceReviewCards(progressState, step.reviewCardIds);
+  const cards = getReviewCardsForStep(current, reviewState, step);
+  const maps = getMaps(current);
+  const hasPendingExpandedCards = cards.some(
+    (card) => !!card.exampleId && !maps.examples.has(card.exampleId) && !maps.drillExamples.has(card.exampleId)
+  );
+
+  if (hasPendingExpandedCards && !drillLexicon && !drillLexiconPromise) {
+    void ensureDrillLexicon();
+  }
+
+  if (hasPendingExpandedCards && !drillLexicon && !drillLexiconError) {
+    return `<section class="panel learn-step-panel">
+      <p class="eyebrow">Review round</p>
+      <h2>${escapeHtml(step.title)}</h2>
+      <p class="hero-gloss">Loading the expanded review deck for this unit.</p>
+    </section>`;
+  }
+
+  const visibleCards =
+    drillLexiconError && hasPendingExpandedCards
+      ? cards.filter((card) => !card.exampleId || !!getExampleFromMaps(maps, card.exampleId))
+      : cards;
+  const card = visibleCards[session.reviewIndex] ?? null;
 
   if (!card) {
     return `<section class="panel learn-step-panel">
@@ -757,7 +779,12 @@ function renderReviewStep(current: LearnCurriculum, step: LearnStep): string {
   return `<section class="panel learn-step-panel">
     <p class="eyebrow">Review round</p>
     <h2>${escapeHtml(step.title)}</h2>
-    <p class="hero-gloss">Card ${session.reviewIndex + 1} of ${cards.length}</p>
+    <p class="hero-gloss">Card ${session.reviewIndex + 1} of ${visibleCards.length}</p>
+    ${
+      drillLexiconError && hasPendingExpandedCards
+        ? `<p class="status-note">Some expanded drill-backed review cards are unavailable right now.</p>`
+        : ""
+    }
     ${renderReviewCard(current, card)}
     <div class="hero-actions">
       <button type="button" class="button-link subtle" data-action="reveal-review">Reveal answer</button>

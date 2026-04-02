@@ -111,16 +111,25 @@ describe("learn IPA drill lexicon", () => {
       });
       const curriculum = await buildLearnIpaCurriculum(corpus, lexicon);
       const unit01Bonus = curriculum.steps.find((step) => step.id === "unit-01-s5");
+      const unit01Review = curriculum.steps.find((step) => step.id === "unit-01-s6");
       const unit10Bonus = curriculum.steps.find((step) => step.id === "unit-10-s5");
+      const drillReviewCard = curriculum.reviewCards.find((card) => card.id === "card:unit-01:drill:drill-send");
 
       expect(unit01Bonus?.type).toBe("bonus-round");
+      expect(unit01Review?.type).toBe("review-round");
       expect(unit10Bonus?.type).toBe("bonus-round");
+      expect(drillReviewCard?.exampleId).toBe("drill-send");
 
       if (unit01Bonus?.type === "bonus-round") {
         expect(unit01Bonus.exampleIds).toContain("ex-cat");
         expect(unit01Bonus.drillExampleIds).toEqual(
           expect.arrayContaining(["drill-send", "drill-lift"])
         );
+      }
+
+      if (unit01Review?.type === "review-round") {
+        expect(unit01Review.reviewCardIds).toContain("card:unit-01:drill:drill-send");
+        expect(unit01Review.reviewCardIds).toContain("card:unit-01:drill:drill-lift");
       }
 
       if (unit10Bonus?.type === "bonus-round") {

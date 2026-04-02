@@ -97,7 +97,35 @@ function uniqueValues<T>(values: T[]): T[] {
   return [...new Set(values)];
 }
 
-function createReviewCards(unit: ReturnType<typeof unitPlanSchema.parse>) {
+function collectUnitCuratedReviewExampleIds(
+  unit: ReturnType<typeof unitPlanSchema.parse>,
+  exampleById: Map<string, LessonExample>
+): string[] {
+  return uniqueValues([
+    ...unit.practice_examples,
+    ...unit.bonus_examples,
+    ...unit.drill_examples
+  ]).filter((exampleId) => exampleById.has(exampleId));
+}
+
+function buildUnitReviewCardIds(
+  unit: ReturnType<typeof unitPlanSchema.parse>,
+  exampleById: Map<string, LessonExample>,
+  drillExampleIds: string[]
+): string[] {
+  return [
+    ...unit.teach.map((teach) => `card:${unit.id}:${teach.type}:${teach.id}`),
+    ...collectUnitCuratedReviewExampleIds(unit, exampleById).map((exampleId) => `card:${unit.id}:example:${exampleId}`),
+    ...drillExampleIds.map((exampleId) => `card:${unit.id}:drill:${exampleId}`)
+  ];
+}
+
+function createReviewCards(
+  unit: ReturnType<typeof unitPlanSchema.parse>,
+  exampleById: Map<string, LessonExample>,
+  drillExampleIds: string[],
+  drillExampleById: Map<string, LessonExample>
+) {
   const cards = [];
 
   for (const [index, teach] of unit.teach.entries()) {
@@ -117,16 +145,36 @@ function createReviewCards(unit: ReturnType<typeof unitPlanSchema.parse>) {
     );
   }
 
-  for (const exampleId of unit.practice_examples.slice(0, 2)) {
+  for (const exampleId of collectUnitCuratedReviewExampleIds(unit, exampleById)) {
+    const example = exampleById.get(exampleId);
     cards.push(
       reviewCardSchema.parse({
         id: `card:${unit.id}:example:${exampleId}`,
         kind: "example",
-        prompt: `Decode or recognize ${exampleId}.`,
+        prompt: example
+          ? `Read the IPA, then recall and say ${example.display}.`
+          : `Decode the example and say it aloud.`,
         symbolId: null,
         conceptId: null,
         exampleId,
-        relatedStepId: `${unit.id}-s4`
+        relatedStepId: `${unit.id}-s5`
+      })
+    );
+  }
+
+  for (const exampleId of drillExampleIds) {
+    const example = drillExampleById.get(exampleId);
+    cards.push(
+      reviewCardSchema.parse({
+        id: `card:${unit.id}:drill:${exampleId}`,
+        kind: "example",
+        prompt: example
+          ? `Quick decode: read the IPA, then say ${example.display}.`
+          : `Quick decode from IPA, then say the word aloud.`,
+        symbolId: null,
+        conceptId: null,
+        exampleId,
+        relatedStepId: `${unit.id}-s5`
       })
     );
   }
@@ -147,7 +195,12 @@ function pickTeachExampleIds(
   return (matchingExamples.length > 0 ? matchingExamples : unit.practice_examples).slice(0, 3);
 }
 
-function buildUnitSteps(unit: UnitPlan, unitIndex: number, exampleById: Map<string, LessonExample>) {
+function buildUnitSteps(
+  unit: UnitPlan,
+  unitIndex: number,
+  exampleById: Map<string, LessonExample>,
+  drillExampleIds: string[]
+) {
   const teachSteps = unit.teach.map((teach, offset) => {
     const base = {
       id: `${unit.id}-s${offset + 1}`,
@@ -218,10 +271,7 @@ function buildUnitSteps(unit: UnitPlan, unitIndex: number, exampleById: Map<stri
     title: `${unit.title} review`,
     objective: "Mix the new material with older symbols and examples.",
     type: "review-round" as const,
-    reviewCardIds: [
-      ...unit.teach.map((teach) => `card:${unit.id}:${teach.type}:${teach.id}`),
-      ...unit.practice_examples.slice(0, 2).map((exampleId) => `card:${unit.id}:example:${exampleId}`)
-    ],
+    reviewCardIds: buildUnitReviewCardIds(unit, exampleById, drillExampleIds),
     fallbackExampleIds: unit.practice_examples.slice(0, 4)
   };
 
@@ -314,9 +364,14 @@ export async function buildLearnIpaCurriculum(
   const knownSymbols = symbolSources.map((symbol) => symbol.symbol);
   const examples = exampleSources.map((example) => buildExampleRuntime(example, corpusBySlug));
   const exampleById = new Map(examples.map((example) => [example.id, example]));
-  const steps = unitPlans.flatMap((unit, index) => buildUnitSteps(unit, index + 1, exampleById));
-  const reviewCards = unitPlans.flatMap((unit) => createReviewCards(unit));
   const drillAssignments = buildLearnIpaDrillAssignments(drillLexicon?.examples ?? []);
+  const drillExampleById = new Map((drillLexicon?.examples ?? []).map((example) => [example.id, example]));
+  const steps = unitPlans.flatMap((unit, index) =>
+    buildUnitSteps(unit, index + 1, exampleById, drillAssignments.get(unit.id) ?? [])
+  );
+  const reviewCards = unitPlans.flatMap((unit) =>
+    createReviewCards(unit, exampleById, drillAssignments.get(unit.id) ?? [], drillExampleById)
+  );
   const symbolToStep: Record<string, string> = {};
 
   for (const step of steps) {

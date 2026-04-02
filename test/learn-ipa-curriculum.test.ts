@@ -16,7 +16,7 @@ describe("learn IPA curriculum", () => {
     expect(parsed.modules).toHaveLength(11);
     expect(parsed.concepts).toHaveLength(19);
     expect(parsed.steps).toHaveLength(162);
-    expect(parsed.reviewCards).toHaveLength(135);
+    expect(parsed.reviewCards).toHaveLength(341);
     expect(parsed.examples.length).toBeGreaterThan(190);
     expect(parsed.symbolToStep["ə"]).toBe("unit-02-s2");
     expect(parsed.symbolToStep["ɚ"]).toBe("unit-05b-s1");
