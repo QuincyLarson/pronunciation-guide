@@ -11,5 +11,8 @@ describe("browse page rendering", () => {
     expect(html).toContain("/w/qatar");
     expect(html).toContain("/w/alejandro");
     expect(html).toContain("/w/zephyrless");
+    expect(html).toContain("data-browse-search");
+    expect(html).toContain("data-browse-entry");
+    expect(html).toContain("/assets/client/site-search.js");
   });
 });

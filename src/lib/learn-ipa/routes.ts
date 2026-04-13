@@ -1,4 +1,5 @@
 export const LEARN_IPA_ROOT_PATH = "/learn-ipa/";
+export const LEARN_IPA_PROGRESS_PATH = "/learn-ipa/progress/";
 export const LEARN_IPA_REFERENCE_PATH = "/learn-ipa/reference/";
 export const LEARN_IPA_ABOUT_PATH = "/learn-ipa/about/";
 
@@ -11,7 +12,8 @@ export function getLearnIpaAppPath(params?: {
   moduleId?: string | null;
   view?: "overview" | "progress" | null;
 }): string {
-  const url = new URL(LEARN_IPA_ROOT_PATH, "https://example.com");
+  const basePath = params?.view === "progress" && !params.stepId ? LEARN_IPA_PROGRESS_PATH : LEARN_IPA_ROOT_PATH;
+  const url = new URL(basePath, "https://example.com");
 
   if (params?.stepId) {
     url.searchParams.set("step", params.stepId);
@@ -21,10 +23,10 @@ export function getLearnIpaAppPath(params?: {
     url.searchParams.set("module", params.moduleId);
   }
 
-  if (params?.view && params.view !== "overview") {
+  if (params?.view && params.view !== "overview" && basePath !== LEARN_IPA_PROGRESS_PATH) {
     url.searchParams.set("view", params.view);
   }
 
   const search = url.searchParams.toString();
-  return `${LEARN_IPA_ROOT_PATH}${search ? `?${search}` : ""}`;
+  return `${basePath}${search ? `?${search}` : ""}`;
 }
